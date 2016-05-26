@@ -9,16 +9,13 @@ import java.util.List;
  */
 public class Config {
   final private LinkedHashMap<String, StoreConf> storeConfigs = new LinkedHashMap<>();
-  final private List<String> useragents = new ArrayList<>();
+
   final private List<String> brands = new ArrayList<>();
 
   public LinkedHashMap<String, StoreConf> getStoreConfigs() {
     return storeConfigs;
   }
 
-  public List<String> getUseragents() {
-    return useragents;
-  }
 
   public List<String> getBrands() {
     return brands;

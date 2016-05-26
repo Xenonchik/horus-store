@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 @javax.persistence.Entity
 @Table(name="export")
-public class Export implements Entity {
+public class Export {
     final static Logger log = LoggerFactory.getLogger(Export.class);
 
     @Id
@@ -49,7 +49,6 @@ public class Export implements Entity {
     @Column(name = "store")
     private String store;
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -114,14 +113,9 @@ public class Export implements Entity {
         this.store = store;
     }
 
-    public void setName(String name, List<String> brands) {
-        HashSet<String> hs = new HashSet<>(brands);
-        name = name.replace(Character.toString ((char) 160), " ");
-        name = name.replace(" & ", "&");
-        name = name.replace("Gunter Hauer", "Gunter&Hauer");
-        name = name.replace("Le Chef", "Le_Chef");
-        name = name.replace("LE CHEF", "Le_Chef");
-        name = name.replace("IDEAL STANDARD", "IDEAL_STANDARD");
+    public void setName(String name, List<Brand> brands) {
+        HashSet<Brand> hs = new HashSet<>(brands);
+        name = sanitizeName(name);
         for (String part : name.split("\\s")) {
 
             if(hs.contains(part.toUpperCase())) {
@@ -138,5 +132,15 @@ public class Export implements Entity {
         }
         log.warn("No brand for: " + name);
         this.setModel(name);
+    }
+
+    private String sanitizeName(String name) {
+        name = name.replace(Character.toString ((char) 160), " ");
+        name = name.replace(" & ", "&");
+        name = name.replace("Gunter Hauer", "Gunter&Hauer");
+        name = name.replace("Le Chef", "Le_Chef");
+        name = name.replace("LE CHEF", "Le_Chef");
+        name = name.replace("IDEAL STANDARD", "IDEAL_STANDARD");
+        return name;
     }
 }

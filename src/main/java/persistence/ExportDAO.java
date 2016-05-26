@@ -10,6 +10,7 @@ import org.hibernate.exception.DataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import domain.Brand;
 import domain.Export;
 import domain.Product;
 import domain.Store;
@@ -17,23 +18,17 @@ import domain.Store;
 /**
  * Blahblahblah
  */
-public class ExportDAO {
+public class ExportDAO extends DAO {
 
   final static Logger log = LoggerFactory.getLogger(ExportDAO.class);
 
-  private Session session;
-  private final List<String> brands;
-
-  public ExportDAO(List<String> brands) {
-    this.brands = brands;
-  }
+  private final SupportDAO supportDAO = new SupportDAO();
 
   public void export() {
     List<Product> products;
     Map<Long, String> stores = new HashMap<>();
 
-    session = HibernateUtils.getSessionFactory().openSession();
-    session.beginTransaction();
+    beginTransaction();
 
     try {
 
@@ -56,7 +51,7 @@ public class ExportDAO {
       Export export = new Export();
       export.setDate(product.getDate());
       export.setPrice(product.getPrice());
-      export.setName(product.getName(), brands);
+      export.setName(product.getName(), supportDAO.getBrands());
       export.setStore(stores.get(product.getStore().longValue()));
       export.setUrl(product.getUrl());
 
@@ -73,9 +68,8 @@ public class ExportDAO {
       e.printStackTrace();
     }
 
-
-    session.getTransaction().commit();
-    session.close();
+    endTransaction();
     log.info("Hibernate session closed");
   }
+
 }

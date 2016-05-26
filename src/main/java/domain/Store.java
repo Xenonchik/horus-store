@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @Table(name="stores")
-public class Store implements Entity {
+public class Store {
 
     @Id
     @Column(name = "id",unique=true, nullable = false)
@@ -23,10 +23,12 @@ public class Store implements Entity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "status")
+    private Integer status;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
     private Set<Category> categories;
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class Store implements Entity {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -9,9 +9,9 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5433/eye</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/eye</property>
         <property name="connection.username">postgres</property>
-        <property name="connection.password">postgres</property>
+        <property name="connection.password">postgrespass</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
@@ -41,6 +41,8 @@
         <mapping class="domain.Store" />
         <mapping class="domain.Export" />
         <mapping class="domain.Category" />
+        <mapping class="domain.Brand" />
+        <mapping class="domain.Useragent" />
 
 
     </session-factory>

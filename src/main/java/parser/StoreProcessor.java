@@ -1,12 +1,16 @@
 package parser;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import domain.Category;
 import domain.Product;
 import domain.Store;
+import domain.Useragent;
 import parser.source.HtmlSourceBuilder;
 import parser.source.ParseSource;
 import parser.source.SourceBuilder;
 import persistence.ProductDAO;
+import persistence.SupportDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,12 +27,21 @@ import org.slf4j.LoggerFactory;
 abstract public class StoreProcessor implements Serializable {
 
   final static Logger log = LoggerFactory.getLogger(StoreProcessor.class);
-  
-  private List<String> useragents;
 
-  private String name;
+  private final SupportDAO supportDAO = new SupportDAO();
 
   private Store store;
+
+  public void process() throws InterruptedException {
+    if(store == null) {
+      log.warn("No store set!");
+      return;
+    }
+
+    for(Category cat : store.getCategories()) {
+      processCategory(cat.getUrl());
+    }
+  }
 
 
   /**
@@ -65,28 +78,18 @@ abstract public class StoreProcessor implements Serializable {
 
   }
 
-  protected Long getDelay() {
-    return 3500l;
-  }
-
-  protected abstract Parser getParcer();
 
   protected SourceBuilder getSourceBuilder() {
     HtmlSourceBuilder hsb = new HtmlSourceBuilder();
-    hsb.setUserAgent(useragents.get(ThreadLocalRandom.current().nextInt(useragents.size())));
+    List<Useragent> useragents = supportDAO.getUseragents();
+    hsb.setUserAgent(useragents.get(ThreadLocalRandom.current().nextInt(useragents.size())).getName());
     return hsb;
   }
 
   protected abstract UrlPool getUrlPool(String catUrl);
 
-  public StoreProcessor setUseragents(List<String> useragents) {
-    this.useragents = useragents;
-    return this;
-  }
-
-
   public String getName() {
-    return name;
+    return store.getName();
   }
 
   public Store getStore() {
@@ -96,4 +99,12 @@ abstract public class StoreProcessor implements Serializable {
   public void setStore(Store store) {
     this.store = store;
   }
+
+  protected Long getDelay() {
+    return 3500l;
+  }
+
+  protected abstract Parser getParcer();
+
+
 }

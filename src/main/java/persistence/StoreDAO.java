@@ -22,7 +22,7 @@ public class StoreDAO {
         session.beginTransaction();
 
 
-        Query query = session.createQuery("from Store");
+        Query query = session.createQuery("from Store where status = 1");
         List<Store> list = query.list();
 
         session.getTransaction().commit();

@@ -9,11 +9,10 @@ import domain.Product;
 /**
  * Blahblahblah
  */
-public class ProductDAO implements EntityDAO<Product> {
+public class ProductDAO {
 
     private static Session session;
 
-    @Override
     public void insert(List<Product> entities) {
         session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();

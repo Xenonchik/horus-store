@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @Table(name="products")
-public class Product implements Entity {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,6 @@ public class Product implements Entity {
     @Column(name = "url")
     private String url;
 
-    @Override
     public Long getId() {
         return id;
     }
