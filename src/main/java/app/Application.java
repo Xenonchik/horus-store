@@ -1,5 +1,6 @@
 package app;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class Application {
   private Config getConfig() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
-    return mapper.readValue(Application.class.getResourceAsStream("config.json"), Config.class);
+    return mapper.readValue(new File("src/main/resources/config.json"), Config.class);
   }
 
   public void go(String[] args) throws Exception {

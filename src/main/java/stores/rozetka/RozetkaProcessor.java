@@ -20,6 +20,6 @@ public class RozetkaProcessor extends StoreProcessor {
 
   @Override
   protected Long getDelay() {
-    return 15000l;
+    return 5000l;
   }
 }

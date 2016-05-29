@@ -26,7 +26,7 @@ public class Store {
     @Column(name = "status")
     private Integer status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.ALL)
     private Set<Category> categories;
 
     public Long getId() {

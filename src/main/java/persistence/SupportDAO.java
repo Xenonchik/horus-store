@@ -3,6 +3,8 @@ package persistence;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import domain.Brand;
 import domain.Useragent;
@@ -12,10 +14,14 @@ import domain.Useragent;
  */
 public class SupportDAO extends DAO {
 
+  final static Logger log = LoggerFactory.getLogger(SupportDAO.class);
+
   public List<Useragent> getUseragents() {
     beginTransaction();
 
-    Query query = session.createQuery("from Useragent");
+    //log.info(session.toString());
+
+    Query query = getSession().createQuery("from Useragent");
     List<Useragent> list = query.list();
 
     endTransaction();
@@ -26,7 +32,7 @@ public class SupportDAO extends DAO {
   public List<Brand> getBrands() {
     beginTransaction();
 
-    Query query = session.createQuery("from Brand");
+    Query query = getSession().createQuery("from Brand");
     
     List<Brand> list = query.list();
 

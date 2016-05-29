@@ -33,13 +33,13 @@ public class ExportDAO extends DAO {
     try {
 
     //1. get all today products
-    Query select = session.createSQLQuery(
+    Query select = getSession().createSQLQuery(
         "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
         .addEntity(Product.class);
     products = select.list();
 
     //1.1 get stores
-    Query storeSelect = session.createSQLQuery(
+    Query storeSelect = getSession().createSQLQuery(
         "SELECT * from Stores")
         .addEntity(Store.class);
     for (Store store : (List<Store>) storeSelect.list()) {
@@ -57,7 +57,7 @@ public class ExportDAO extends DAO {
 
       //3. save exports
       try {
-        session.save(export);
+        getSession().save(export);
       } catch (DataException de) {
         log.error("Some troublz with: " + product.getName());
         throw de;

@@ -69,7 +69,6 @@ abstract public class StoreProcessor implements Serializable {
         products.addAll(productList);
       Thread.sleep(getDelay());
 
-
     }
 
     log.info("Parsed url: " + catUrl + " Products found: " + products.size() + " Pages: " + pageCount);

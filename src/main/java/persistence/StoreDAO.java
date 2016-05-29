@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 
-import domain.Product;
 import domain.Store;
 
 /**
@@ -15,12 +13,10 @@ import domain.Store;
  */
 public class StoreDAO extends DAO {
 
-    private static Session session;
-
     public List<Store> getStores() {
         beginTransaction();
 
-        Query query = session.createQuery("from Store where status = 1");
+        Query query = getSession().createQuery("from Store where status = 1");
         List<Store> list = query.list();
 
         endTransaction();

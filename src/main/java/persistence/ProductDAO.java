@@ -14,7 +14,7 @@ public class ProductDAO extends DAO {
     public void insert(List<Product> entities) {
         beginTransaction();
         for (Product product : entities) {
-            session.save(product);
+            getSession().save(product);
         }
 
         endTransaction();
