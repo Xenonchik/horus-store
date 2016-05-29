@@ -13,20 +13,18 @@ import domain.Store;
 /**
  * Blahblahblah
  */
-public class StoreDAO {
+public class StoreDAO extends DAO {
 
     private static Session session;
 
     public List<Store> getStores() {
-        session = HibernateUtils.getSessionFactory().openSession();
-        session.beginTransaction();
-
+        beginTransaction();
 
         Query query = session.createQuery("from Store where status = 1");
         List<Store> list = query.list();
 
-        session.getTransaction().commit();
-        session.close();
+        endTransaction();
+
         return list;
     }
 
