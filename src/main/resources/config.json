@@ -1,206 +1,54 @@
 {
-  "storeConfigs" : {
-    "rozetka" : {
-      "storeProcessor" : {
-        "@class" : "stores.rozetka.RozetkaProcessor"
+  "storeConfigs": {
+    "rozetka": {
+      "storeProcessor": {
+        "@class": "stores.rozetka.RozetkaProcessor"
       }
     },
-    "fotos" : {
-      "storeProcessor" : {
-        "@class" : "stores.fotos.FotosProcessor"
+    "fotos": {
+      "storeProcessor": {
+        "@class": "stores.fotos.FotosProcessor"
       }
     },
-    "deshevle" : {
-      "storeProcessor" : {
-        "@class" : "stores.deshevle.DeshevleProcessor"
+    "deshevle": {
+      "storeProcessor": {
+        "@class": "stores.deshevle.DeshevleProcessor"
       }
     },
-
-    "foxtrot" : {
-      "storeProcessor" : {
-        "@class" : "stores.foxtrot.FoxtrotProcessor"
+    "foxtrot": {
+      "storeProcessor": {
+        "@class": "stores.foxtrot.FoxtrotProcessor"
       }
     },
-
-    "tehnos" : {
-      "storeProcessor" : {
-        "@class" : "stores.tehnos.TehnosProcessor"
+    "tehnos": {
+      "storeProcessor": {
+        "@class": "stores.tehnos.TehnosProcessor"
       }
     },
-
-    "mobilluck" : {
-      "storeProcessor" : {
-        "@class" : "stores.mobilluck.MobilluckProcessor"
+    "mobilluck": {
+      "storeProcessor": {
+        "@class": "stores.mobilluck.MobilluckProcessor"
       }
     },
-
-    "vstroyka" : {
-      "storeProcessor" : {
-        "@class" : "stores.vstroyka.VstroykaProcessor"
+    "vstroyka": {
+      "storeProcessor": {
+        "@class": "stores.vstroyka.VstroykaProcessor"
       }
     },
-
-    "palladium" : {
-      "storeProcessor" : {
-        "@class" : "stores.palladium.PalladiumProcessor"
+    "palladium": {
+      "storeProcessor": {
+        "@class": "stores.palladium.PalladiumProcessor"
       }
     },
-
-    "tehnohata" : {
-      "storeProcessor" : {
-        "@class" : "stores.tehnohata.TehnohataProcessor"
+    "tehnohata": {
+      "storeProcessor": {
+        "@class": "stores.tehnohata.TehnohataProcessor"
       }
     },
-
-    "v590" : {
-      "storeProcessor" : {
-        "@class" : "stores.v590.V590Processor"
+    "v590": {
+      "storeProcessor": {
+        "@class": "stores.v590.V590Processor"
       }
     }
-  },
-
-  "brands" : ["AEG",
-    "ALVEUS",
-    "AM.PM",
-    "AMICA",
-    "ARDESIA",
-    "ARDO",
-    "ARISTON",
-    "ARIADA",
-    "ARMATURA",
-    "ASIL",
-    "ASKO",
-    "ATLANT",
-    "AURORA",
-    "BEKO",
-    "BEST",
-    "BEST CHEF",
-    "BIANCHI",
-    "BIOZONE",
-    "BLANCO",
-    "BLAUMANN",
-    "BORGIO",
-    "BOSCH",
-    "CANDY",
-    "CATA",
-    "CEZARIS",
-    "CLATRONIC",
-    "COLDMASTER",
-    "DAEWOO",
-    "DAMIXA",
-    "DEANTE",
-    "DELFA",
-    "DENKMIT",
-    "E.C.A.",
-    "ECOTEC",
-    "ELECTROLUX",
-    "ELENBERG",
-    "ELEYUS",
-    "ELICA",
-    "ELLECI",
-    "EMMEVI",
-    "FABER",
-    "FAGOR",
-    "FALMEC",
-    "FANCY",
-    "FERRO",
-    "FLAMBERG",
-    "FORMIX",
-    "FRANKE",
-    "FREGGIA",
-    "FRESH",
-    "FROSTOR",
-    "GEFEST",
-    "GENEBRE",
-    "GORENJE",
-    "GRANADO",
-    "GRANITIKA",
-    "GRETA",
-    "GROHE",
-    "GUNTER & HAUER",
-    "GUNTER HAUER",
-    "GUNTER&HAUER",
-    "HANSA",
-    "HANSGROHE",
-    "HILTON",
-    "HITACHI",
-    "HOOVER",
-    "HOTPOINT-ARISTON",
-    "IDEAL_STANDARD",
-    "IMPERIAL",
-    "IMPRESE",
-    "INDESIT",
-    "In-Sink-Erator",
-    "INTERLINE",
-    "IP INDUSTRIE",
-    "JANTAR",
-    "KAISER",
-    "KALUNAS",
-    "KLUDI",
-    "KRAUS",
-    "KUPPERSBUSCH",
-    "LE_CHEF",
-    "LG",
-    "LIBERTON",
-    "LIBERTY",
-    "LIEBHERR",
-    "LONGRAN",
-    "MARMORIN",
-    "MARTA",
-    "MAXWELL",
-    "MIELE",
-    "MINOLA",
-    "MIRTA",
-    "MIXXEN",
-    "MYSTERY",
-    "NORD",
-    "ORAS",
-    "PANASONIC",
-    "PERFELLI",
-    "PHILIPS",
-    "PLADOS",
-    "PROFITM",
-    "PROFYCOOL",
-    "PYRAMIDA",
-    "RAVAK",
-    "REDMOND",
-    "REGINOX",
-    "RESTART",
-    "RUSSELL",
-    "SAMSUNG",
-    "SATURN",
-    "SCARLETT",
-    "SCHOCK",
-    "SEABREEZE",
-    "SENCOR",
-    "SHARP",
-    "SHIVAKI",
-    "SIEMENS",
-    "SMART",
-    "SNAIGE",
-    "STATUS",
-    "STEBA",
-    "SWIZER",
-    "TEFCOLD",
-    "TEKA",
-    "TELMA",
-    "THOMAS",
-    "TOSHIBA",
-    "TRISA ELECTRONICS",
-    "TRISTAR",
-    "UA",
-    "UKINOX",
-    "ULA",
-    "UNIVERSO",
-    "VENTOLUX",
-    "VESTFROST",
-    "VICO",
-    "VIDIMA",
-    "VITEK",
-    "VOLLE",
-    "WHIRLPOOL",
-    "ZANUSSI",
-    "ZIRTAL",
-    "ДНЕПР",
-    "СНЕЖ"]
+  }
 }

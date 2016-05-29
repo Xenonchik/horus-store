@@ -9,6 +9,8 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -19,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
  * Blahblahblah
  */
 public class HtmlSourceBuilder implements SourceBuilder {
+
+    final static Logger log = LoggerFactory.getLogger(HtmlSourceBuilder.class);
 
     private CloseableHttpClient httpclient;
     private String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0";
@@ -53,6 +57,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
         try {
             content = httpclient.execute(httpGet, responseHandler);
         } catch (IOException e) {
+            log.error(uri);
             e.printStackTrace();
             content = "";
         }
