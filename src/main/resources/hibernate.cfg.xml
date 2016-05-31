@@ -44,6 +44,7 @@
         <mapping class="domain.Category" />
         <mapping class="domain.Brand" />
         <mapping class="domain.Useragent" />
+        <mapping class="domain.EmirGood" />
 
 
     </session-factory>

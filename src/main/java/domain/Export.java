@@ -1,8 +1,7 @@
 package domain;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +48,9 @@ public class Export {
 
     @Column(name = "store")
     private String store;
+
+    @Column(name = "category")
+    private Long category;
 
     public Long getId() {
         return id;
@@ -113,12 +116,11 @@ public class Export {
         this.store = store;
     }
 
-    public void setName(String name, List<Brand> brands) {
-        HashSet<Brand> hs = new HashSet<>(brands);
+    public void setName(String name, Set<String> brands) {
         name = sanitizeName(name);
         for (String part : name.split("\\s")) {
 
-            if(hs.contains(part.toUpperCase())) {
+            if(brands.contains(part.toUpperCase())) {
                 String[] parts = name.split("\\s" + part + "\\s");
                 if(parts.length == 2) {
                     this.setDescription(parts[0]);
@@ -142,5 +144,13 @@ public class Export {
         name = name.replace("LE CHEF", "Le_Chef");
         name = name.replace("IDEAL STANDARD", "IDEAL_STANDARD");
         return name;
+    }
+
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
     }
 }

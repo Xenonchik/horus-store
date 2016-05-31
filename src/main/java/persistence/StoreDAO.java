@@ -34,5 +34,15 @@ public class StoreDAO extends DAO {
         return result;
     }
 
+    public Map<Long, Store> getStoresAsMapById() {
+        Map<Long, Store> result = new HashMap<>();
+
+        for(Store store : getStores()) {
+            result.put(store.getId(), store);
+        }
+
+        return result;
+    }
+
 
 }

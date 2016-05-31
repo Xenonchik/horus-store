@@ -1,6 +1,8 @@
 package persistence;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.slf4j.Logger;
@@ -39,5 +41,13 @@ public class SupportDAO extends DAO {
     endTransaction();
 
     return list;
+  }
+
+  public Set<String> getBrandsSet() {
+    Set<String> result = new HashSet<>();
+    for(Brand brand : getBrands()) {
+      result.add(brand.getName());
+    }
+    return result;
   }
 }

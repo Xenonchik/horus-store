@@ -1,7 +1,7 @@
 package stores.tehnohata;
 
 import parser.Parser;
-import parser.StoreProcessor;
+import app.StoreProcessor;
 import parser.UrlPool;
 
 /**

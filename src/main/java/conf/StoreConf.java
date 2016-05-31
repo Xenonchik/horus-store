@@ -1,9 +1,6 @@
 package conf;
 
-import parser.StoreProcessor;
-
-import java.util.ArrayList;
-import java.util.List;
+import app.StoreProcessor;
 
 /**
  * Config for ecommerce store

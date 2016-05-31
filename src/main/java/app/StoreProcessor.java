@@ -1,4 +1,4 @@
-package parser;
+package app;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -6,6 +6,8 @@ import domain.Category;
 import domain.Product;
 import domain.Store;
 import domain.Useragent;
+import parser.Parser;
+import parser.UrlPool;
 import parser.source.HtmlSourceBuilder;
 import parser.source.ParseSource;
 import parser.source.SourceBuilder;

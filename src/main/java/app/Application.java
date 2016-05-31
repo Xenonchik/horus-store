@@ -10,16 +10,13 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import conf.Config;
 import conf.StoreConf;
 import domain.Store;
-import parser.StoreProcessor;
 import persistence.ExportDAO;
 import persistence.StoreDAO;
 
@@ -46,9 +43,13 @@ public class Application {
     ObjectMapper mapper = new ObjectMapper();
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
     return mapper.readValue(new File("src/main/resources/config.json"), Config.class);
+    //return mapper.readValue(Application.class.getResourceAsStream("config.json"), Config.class);
   }
 
   public void go(String[] args) throws Exception {
+
+    EmirProcessor ep = new EmirProcessor();
+    ep.process();
 
     cmd = parser.parse(options, args);
 

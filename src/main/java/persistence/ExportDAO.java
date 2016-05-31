@@ -1,16 +1,15 @@
 package persistence;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.exception.DataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import domain.Brand;
+import domain.Category;
 import domain.Export;
 import domain.Product;
 import domain.Store;
@@ -23,53 +22,78 @@ public class ExportDAO extends DAO {
   final static Logger log = LoggerFactory.getLogger(ExportDAO.class);
 
   private final SupportDAO supportDAO = new SupportDAO();
+  private final StoreDAO storeDAO = new StoreDAO();
+  List<Product> products;
+  Map<Long, Store> stores;
+  Set<String> brands;
 
   public void export() {
-    List<Product> products;
-    Map<Long, String> stores = new HashMap<>();
+
 
     beginTransaction();
 
     try {
 
-    //1. get all today products
-    Query select = getSession().createSQLQuery(
-        "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
-        .addEntity(Product.class);
-    products = select.list();
+      //1. get all today products
+      Query select = getSession().createSQLQuery(
+              "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
+              .addEntity(Product.class);
+      products = select.list();
 
-    //1.1 get stores
-    Query storeSelect = getSession().createSQLQuery(
-        "SELECT * from Stores")
-        .addEntity(Store.class);
-    for (Store store : (List<Store>) storeSelect.list()) {
-      stores.put(store.getId(), store.getName());
-    }
+      endTransaction();
 
-    //2. create exports
-    for (Product product : products) {
-      Export export = new Export();
-      export.setDate(product.getDate());
-      export.setPrice(product.getPrice());
-      export.setName(product.getName(), supportDAO.getBrands());
-      export.setStore(stores.get(product.getStore().longValue()));
-      export.setUrl(product.getUrl());
+      //1.1 get stores
+      stores = storeDAO.getStoresAsMapById();
+      brands = supportDAO.getBrandsSet();
 
-      //3. save exports
-      try {
-        getSession().save(export);
-      } catch (DataException de) {
-        log.error("Some troublz with: " + product.getName());
-        throw de;
+
+      beginTransaction();
+
+      //2. create exports
+      for (Product product : products) {
+        Export export = new Export();
+        export.setDate(product.getDate());
+        export.setPrice(product.getPrice());
+        export.setName(product.getName(), brands);
+
+        Store currentStore = stores.get(product.getStore().longValue());
+        export.setStore(currentStore.getName());
+
+        for (Category category : currentStore.getCategories()) {
+          if (product.getUrl().contains(category.getUrl())) {
+            export.setUrl(category.getUrl());
+            export.setCategory(category.getCategory());
+          }
+        }
+
+        //3. save exports
+        try {
+          getSession().save(export);
+        } catch (DataException de) {
+          log.error("Some troublz with: " + product.getName());
+          throw de;
+        }
+
       }
-
-    }
     } catch (Exception e) {
       e.printStackTrace();
     }
 
     endTransaction();
     log.info("Hibernate session closed");
+  }
+
+  public List<Export> getExports() {
+    beginTransaction();
+
+    //log.info(session.toString());
+
+    Query query = getSession().createQuery("from Useragent");
+    List<Export> list = query.list();
+
+    endTransaction();
+
+    return list;
   }
 
 }
