@@ -37,6 +37,8 @@ public class Application {
     options.addOption("e", false, "export");
     options.addOption("a", false, "parse all");
     options.addOption("s", true, "parse store");
+    options.addOption("emir", false, "parse emir");
+    options.addOption("alias", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -47,10 +49,6 @@ public class Application {
   }
 
   public void go(String[] args) throws Exception {
-
-    EmirProcessor ep = new EmirProcessor();
-    ep.process();
-
     cmd = parser.parse(options, args);
 
     Set<StoreProcessor> processors = getProcessors(getConfig());
@@ -59,6 +57,16 @@ public class Application {
       processAll(processors);
     } else if (cmd.hasOption("s")) {
       processStore(processors, cmd.getOptionValue("s"));
+    }
+
+    if(cmd.hasOption("emir")) {
+      EmirProcessor ep = new EmirProcessor();
+      ep.process();
+    }
+
+    if(cmd.hasOption("alias")) {
+      AliasProcessor ap = new AliasProcessor();
+      ap.process();
     }
 
     if (cmd.hasOption("e")) {

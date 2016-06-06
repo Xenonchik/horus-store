@@ -24,14 +24,21 @@ public class EmirProcessor {
     Reader in = new FileReader("src/main/resources/emir.csv");
     Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withHeader().parse(in);
     for (CSVRecord record : records) {
-      EmirGood emirGood = new EmirGood();
-      emirGood.setBrand(record.get("brand"));
-      emirGood.setT1(record.get("t1"));
-      emirGood.setT2(record.get("t2"));
-      emirGood.setT3(record.get("t3"));
-      emirGood.setT4(record.get("t4"));
-      emirGood.setModel(record.get("model"));
-      emirGoods.add(emirGood);
+      if(!record.get("category").equals("")) {
+        try {
+          EmirGood emirGood = new EmirGood();
+          emirGood.setBrand(record.get("brand"));
+          emirGood.setT1(record.get("t1"));
+          emirGood.setT2(record.get("t2"));
+          emirGood.setT3(record.get("t3"));
+          emirGood.setT4(record.get("t4"));
+          emirGood.setModel(record.get("model"));
+          emirGood.setCategory(Integer.parseInt(record.get("category")));
+          emirGoods.add(emirGood);
+        } catch (NumberFormatException e) {
+          e.printStackTrace();
+        }
+      }
     }
 
     EmirDAO emirDAO = new EmirDAO();

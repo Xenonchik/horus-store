@@ -38,6 +38,9 @@ public class EmirGood {
     @Column(name = "model")
     private String model;
 
+    @Column(name = "category")
+    private Integer category;
+
     public Long getName() {
         return name;
     }
@@ -92,5 +95,13 @@ public class EmirGood {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 }

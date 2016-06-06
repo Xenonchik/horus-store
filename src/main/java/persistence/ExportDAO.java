@@ -27,6 +27,7 @@ public class ExportDAO extends DAO {
   Map<Long, Store> stores;
   Set<String> brands;
 
+  // TODO push this to processor
   public void export() {
 
 
@@ -88,7 +89,20 @@ public class ExportDAO extends DAO {
 
     //log.info(session.toString());
 
-    Query query = getSession().createQuery("from Useragent");
+    Query query = getSession().createQuery("from Export");
+    List<Export> list = query.list();
+
+    endTransaction();
+
+    return list;
+  }
+
+  public List<Export> getExport(Export export) {
+    beginTransaction();
+
+    Query query = getSession().createQuery("FROM Export WHERE category = :category AND store = :store");
+    query.setParameter("category", export.getCategory());
+    query.setParameter("store", export.getStore());
     List<Export> list = query.list();
 
     endTransaction();
