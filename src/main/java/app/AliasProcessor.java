@@ -43,11 +43,13 @@ public class AliasProcessor {
         sew.store = store;
         for(Export exp : exportDAO.getExport(export)) {
           int levenstein = StringUtils.getLevenshteinDistance(exp.getModel(), emirGood.getModel());
-          if(levenstein < 5) {
+          if(levenstein < 2) {
             log.info(emirGood.getModel() + " - " + exp.getModel() + " : " + levenstein);
           }
-          ExpLevWrapper elw = new ExpLevWrapper(exp, levenstein);
-          sew.exports.add(elw);
+          if(levenstein < 2) {
+            ExpLevWrapper elw = new ExpLevWrapper(exp, levenstein);
+            sew.exports.add(elw);
+          }
         }
         Collections.sort(sew.exports, new Comparator<ExpLevWrapper>() {
           @Override
