@@ -153,4 +153,8 @@ public class Export {
     public void setCategory(Long category) {
         this.category = category;
     }
+
+    public String getFullName() {
+        return description + " " + brand + " " + model;
+    }
 }

@@ -1,5 +1,9 @@
 package app;
 
+import static util.CSVUtils.CSV_FORMAT;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,24 +34,58 @@ public class AliasProcessor {
   private final StoreDAO storeDAO = new StoreDAO();
   private final EmirDAO emirDAO = new EmirDAO();
 
-  public void process() {
+  public void process() throws IOException {
+    Map<EmirGood, List<StoreExpWrapper>> aliaces = goodsAliaces();
+    FileWriter fileWriter = null;
+    CSVPrinter csvFilePrinter = null;
+    String[] fileHeader = {"Марка", "ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Название товара", "DESHEVLE", "FOTOS", "FOXTROT", "MOBILLUCK", "PALLADIUM", "ROZETKA", "TEHNOHATA", "TEHNOS", "V590", "VSTROYKA"};
+
+
+    fileWriter = new FileWriter("src/main/resources/aliaces.csv");
+
+    //initialize CSVPrinter object
+    csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
+
+    //Create CSV file header
+    csvFilePrinter.printRecord(fileHeader);
+
+    //Write a new student object list to the CSV file
+    for (Map.Entry<EmirGood, List<StoreExpWrapper>> kv : aliaces.entrySet()) {
+      List dataRecord = new ArrayList();
+      EmirGood eg = kv.getKey();
+      dataRecord.add(eg.getBrand());
+      dataRecord.add(eg.getT1());
+      dataRecord.add(eg.getT2());
+      dataRecord.add(eg.getT3());
+      dataRecord.add(eg.getT4());
+      dataRecord.add(eg.getModel());
+      for(StoreExpWrapper sew : kv.getValue()) {
+        dataRecord.add(sew.getAlias());
+      }
+      csvFilePrinter.printRecord(dataRecord);
+    }
+
+  }
+
+  private Map<EmirGood, List<StoreExpWrapper>> goodsAliaces() {
+    Map<EmirGood, List<StoreExpWrapper>> result = new HashMap<>();
+
+
     List<EmirGood> emirGoods = emirDAO.getGoods();
     List<Store> stores = storeDAO.getStores();
-    Map<EmirGood, List<StoreExpWrapper>> result = new HashMap<>();
-    for(EmirGood emirGood : emirGoods) {
+
+    for (EmirGood emirGood : emirGoods) {
       List<StoreExpWrapper> sews = new ArrayList<>();
       Export export = new Export();
       export.setCategory(emirGood.getCategory().longValue());
-      for(Store store : stores) {
+      for (Store store : stores) {
         StoreExpWrapper sew = new StoreExpWrapper();
         export.setStore(store.getName());
         sew.store = store;
-        for(Export exp : exportDAO.getExport(export)) {
+        for (Export exp : exportDAO.getExport(export)) {
           int levenstein = StringUtils.getLevenshteinDistance(exp.getModel(), emirGood.getModel());
-          if(levenstein < 2) {
+          if (levenstein < 2) {
             log.info(emirGood.getModel() + " - " + exp.getModel() + " : " + levenstein);
-          }
-          if(levenstein < 2) {
             ExpLevWrapper elw = new ExpLevWrapper(exp, levenstein);
             sew.exports.add(elw);
           }
@@ -59,22 +98,20 @@ public class AliasProcessor {
             return 0;
           }
         });
-        if(sew.exports.size() > 0) {
-          sews.add(sew);
-        }
+        sews.add(sew);
 
       }
       result.put(emirGood, sews);
+
     }
-
-    return;
-
+    return result;
   }
 
 
-  class ExpLevWrapper{
+  class ExpLevWrapper {
     Export export;
     Integer levenstein;
+
     public ExpLevWrapper(Export export, Integer levenstein) {
       this.export = export;
       this.levenstein = levenstein;
@@ -84,6 +121,17 @@ public class AliasProcessor {
   class StoreExpWrapper {
     Store store;
     List<ExpLevWrapper> exports = new ArrayList<>();
+
+    public String getAlias() {
+      if(exports.size() < 1) {
+        return "";
+      }
+      Export export = exports.get(0).export;
+      if(export == null) {
+        return "";
+      }
+      return export.getFullName();
+    }
   }
 
 

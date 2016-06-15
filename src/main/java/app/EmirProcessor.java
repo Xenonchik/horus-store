@@ -1,12 +1,13 @@
 package app;
 
+import static util.CSVUtils.CSV_FORMAT;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import domain.EmirGood;
@@ -22,7 +23,7 @@ public class EmirProcessor {
     List<EmirGood> emirGoods = new ArrayList<>();
 
     Reader in = new FileReader("src/main/resources/emir.csv");
-    Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withHeader().parse(in);
+    Iterable<CSVRecord> records = CSV_FORMAT.parse(in);
     for (CSVRecord record : records) {
       if(!record.get("category").equals("")) {
         try {
