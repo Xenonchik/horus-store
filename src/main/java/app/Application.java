@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
@@ -31,6 +32,9 @@ public class Application {
 
   public Application() {
     setCmdOptions();
+
+    Properties props = System.getProperties();
+    props.setProperty("com.sun.net.ssl.checkRevocation", "false");
   }
 
   private void setCmdOptions() {
@@ -88,7 +92,7 @@ public class Application {
 
   private void processStore(Set<StoreProcessor> processors, String name) throws InterruptedException {
     for (StoreProcessor processor : processors) {
-      if(processor.getName().equals(name)) {
+      if(processor.getName().equals(name.toUpperCase())) {
         StoreRunner sr = new StoreRunner(processor);
         sr.start();
       }

@@ -20,7 +20,9 @@ public class RozetkaUrl extends CategoryUrl {
   }
 
   private String sanitize(String s) {
-    if(StringUtils.countMatches(s, "=") == 3) {
+    s = s.replace("//", "/");
+    s = s.replace("http:/", "http://");
+    if(StringUtils.countMatches(s, "=") > 1) {
       s = s.replace("/page", ";page");
     }
     return s;

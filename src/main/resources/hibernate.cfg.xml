@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
 
-    <session-factory>
+     <session-factory>
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>

@@ -20,7 +20,7 @@ public class RozetkaUrlPool extends CategoryUrlPool {
         if (page == 1) {
             tail = "/";
         }
-        else tail = String.format("/page=%d;scroll=true/", page);
+        else tail = String.format("/page=%d/", page);
         page++;
 
         return tail;
