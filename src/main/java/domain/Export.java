@@ -32,13 +32,13 @@ public class Export {
     private Date date;
 
     @Column(name = "description")
-    private String description;
+    private String description = "";
 
     @Column(name = "brand")
-    private String brand;
+    private String brand = "";
 
     @Column(name = "model")
-    private String model;
+    private String model = "";
 
     @Column(name = "price")
     private Long price;

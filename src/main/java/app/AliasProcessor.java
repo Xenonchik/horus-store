@@ -5,14 +5,11 @@ import static util.CSVUtils.CSV_FORMAT;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,17 +28,21 @@ public class AliasProcessor {
   final static Logger log = LoggerFactory.getLogger(AliasProcessor.class);
 
   private final ExportDAO exportDAO = new ExportDAO();
-  private final StoreDAO storeDAO = new StoreDAO();
+  private final List<Store> stores = new StoreDAO().getStores();
   private final EmirDAO emirDAO = new EmirDAO();
+  ArrayList<String> fileHeader;
+  CSVPrinter csvFilePrinter = null;
 
   public void process() throws IOException {
-    Map<EmirGood, List<StoreExpWrapper>> aliaces = goodsAliaces();
+
     FileWriter fileWriter = null;
-    CSVPrinter csvFilePrinter = null;
-    String[] fileHeader = {"Марка", "ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Название товара", "DESHEVLE", "FOTOS", "FOXTROT", "MOBILLUCK", "PALLADIUM", "ROZETKA", "TEHNOHATA", "TEHNOS", "V590", "VSTROYKA"};
 
+    fileHeader = new ArrayList<>(Arrays.asList("Марка", "ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Название товара"));
+    for(Store store : stores) {
+      fileHeader.add(store.getName().toUpperCase());
+    }
 
-    fileWriter = new FileWriter("src/main/resources/aliaces.csv");
+    fileWriter = new FileWriter("src/main/resources/data/aliaces.csv");
 
     //initialize CSVPrinter object
     csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
@@ -49,90 +50,76 @@ public class AliasProcessor {
     //Create CSV file header
     csvFilePrinter.printRecord(fileHeader);
 
-    //Write a new student object list to the CSV file
-    for (Map.Entry<EmirGood, List<StoreExpWrapper>> kv : aliaces.entrySet()) {
-      List dataRecord = new ArrayList();
-      EmirGood eg = kv.getKey();
-      dataRecord.add(eg.getBrand());
-      dataRecord.add(eg.getT1());
-      dataRecord.add(eg.getT2());
-      dataRecord.add(eg.getT3());
-      dataRecord.add(eg.getT4());
-      dataRecord.add(eg.getModel());
-      for(StoreExpWrapper sew : kv.getValue()) {
-        dataRecord.add(sew.getAlias());
-      }
-      csvFilePrinter.printRecord(dataRecord);
-    }
+    goodsAliaces();
 
   }
 
-  private Map<EmirGood, List<StoreExpWrapper>> goodsAliaces() {
-    Map<EmirGood, List<StoreExpWrapper>> result = new HashMap<>();
 
+
+  private List<EmirGood> goodsAliaces() throws IOException {
 
     List<EmirGood> emirGoods = emirDAO.getGoods();
-    List<Store> stores = storeDAO.getStores();
 
     for (EmirGood emirGood : emirGoods) {
-      List<StoreExpWrapper> sews = new ArrayList<>();
-      Export export = new Export();
-      export.setCategory(emirGood.getCategory().longValue());
+      //filter object
+      Export filterExport = new Export();
+      filterExport.setCategory(emirGood.getCategory().longValue());
+
       for (Store store : stores) {
-        StoreExpWrapper sew = new StoreExpWrapper();
-        export.setStore(store.getName());
-        sew.store = store;
-        for (Export exp : exportDAO.getExport(export)) {
-          int levenstein = StringUtils.getLevenshteinDistance(exp.getModel(), emirGood.getModel());
-          if (levenstein < 2) {
-            log.info(emirGood.getModel() + " - " + exp.getModel() + " : " + levenstein);
-            ExpLevWrapper elw = new ExpLevWrapper(exp, levenstein);
-            sew.exports.add(elw);
+        filterExport.setStore(store.getName());
+        for (Export exp : exportDAO.getExport(filterExport)) {
+          if(isAlias(emirGood, exp)) {
+            log.info("Alias for " + emirGood.getModel() + " : " +exp.getFullName());
+            emirGood.getAliases().put(store.getName(), exp);
+            break;
           }
         }
-        Collections.sort(sew.exports, new Comparator<ExpLevWrapper>() {
-          @Override
-          public int compare(ExpLevWrapper o1, ExpLevWrapper o2) {
-            if (o1.levenstein < o2.levenstein) return -1;
-            if (o1.levenstein > o2.levenstein) return 1;
-            return 0;
-          }
-        });
-        sews.add(sew);
-
+        if(emirGood.getAliases().get(store.getName()) == null) {
+          // add export with empty name
+          emirGood.getAliases().put(store.getName(), filterExport);
+        }
       }
-      result.put(emirGood, sews);
-
+      printAlias(emirGood);
     }
-    return result;
+    return emirGoods;
   }
 
+  private void printAlias(EmirGood eg) throws IOException {
+    List dataRecord = new ArrayList();
 
-  class ExpLevWrapper {
-    Export export;
-    Integer levenstein;
-
-    public ExpLevWrapper(Export export, Integer levenstein) {
-      this.export = export;
-      this.levenstein = levenstein;
+    dataRecord.add(eg.getBrand());
+    dataRecord.add(eg.getT1());
+    dataRecord.add(eg.getT2());
+    dataRecord.add(eg.getT3());
+    dataRecord.add(eg.getT4());
+    dataRecord.add(eg.getModel());
+    for(int i = 6; i < fileHeader.size(); i ++) {
+      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getFullName());
     }
+    csvFilePrinter.printRecord(dataRecord);
   }
 
-  class StoreExpWrapper {
-    Store store;
-    List<ExpLevWrapper> exports = new ArrayList<>();
+  private boolean isAlias(EmirGood emirGood, Export exp) {
 
-    public String getAlias() {
-      if(exports.size() < 1) {
-        return "";
-      }
-      Export export = exports.get(0).export;
-      if(export == null) {
-        return "";
-      }
-      return export.getFullName();
+    String emirName = emirGood.getModel();
+    String exportName = exp.getModel();
+
+    //1. Clean all whitespaces
+    emirName = emirName.replaceAll("\\s+","").toUpperCase();
+    exportName = exportName.replaceAll("\\s+","").toUpperCase();
+
+    // 2. Check equality
+    if(emirName.equals(exportName)) return true;
+
+    //3. Check is one subpart of another
+    if(emirName.contains(exportName)) {
+      return true;
     }
-  }
+    if(exportName.contains(emirName)) {
+      return true;
+    }
 
+    return false;
+  }
 
 }

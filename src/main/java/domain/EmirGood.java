@@ -1,11 +1,15 @@
 package domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Blahblahblah
@@ -40,6 +44,9 @@ public class EmirGood {
 
     @Column(name = "category")
     private Integer category;
+
+    @Transient
+    private Map<String, Export> aliases = new HashMap<>();
 
     public Long getName() {
         return name;
@@ -103,5 +110,13 @@ public class EmirGood {
 
     public void setCategory(Integer category) {
         this.category = category;
+    }
+
+    public Map<String, Export> getAliases() {
+        return aliases;
+    }
+
+    public void setAliases(Map<String, Export> aliases) {
+        this.aliases = aliases;
     }
 }
