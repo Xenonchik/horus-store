@@ -22,7 +22,7 @@ public class EmirGood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Long name;
+    private Long id;
 
     @Column(name = "brand")
     private String brand;
@@ -45,15 +45,18 @@ public class EmirGood {
     @Column(name = "category")
     private Integer category;
 
+    /**
+     * Store name - alias
+     */
     @Transient
     private Map<String, Export> aliases = new HashMap<>();
 
-    public Long getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
-    public void setName(Long name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBrand() {

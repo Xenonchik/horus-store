@@ -14,7 +14,7 @@ public class EmirDAO extends DAO {
   public void insert(List<EmirGood> entities) {
     beginTransaction();
     for (EmirGood emirGood : entities) {
-      getSession().save(emirGood);
+
     }
 
     endTransaction();
