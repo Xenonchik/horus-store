@@ -37,7 +37,8 @@ public class ExportDAO extends DAO {
 
       //1. get all today products
       Query select = getSession().createSQLQuery(
-              "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
+             // "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '1 DAYS')")
+              "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '15 DAYS')")
               .addEntity(Product.class);
       products = select.list();
 
@@ -61,7 +62,7 @@ public class ExportDAO extends DAO {
         export.setStore(currentStore.getName());
 
         for (Category category : currentStore.getCategories()) {
-          if (product.getUrl().contains(category.getUrl())) {
+          if (product.getUrl().contains(category.getUrl().replace(".html", ""))) {
             export.setUrl(category.getUrl());
             export.setCategory(category.getCategory());
           }

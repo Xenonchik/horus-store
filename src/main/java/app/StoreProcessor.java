@@ -60,6 +60,7 @@ abstract public class StoreProcessor implements Serializable {
     int pageCount = 0;
     while (parser.processCategory()){
       String url = pool.getNextUrl().toString();
+      log.info(url);
       ParseSource ps = getSourceBuilder().getSource(url);
       pageCount ++;
       List<Product> productList = parser.parse(ps);

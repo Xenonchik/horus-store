@@ -75,8 +75,8 @@ public class AliasProcessor {
           emirGood.getAliases().put(store.getName(), filterExport);
         }
       }
-      //printAlias(emirGood);
-      //saveAlias(emirGood);
+      printAlias(emirGood);
+      saveAlias(emirGood);
     }
     return emirGoods;
   }
