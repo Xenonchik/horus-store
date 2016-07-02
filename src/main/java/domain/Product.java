@@ -94,6 +94,10 @@ public class Product {
         return url;
     }
 
+    public String getSanitizedUrl() {
+        return url.replace(".html", "").replace(";page", "/page");
+    }
+
     public void setUrl(String url) {
         this.url = url;
     }

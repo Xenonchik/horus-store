@@ -17,7 +17,7 @@ public class FoxtrotParser extends HtmlProductParser {
   @Override
   protected Product processProduct(Element block) {
     Product product = new Product();
-    product.setName(block.select("div.product h4 a").text());
+    product.setName(block.select("div.product a.title").text());
 
     String priceStr = block.select("div.price a").text();
     priceStr = priceStr.replaceAll("[^\\d]", "");

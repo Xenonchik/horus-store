@@ -121,19 +121,27 @@ public class Export {
         for (String part : name.split("\\s")) {
 
             if(brands.contains(part.toUpperCase())) {
+                String brand = part.toUpperCase();
                 String[] parts = name.split("\\s" + part + "\\s");
                 if(parts.length == 2) {
                     this.setDescription(parts[0]);
-                    this.setBrand(part);
+                    this.setBrand(brand);
                     this.setModel(parts[1]);
+                    return;
+                } else if(name.startsWith(brand)){
+                    this.setBrand(brand);
+                    this.setModel(name.replace(brand + " ", ""));
+                    this.setDescription("");
                     return;
                 } else {
                     log.warn("Parsing product name: " + name);
                 }
             }
         }
-        log.warn("No brand for: " + name);
+        log.warn("No brand for: " + name + " url: " + this.getUrl());
         this.setModel(name);
+        this.setDescription("");
+        this.setBrand("");
     }
 
     private String sanitizeName(String name) {

@@ -22,4 +22,8 @@ abstract public class DAO {
   protected void endTransaction() {
     HibernateUtils.getSessionFactory().getCurrentSession().getTransaction().commit();
   }
+
+  public void closeSessionFactory() {
+    HibernateUtils.getSessionFactory().close();
+  }
 }

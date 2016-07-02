@@ -29,16 +29,14 @@ public class ExportDAO extends DAO {
 
   // TODO push this to processor
   public void export() {
-
-
     beginTransaction();
 
     try {
 
       //1. get all today products
       Query select = getSession().createSQLQuery(
-             // "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '1 DAYS')")
-              "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '15 DAYS')")
+             "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
+//              "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '15 DAYS')")
               .addEntity(Product.class);
       products = select.list();
 
@@ -56,17 +54,21 @@ public class ExportDAO extends DAO {
         Export export = new Export();
         export.setDate(product.getDate());
         export.setPrice(product.getPrice());
-        export.setName(product.getName(), brands);
 
         Store currentStore = stores.get(product.getStore().longValue());
         export.setStore(currentStore.getName());
 
         for (Category category : currentStore.getCategories()) {
-          if (product.getUrl().contains(category.getUrl().replace(".html", ""))) {
+          if (product.getSanitizedUrl().contains(category.getUrl().replace(".html", ""))) {
             export.setUrl(category.getUrl());
             export.setCategory(category.getCategory());
           }
         }
+        if(export.getCategory() == null) {
+          log.warn("No category for product: " + product.getName() + " and url:" + product.getUrl());
+        }
+
+        export.setName(product.getName(), brands);
 
         //3. save exports
         try {
@@ -82,7 +84,8 @@ public class ExportDAO extends DAO {
     }
 
     endTransaction();
-    log.info("Hibernate session closed");
+    closeSessionFactory();
+    log.info("Export ends. Products exported: " + products.size());
   }
 
   public List<Export> getExports() {

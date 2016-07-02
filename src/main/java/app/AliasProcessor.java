@@ -78,6 +78,8 @@ public class AliasProcessor {
       printAlias(emirGood);
       saveAlias(emirGood);
     }
+
+    aliasDAO.closeSessionFactory();
     return emirGoods;
   }
 
@@ -122,13 +124,18 @@ public class AliasProcessor {
     exportName = exportName.replaceAll("\\s+", "").toUpperCase();
 
     // 2. Check equality
-    if (emirName.equals(exportName)) return true;
+    if (emirName.equals(exportName)) {
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || exportName.length() > 2)
+        return true;
+    }
 
     //3. Check is one subpart of another
     if (emirName.contains(exportName)) {
-      return true;
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || exportName.length() > 2)
+        return true;
     }
     if (exportName.contains(emirName)) {
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || emirName.length() > 2)
       return true;
     }
 

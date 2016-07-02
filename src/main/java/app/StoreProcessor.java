@@ -31,6 +31,7 @@ abstract public class StoreProcessor implements Serializable {
   final static Logger log = LoggerFactory.getLogger(StoreProcessor.class);
 
   private final SupportDAO supportDAO = new SupportDAO();
+  private final ProductDAO dao = new ProductDAO();
 
   private Store store;
 
@@ -43,6 +44,8 @@ abstract public class StoreProcessor implements Serializable {
     for(Category cat : store.getCategories()) {
       processCategory(cat.getUrl());
     }
+
+    dao.closeSessionFactory();
   }
 
 
@@ -75,7 +78,7 @@ abstract public class StoreProcessor implements Serializable {
     }
 
     log.info("Parsed url: " + catUrl + " Products found: " + products.size() + " Pages: " + pageCount);
-    ProductDAO dao = new ProductDAO();
+
     dao.insert(products);
 
   }
