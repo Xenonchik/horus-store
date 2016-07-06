@@ -125,17 +125,17 @@ public class AliasProcessor {
 
     // 2. Check equality
     if (emirName.equals(exportName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || exportName.length() > 2)
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
 
     //3. Check is one subpart of another
     if (emirName.contains(exportName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || exportName.length() > 2)
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
     if (exportName.contains(emirName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()) || emirName.length() > 2)
+      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
       return true;
     }
 
