@@ -11,4 +11,6 @@ public interface Parser<E> {
     public List<E> parse(ParseSource source);
 
     public boolean processCategory();
+
+    public void setCategory(Long category);
 }

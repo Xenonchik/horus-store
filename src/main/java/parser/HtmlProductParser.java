@@ -16,6 +16,7 @@ import java.util.List;
  */
 abstract public class HtmlProductParser implements Parser<Product> {
     private boolean processCategory = true;
+    private Long category;
 
     protected Integer productsCount = 0;
 
@@ -33,7 +34,7 @@ abstract public class HtmlProductParser implements Parser<Product> {
         }
         for(Element block : blocks) {
             Product product = processProduct(block);
-
+            product.setCategory(category);
             if (product.isValid()) {
                 if (product.getPrice() != null && product.getPrice() > 0) {
                     product.setUrl(source.getUrl());
@@ -67,6 +68,11 @@ abstract public class HtmlProductParser implements Parser<Product> {
     @Override
     public boolean processCategory() {
         return processCategory;
+    }
+
+    @Override
+    public void setCategory(Long category) {
+        this.category = category;
     }
 
     public void setProcessCategory(boolean processCategory) {

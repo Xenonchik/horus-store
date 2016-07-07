@@ -38,6 +38,9 @@ public class Product {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "category")
+    private Long category;
+
     public Long getId() {
         return id;
     }
@@ -100,5 +103,13 @@ public class Product {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Long getCategory() {
+        return category;
+    }
+
+    public void setCategory(Long category) {
+        this.category = category;
     }
 }

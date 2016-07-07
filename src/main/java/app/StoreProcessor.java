@@ -42,7 +42,7 @@ abstract public class StoreProcessor implements Serializable {
     }
 
     for(Category cat : store.getCategories()) {
-      processCategory(cat.getUrl());
+      processCategory(cat);
     }
 
     dao.closeSessionFactory();
@@ -51,13 +51,16 @@ abstract public class StoreProcessor implements Serializable {
 
   /**
    * Process strategy
-   * @param catUrl
+   * @param cat
    * @throws InterruptedException
    */
-  public void processCategory(String catUrl) throws InterruptedException {
+  public void processCategory(Category cat) throws InterruptedException {
+
+    String catUrl = cat.getUrl();
 
     UrlPool pool = getUrlPool(catUrl);
     Parser parser = getParcer();
+
     List<Product> products = new ArrayList<>();
 
     int pageCount = 0;
