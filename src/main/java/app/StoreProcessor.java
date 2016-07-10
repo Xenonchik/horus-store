@@ -45,7 +45,7 @@ abstract public class StoreProcessor implements Serializable {
       processCategory(cat);
     }
 
-    dao.closeSessionFactory();
+    //dao.closeSessionFactory();
   }
 
 
@@ -60,6 +60,7 @@ abstract public class StoreProcessor implements Serializable {
 
     UrlPool pool = getUrlPool(catUrl);
     Parser parser = getParcer();
+    parser.setCategory(cat.getCategory());
 
     List<Product> products = new ArrayList<>();
 

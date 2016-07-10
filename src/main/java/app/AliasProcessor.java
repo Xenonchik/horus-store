@@ -30,26 +30,32 @@ public class AliasProcessor {
 
   final static Logger log = LoggerFactory.getLogger(AliasProcessor.class);
 
-  private final ExportDAO exportDAO = new ExportDAO();
-  private final List<Store> stores = new StoreDAO().getStores();
-  private final EmirDAO emirDAO = new EmirDAO();
-  ArrayList<String> fileHeader;
-  CSVPrinter csvFilePrinter = null;
-  AliasDAO aliasDAO = new AliasDAO();
+  protected final ExportDAO exportDAO = new ExportDAO();
+  protected final List<Store> stores = new StoreDAO().getStores();
+  protected final EmirDAO emirDAO = new EmirDAO();
+  protected ArrayList<String> fileHeader;
+  protected CSVPrinter csvFilePrinter = null;
+  protected AliasDAO aliasDAO = new AliasDAO();
+  protected FileWriter fileWriter;
+  protected String filename = "src/main/resources/data/prices.csv";
 
   public void process() throws IOException {
 
-    FileWriter fileWriter = null;
-    fileHeader = new ArrayList<>(Arrays.asList("Марка", "ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Название товара"));
-    for (Store store : stores) {
-      fileHeader.add(store.getName().toUpperCase());
-    }
-    fileWriter = new FileWriter("src/main/resources/data/aliaces.csv");
-    csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
-    csvFilePrinter.printRecord(fileHeader);
+    init();
 
     goodsAliaces();
 
+  }
+
+  protected void init() throws IOException {
+
+    fileHeader = new ArrayList<>(Arrays.asList("ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Марка", "Название товара"));
+    for (Store store : stores) {
+      fileHeader.add(store.getName().toUpperCase());
+    }
+    fileWriter = new FileWriter(filename);
+    csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
+    csvFilePrinter.printRecord(fileHeader);
   }
 
   private List<EmirGood> goodsAliaces() throws IOException {
@@ -76,7 +82,7 @@ public class AliasProcessor {
         }
       }
       printAlias(emirGood);
-      saveAlias(emirGood);
+      //saveAlias(emirGood);
     }
 
     aliasDAO.closeSessionFactory();
@@ -86,14 +92,14 @@ public class AliasProcessor {
   private void printAlias(EmirGood eg) throws IOException {
     List dataRecord = new ArrayList();
 
-    dataRecord.add(eg.getBrand());
     dataRecord.add(eg.getT1());
     dataRecord.add(eg.getT2());
     dataRecord.add(eg.getT3());
     dataRecord.add(eg.getT4());
+    dataRecord.add(eg.getBrand());
     dataRecord.add(eg.getModel());
     for (int i = 6; i < fileHeader.size(); i++) {
-      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getFullName());
+      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
     }
     csvFilePrinter.printRecord(dataRecord);
   }

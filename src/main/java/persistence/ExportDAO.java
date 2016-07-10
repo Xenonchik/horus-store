@@ -57,13 +57,9 @@ public class ExportDAO extends DAO {
 
         Store currentStore = stores.get(product.getStore().longValue());
         export.setStore(currentStore.getName());
+        export.setUrl(product.getUrl());
+        export.setCategory(product.getCategory());
 
-        for (Category category : currentStore.getCategories()) {
-          if (product.getSanitizedUrl().contains(category.getUrl().replace(".html", ""))) {
-            export.setUrl(category.getUrl());
-            export.setCategory(category.getCategory());
-          }
-        }
         if(export.getCategory() == null) {
           log.warn("No category for product: " + product.getName() + " and url:" + product.getUrl());
         }

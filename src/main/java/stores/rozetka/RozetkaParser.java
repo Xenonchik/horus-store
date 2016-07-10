@@ -3,6 +3,9 @@ package stores.rozetka;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import domain.Product;
 import parser.HtmlProductParser;
 
@@ -13,6 +16,7 @@ import java.util.regex.Pattern;
  * Blahblahblah
  */
 public class RozetkaParser extends HtmlProductParser {
+    final static Logger log = LoggerFactory.getLogger(RozetkaParser.class);
 
     private Integer storeId = 1;
 
@@ -35,5 +39,16 @@ public class RozetkaParser extends HtmlProductParser {
         }
         product.setStore(storeId);
         return product;
+    }
+
+    @Override
+    protected void checkNextPage(Document doc) {
+        try {
+            if (doc.select("span.g-i-more-link-text") == null) {
+                setProcessCategory(false);
+            }
+        } catch (NullPointerException e) {
+            log.warn("No next page");
+        }
     }
 }
