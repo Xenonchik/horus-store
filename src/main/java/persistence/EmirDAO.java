@@ -22,7 +22,7 @@ public class EmirDAO extends DAO {
 
   public List<EmirGood> getGoods() {
     beginTransaction();
-    Query query = getSession().createQuery("from EmirGood");
+    Query query = getSession().createQuery("from EmirGood WHERE model = 'TQ 640(DS) K GH/HA EE'");
     List<EmirGood> list = query.list();
     endTransaction();
     return list;

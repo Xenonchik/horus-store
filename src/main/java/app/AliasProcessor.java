@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ public class AliasProcessor {
       //filter object
       Export filterExport = new Export();
       filterExport.setCategory(emirGood.getCategory().longValue());
+      filterExport.setDate(new Date());
 
       for (Store store : stores) {
         filterExport.setStore(store.getName());
@@ -99,7 +101,8 @@ public class AliasProcessor {
     dataRecord.add(eg.getBrand());
     dataRecord.add(eg.getModel());
     for (int i = 6; i < fileHeader.size(); i++) {
-      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
+     // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
+      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getFullName());
     }
     csvFilePrinter.printRecord(dataRecord);
   }

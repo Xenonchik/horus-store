@@ -48,7 +48,7 @@ public class Application {
   private Config getConfig() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
-    return mapper.readValue(new File("src/main/resources/config.json"), Config.class);
+    return mapper.readValue(new File("/tmp/config.json"), Config.class);
     //return mapper.readValue(Application.class.getResourceAsStream("config.json"), Config.class);
   }
 

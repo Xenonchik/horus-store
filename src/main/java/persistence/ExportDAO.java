@@ -100,9 +100,10 @@ public class ExportDAO extends DAO {
   public List<Export> getExport(Export export) {
     beginTransaction();
 
-    Query query = getSession().createQuery("FROM Export WHERE category = :category AND store = :store");
+    Query query = getSession().createQuery("FROM Export WHERE category = :category AND store = :store AND date = :date");
     query.setParameter("category", export.getCategory());
     query.setParameter("store", export.getStore());
+    query.setParameter("date", export.getDate());
     List<Export> list = query.list();
 
     endTransaction();
