@@ -10,8 +10,9 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 
-import domain.EmirGood;
-import persistence.EmirDAO;
+import domain.Category;
+import domain.ExemplarGood;
+import persistence.ExemplarDAO;
 
 /**
  * Created by serge on 5/30/16.
@@ -20,30 +21,32 @@ public class EmirProcessor {
 
   public void process() throws IOException {
 
-    List<EmirGood> emirGoods = new ArrayList<>();
+    List<ExemplarGood> exemplarGoods = new ArrayList<>();
 
     Reader in = new FileReader("src/main/resources/emir.csv");
     Iterable<CSVRecord> records = CSV_FORMAT.parse(in);
     for (CSVRecord record : records) {
       if(!record.get("category").equals("")) {
         try {
-          EmirGood emirGood = new EmirGood();
-          emirGood.setBrand(record.get("brand"));
-          emirGood.setT1(record.get("t1"));
-          emirGood.setT2(record.get("t2"));
-          emirGood.setT3(record.get("t3"));
-          emirGood.setT4(record.get("t4"));
-          emirGood.setModel(record.get("model"));
-          emirGood.setCategory(Integer.parseInt(record.get("category")));
-          emirGoods.add(emirGood);
+          ExemplarGood exemplarGood = new ExemplarGood();
+          exemplarGood.setBrand(record.get("brand"));
+          exemplarGood.setT1(record.get("t1"));
+          exemplarGood.setT2(record.get("t2"));
+          exemplarGood.setT3(record.get("t3"));
+          exemplarGood.setT4(record.get("t4"));
+          exemplarGood.setModel(record.get("model"));
+          Category category = new Category();
+          category.setId(Long.parseLong(record.get("category")));
+          exemplarGood.setCategory(category);
+          exemplarGoods.add(exemplarGood);
         } catch (NumberFormatException e) {
           e.printStackTrace();
         }
       }
     }
 
-    EmirDAO emirDAO = new EmirDAO();
-    emirDAO.insert(emirGoods);
+    ExemplarDAO exemplarDAO = new ExemplarDAO();
+    exemplarDAO.insert(exemplarGoods);
 
   }
 }

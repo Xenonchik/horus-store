@@ -15,6 +15,8 @@ public class Brand {
     @Column(name = "name")
     private String name;
 
+    private String parent;
+
     public String getName() {
         return name;
     }
@@ -26,5 +28,13 @@ public class Brand {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String getParent() {
+        return (parent != null && parent.length() > 0) ? parent : name;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 }

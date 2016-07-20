@@ -1,56 +1,44 @@
 package domain;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * Blahblahblah
  */
 @javax.persistence.Entity
-@Table(name="cat_stores")
+@Table(name="categories")
 public class Category {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "store", nullable = false)
-    private Store store;
-
-    @Column(name = "category", nullable = false)
-    private Long category;
-
     @Id
-    @Column(name = "url")
-    private String url;
+    private Long id;
+
+    private Long parent;
+
+    private String name;
 
 
-    public Long getCategory() {
-        return category;
+    public Long getId() {
+        return id;
     }
 
-    public void setCategory(Long category) {
-        this.category = category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public Long getParent() {
+        return parent;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setParent(Long parent) {
+        this.parent = parent;
     }
 
-    public Store getStore() {
-        return store;
+    public String getName() {
+        return name;
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setName(String name) {
+        this.name = name;
     }
-
 }

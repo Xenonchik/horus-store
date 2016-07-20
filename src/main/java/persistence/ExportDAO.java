@@ -2,13 +2,13 @@ package persistence;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.exception.DataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import domain.Brand;
 import domain.Category;
 import domain.Export;
 import domain.Product;
@@ -25,7 +25,7 @@ public class ExportDAO extends DAO {
   private final StoreDAO storeDAO = new StoreDAO();
   List<Product> products;
   Map<Long, Store> stores;
-  Set<String> brands;
+  List<Brand> brands;
 
   // TODO push this to processor
   public void export() {
@@ -35,16 +35,17 @@ public class ExportDAO extends DAO {
 
       //1. get all today products
       Query select = getSession().createSQLQuery(
-             "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
+          "SELECT * from Products p where p.day = (SELECT MAX(distinct(p2.day)) FROM Products p2)")
+//             "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
 //              "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '15 DAYS')")
-              .addEntity(Product.class);
+          .addEntity(Product.class);
       products = select.list();
 
       endTransaction();
 
       //1.1 get stores
       stores = storeDAO.getStoresAsMapById();
-      brands = supportDAO.getBrandsSet();
+      brands = supportDAO.getBrands();
 
 
       beginTransaction();
@@ -97,18 +98,20 @@ public class ExportDAO extends DAO {
     return list;
   }
 
-  public List<Export> getExport(Export export) {
+
+  public List<Export> getExport(Store store, Category category) {
+
     beginTransaction();
 
-    Query query = getSession().createQuery("FROM Export WHERE category = :category AND store = :store AND date = :date");
-    query.setParameter("category", export.getCategory());
-    query.setParameter("store", export.getStore());
-    query.setParameter("date", export.getDate());
+    Query query = getSession().createQuery("FROM Export WHERE (category = :category OR category = :parent) AND store = :store AND date = '2016-07-10'");
+    query.setParameter("category", category.getId());
+    query.setParameter("parent", category.getParent());
+    query.setParameter("store", store.getName());
+//    query.setParameter("date", new Date());
     List<Export> list = query.list();
 
     endTransaction();
 
     return list;
   }
-
 }

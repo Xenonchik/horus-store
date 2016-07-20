@@ -27,7 +27,7 @@ public class Store {
     private Integer status;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.ALL)
-    private Set<Category> categories;
+    private Set<CatStore> categories;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class Store {
         this.name = name;
     }
 
-    public Set<Category> getCategories() {
+    public Set<CatStore> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(Set<CatStore> categories) {
         this.categories = categories;
     }
 

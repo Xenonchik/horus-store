@@ -2,7 +2,7 @@ package app;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import domain.Category;
+import domain.CatStore;
 import domain.Product;
 import domain.Store;
 import domain.Useragent;
@@ -41,7 +41,7 @@ abstract public class StoreProcessor implements Serializable {
       return;
     }
 
-    for(Category cat : store.getCategories()) {
+    for(CatStore cat : store.getCategories()) {
       processCategory(cat);
     }
 
@@ -54,7 +54,7 @@ abstract public class StoreProcessor implements Serializable {
    * @param cat
    * @throws InterruptedException
    */
-  public void processCategory(Category cat) throws InterruptedException {
+  public void processCategory(CatStore cat) throws InterruptedException {
 
     String catUrl = cat.getUrl();
 

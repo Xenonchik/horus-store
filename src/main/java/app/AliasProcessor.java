@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import domain.Alias;
-import domain.EmirGood;
+import domain.ExemplarGood;
 import domain.Export;
 import domain.Store;
 import persistence.AliasDAO;
-import persistence.EmirDAO;
+import persistence.ExemplarDAO;
 import persistence.ExportDAO;
 import persistence.StoreDAO;
 
@@ -33,7 +32,7 @@ public class AliasProcessor {
 
   protected final ExportDAO exportDAO = new ExportDAO();
   protected final List<Store> stores = new StoreDAO().getStores();
-  protected final EmirDAO emirDAO = new EmirDAO();
+  protected final ExemplarDAO exemplarDAO = new ExemplarDAO();
   protected ArrayList<String> fileHeader;
   protected CSVPrinter csvFilePrinter = null;
   protected AliasDAO aliasDAO = new AliasDAO();
@@ -59,39 +58,35 @@ public class AliasProcessor {
     csvFilePrinter.printRecord(fileHeader);
   }
 
-  private List<EmirGood> goodsAliaces() throws IOException {
+  private List<ExemplarGood> goodsAliaces() throws IOException {
 
-    List<EmirGood> emirGoods = emirDAO.getGoods();
+    List<ExemplarGood> exemplarGoods = exemplarDAO.getGoods();
 
-    for (EmirGood emirGood : emirGoods) {
-      //filter object
-      Export filterExport = new Export();
-      filterExport.setCategory(emirGood.getCategory().longValue());
-      filterExport.setDate(new Date());
+    for (ExemplarGood exemplarGood : exemplarGoods) {
 
       for (Store store : stores) {
-        filterExport.setStore(store.getName());
-        for (Export exp : exportDAO.getExport(filterExport)) {
-          if (isAlias(emirGood, exp)) {
-            log.info("Alias for " + emirGood.getModel() + " : " + exp.getFullName());
-            emirGood.getAliases().put(store.getName(), exp);
+
+        for (Export exp : exportDAO.getExport(store, exemplarGood.getCategory())) {
+          if (isAlias(exemplarGood, exp)) {
+            log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
+            exemplarGood.getAliases().put(store.getName(), exp);
             break;
           }
         }
-        if (emirGood.getAliases().get(store.getName()) == null) {
+        if (exemplarGood.getAliases().get(store.getName()) == null) {
           // add export with empty name
-          emirGood.getAliases().put(store.getName(), filterExport);
+          exemplarGood.getAliases().put(store.getName(), new Export());
         }
       }
-      printAlias(emirGood);
+      printAlias(exemplarGood);
       //saveAlias(emirGood);
     }
 
     aliasDAO.closeSessionFactory();
-    return emirGoods;
+    return exemplarGoods;
   }
 
-  private void printAlias(EmirGood eg) throws IOException {
+  private void printAlias(ExemplarGood eg) throws IOException {
     List dataRecord = new ArrayList();
 
     dataRecord.add(eg.getT1());
@@ -101,17 +96,17 @@ public class AliasProcessor {
     dataRecord.add(eg.getBrand());
     dataRecord.add(eg.getModel());
     for (int i = 6; i < fileHeader.size(); i++) {
-     // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
+      // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
       dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getFullName());
     }
     csvFilePrinter.printRecord(dataRecord);
   }
 
-  private void saveAlias(EmirGood eg) {
+  private void saveAlias(ExemplarGood eg) {
     List<Alias> aliases = new ArrayList<>();
 
     for (Map.Entry<String, Export> kv : eg.getAliases().entrySet()) {
-      if(kv.getValue().getId() != null) {
+      if (kv.getValue().getId() != null) {
         Alias alias = new Alias();
         alias.setGood(eg.getId());
         alias.setStore(kv.getKey());
@@ -123,9 +118,9 @@ public class AliasProcessor {
     aliasDAO.insert(aliases);
   }
 
-  private boolean isAlias(EmirGood emirGood, Export exp) {
+  private boolean isAlias(ExemplarGood exemplarGood, Export exp) {
 
-    String emirName = emirGood.getModel();
+    String emirName = exemplarGood.getModel();
     String exportName = exp.getModel();
 
     //1. Clean all whitespaces
@@ -134,18 +129,18 @@ public class AliasProcessor {
 
     // 2. Check equality
     if (emirName.equals(exportName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
+      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
 
     //3. Check is one subpart of another
     if (emirName.contains(exportName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
+      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
     if (exportName.contains(emirName)) {
-      if(emirGood.getBrand().toUpperCase().equals(exp.getBrand()))
-      return true;
+      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
+        return true;
     }
 
     return false;

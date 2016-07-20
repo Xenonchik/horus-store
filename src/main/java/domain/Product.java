@@ -32,6 +32,8 @@ public class Product {
     @Column(name = "date")
     private Date date;
 
+    private Date day;
+
     @Column(name = "store")
     private Integer store;
 
@@ -83,6 +85,7 @@ public class Product {
     @PrePersist
     protected void onCreate() {
         this.date = new Date();
+        this.day = new Date();
     }
 
     public Integer getStore() {
@@ -111,5 +114,13 @@ public class Product {
 
     public void setCategory(Long category) {
         this.category = category;
+    }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
     }
 }

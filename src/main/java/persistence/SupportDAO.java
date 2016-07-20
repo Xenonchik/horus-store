@@ -42,12 +42,4 @@ public class SupportDAO extends DAO {
 
     return list;
   }
-
-  public Set<String> getBrandsSet() {
-    Set<String> result = new HashSet<>();
-    for(Brand brand : getBrands()) {
-      result.add(brand.getName());
-    }
-    return result;
-  }
 }

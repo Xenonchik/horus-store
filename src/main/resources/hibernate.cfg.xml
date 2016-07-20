@@ -41,10 +41,11 @@
         <mapping class="domain.Product" />
         <mapping class="domain.Store" />
         <mapping class="domain.Export" />
+        <mapping class="domain.CatStore" />
         <mapping class="domain.Category" />
         <mapping class="domain.Brand" />
         <mapping class="domain.Useragent" />
-        <mapping class="domain.EmirGood" />
+        <mapping class="domain.ExemplarGood" />
         <mapping class="domain.Alias" />
 
 
