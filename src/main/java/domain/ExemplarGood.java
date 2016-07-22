@@ -49,6 +49,9 @@ public class ExemplarGood {
     @JoinColumn(name = "category")
     private Category category;
 
+    @Transient
+    private Integer storeCount = 0;
+
     /**
      * Store name - alias
      */
@@ -125,5 +128,14 @@ public class ExemplarGood {
 
     public void setAliases(Map<String, Export> aliases) {
         this.aliases = aliases;
+    }
+
+
+    public void incStoreCount() {
+        storeCount = getStoreCount() + 1;
+    }
+
+    public Integer getStoreCount() {
+        return storeCount;
     }
 }

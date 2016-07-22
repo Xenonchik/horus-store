@@ -37,7 +37,7 @@ public class AliasProcessor {
   protected CSVPrinter csvFilePrinter = null;
   protected AliasDAO aliasDAO = new AliasDAO();
   protected FileWriter fileWriter;
-  protected String filename = "src/main/resources/data/prices.csv";
+  protected String filename = "src/main/resources/data/nostore.csv";
 
   public void process() throws IOException {
 
@@ -68,8 +68,9 @@ public class AliasProcessor {
 
         for (Export exp : exportDAO.getExport(store, exemplarGood.getCategory())) {
           if (isAlias(exemplarGood, exp)) {
-            log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
+           // log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
             exemplarGood.getAliases().put(store.getName(), exp);
+            exemplarGood.incStoreCount();
             break;
           }
         }
@@ -86,18 +87,22 @@ public class AliasProcessor {
     return exemplarGoods;
   }
 
-  private void printAlias(ExemplarGood eg) throws IOException {
+  private void printAlias(ExemplarGood exemplarGood) throws IOException {
+    if(exemplarGood.getStoreCount() >= 10 || exemplarGood.getStoreCount() == 0){
+      return;
+    }
+    log.info("No aliace for : " + exemplarGood.getBrand() + " " + exemplarGood.getModel());
     List dataRecord = new ArrayList();
 
-    dataRecord.add(eg.getT1());
-    dataRecord.add(eg.getT2());
-    dataRecord.add(eg.getT3());
-    dataRecord.add(eg.getT4());
-    dataRecord.add(eg.getBrand());
-    dataRecord.add(eg.getModel());
+    dataRecord.add(exemplarGood.getT1());
+    dataRecord.add(exemplarGood.getT2());
+    dataRecord.add(exemplarGood.getT3());
+    dataRecord.add(exemplarGood.getT4());
+    dataRecord.add(exemplarGood.getBrand());
+    dataRecord.add(exemplarGood.getModel());
     for (int i = 6; i < fileHeader.size(); i++) {
       // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
-      dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getFullName());
+      dataRecord.add(exemplarGood.getAliases().get(fileHeader.get(i)).getFullName());
     }
     csvFilePrinter.printRecord(dataRecord);
   }
