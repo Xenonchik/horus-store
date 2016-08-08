@@ -62,6 +62,10 @@ public class Application {
       processAll(processors);
     }
 
+    if (cmd.hasOption("s")) {
+      processStore(processors, cmd.getOptionValue("s"));
+    }
+
     if(cmd.hasOption("emir")) {
       EmirProcessor ep = new EmirProcessor();
       ep.process();
@@ -85,6 +89,15 @@ public class Application {
     for (StoreProcessor processor : processors) {
       StoreRunner sr = new StoreRunner(processor);
       sr.start();
+    }
+  }
+
+  private void processStore(Set<StoreProcessor> processors, String store) {
+    for (StoreProcessor processor : processors) {
+      if(processor.getName().toLowerCase().equals(store)) {
+        StoreRunner sr = new StoreRunner(processor);
+        sr.start();
+      }
     }
   }
 

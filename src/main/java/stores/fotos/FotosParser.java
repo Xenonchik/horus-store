@@ -27,9 +27,6 @@ public class FotosParser extends HtmlProductParser {
             block.select("td.info a.product_click") : block.select("div.title a.product_click");
     product.setName(name.text());
 
-
-
-
     String priceStr = block.select("div.price div." + getPriceClass() + " span.main").size() > 0
             ? block.select("div.price div." + getPriceClass() + " span.main").text() :
             block.select("div.price div." + getPriceClass() + " span.action").text()
@@ -44,12 +41,14 @@ public class FotosParser extends HtmlProductParser {
   }
 
   private String getPriceClass() {
-    String style = doc.select("body style").toString();
-    String result = "";
-    Matcher m = DISPLAY.matcher(style);
-    if(m.find()) {
-      result = m.group().replace("{display:block", "");
-    }
+//    String style = doc.select("body style").toString();
+//    String result = "";
+//    Matcher m = DISPLAY.matcher(style);
+//    if(m.find()) {
+//      result = m.group().replace("{display:block", "");
+//    }
+
+    String result = doc.select("div.price").get(0).children().get(7).attr("class");
 
     return result;
   }

@@ -42,7 +42,8 @@ abstract public class StoreProcessor implements Serializable {
     }
 
     for(CatStore cat : store.getCategories()) {
-      processCategory(cat);
+      if(cat.getUrl().equals("http://bt.rozetka.com.ua/dif_builtin/c80178/25141=16935/"))
+        processCategory(cat);
     }
 
     //dao.closeSessionFactory();
@@ -73,15 +74,21 @@ abstract public class StoreProcessor implements Serializable {
       List<Product> productList = parser.parse(ps);
 
 
-      if((productList.size() > 0 && products.size() > 0) && productList.get(0).getName().equals(products.get(0).getName()))
-        break;
+      if((productList.size() > 0 && products.size() > 0)) {
+        if (productList.get(0).getName().equals(products.get(products.size() - 1).getName()))
+          break;
+      }
       else
         products.addAll(productList);
       Thread.sleep(getDelay());
 
     }
 
-    log.info("Parsed url: " + catUrl + " Products found: " + products.size() + " Pages: " + pageCount);
+    if(products.size() == 0) {
+      log.warn("Parsed url: " + catUrl + " NO PRODUCTS FOUND! Pages: " + pageCount);
+    } else {
+      log.info("Parsed url: " + catUrl + " Products found: " + products.size() + " Pages: " + pageCount);
+    }
 
     dao.insert(products);
 
