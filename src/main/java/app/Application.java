@@ -18,8 +18,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import conf.Config;
 import conf.StoreConf;
 import domain.Store;
-import persistence.ExportDAO;
-import persistence.StoreDAO;
+import persistence.sql.StoreSqlDAO;
 
 /**
  * Encapsulate application run logic
@@ -43,6 +42,7 @@ public class Application {
     options.addOption("s", true, "parse store");
     options.addOption("emir", false, "parse emir");
     options.addOption("alias", false, "parse emir");
+    options.addOption("ea", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -60,8 +60,6 @@ public class Application {
 
     if (cmd.hasOption("a")) {
       processAll(processors);
-    } else if (cmd.hasOption("s")) {
-      processStore(processors, cmd.getOptionValue("s"));
     }
 
     if(cmd.hasOption("emir")) {
@@ -75,13 +73,12 @@ public class Application {
     }
 
     if (cmd.hasOption("e")) {
-      export();
+      new ExportProcessor().process();
     }
-  }
 
-  private void export() {
-    ExportDAO exportDAO = new ExportDAO();
-    exportDAO.export();
+    if (cmd.hasOption("ea")) {
+      new ExportAliacesProcessor().process();
+    }
   }
 
   private void processAll(Set<StoreProcessor> processors) throws InterruptedException {
@@ -91,17 +88,9 @@ public class Application {
     }
   }
 
-  private void processStore(Set<StoreProcessor> processors, String name) throws InterruptedException {
-    for (StoreProcessor processor : processors) {
-      if(processor.getName().equals(name.toUpperCase())) {
-        StoreRunner sr = new StoreRunner(processor);
-        sr.start();
-      }
-    }
-  }
 
   private Set<StoreProcessor> getProcessors(Config config) {
-    Map<String, Store> stores = new StoreDAO().getStoresAsMap();
+    Map<String, Store> stores = new StoreSqlDAO().getStoresAsMap();
     Set<StoreProcessor> processors = new HashSet<>();
 
     for (Map.Entry<String, StoreConf> kv : config.getStoreConfigs().entrySet()) {

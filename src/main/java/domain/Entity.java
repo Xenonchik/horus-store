@@ -1,8 +1,8 @@
 package domain;
 
 /**
- * Blahblahblah
+ * Basic pojo
  */
 public interface Entity {
-    public Long getId();
+
 }

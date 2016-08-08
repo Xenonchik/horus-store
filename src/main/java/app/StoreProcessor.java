@@ -11,8 +11,8 @@ import parser.UrlPool;
 import parser.source.HtmlSourceBuilder;
 import parser.source.ParseSource;
 import parser.source.SourceBuilder;
-import persistence.ProductDAO;
-import persistence.SupportDAO;
+import persistence.sql.ProductSqlDAO;
+import persistence.sql.SupportSqlDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,8 +30,8 @@ abstract public class StoreProcessor implements Serializable {
 
   final static Logger log = LoggerFactory.getLogger(StoreProcessor.class);
 
-  private final SupportDAO supportDAO = new SupportDAO();
-  private final ProductDAO dao = new ProductDAO();
+  private final SupportSqlDAO supportDAO = new SupportSqlDAO();
+  private final ProductSqlDAO dao = new ProductSqlDAO();
 
   private Store store;
 

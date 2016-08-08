@@ -12,7 +12,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import domain.Category;
 import domain.ExemplarGood;
-import persistence.ExemplarDAO;
+import persistence.sql.ExemplarSqlDAO;
 
 /**
  * Created by serge on 5/30/16.
@@ -45,7 +45,7 @@ public class EmirProcessor {
       }
     }
 
-    ExemplarDAO exemplarDAO = new ExemplarDAO();
+    ExemplarSqlDAO exemplarDAO = new ExemplarSqlDAO();
     exemplarDAO.insert(exemplarGoods);
 
   }

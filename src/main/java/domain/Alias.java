@@ -13,9 +13,9 @@ import javax.persistence.Table;
 @javax.persistence.Entity
 @Table(name="aliases")
 @IdClass(Alias.AliasPK.class)
-public class Alias {
+public class Alias implements Entity {
 
-
+  @Id
   @Column(name = "good")
   private Long good;
 
@@ -23,7 +23,7 @@ public class Alias {
   @Column(name = "store")
   private String store;
 
-  @Id
+
   @Column(name = "alias")
   private String alias;
 
@@ -55,13 +55,13 @@ public class Alias {
   public static class AliasPK implements Serializable {
 
     private String store;
-    private String alias;
+    private Long good;
 
     public AliasPK() {}
 
-    public AliasPK(String store, String alias) {
+    public AliasPK(String store, Long good) {
       this.setStore(store);
-      this.setAlias(alias);
+      this.setGood(good);
     }
 
     public String getStore() {
@@ -72,12 +72,12 @@ public class Alias {
       this.store = store;
     }
 
-    public String getAlias() {
-      return alias;
+    public Long getGood() {
+      return good;
     }
 
-    public void setAlias(String alias) {
-      this.alias = alias;
+    public void setGood(Long good) {
+      this.good = good;
     }
   }
 }

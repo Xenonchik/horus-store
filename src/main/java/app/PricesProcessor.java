@@ -11,7 +11,7 @@ public class PricesProcessor extends AliasProcessor {
 
   @Override
   public void process() throws IOException {
-    init();
+    //init();
 
     // 1. выгребаем все продукты эмира
 

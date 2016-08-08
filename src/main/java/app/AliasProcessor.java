@@ -1,15 +1,10 @@
 package app;
 
-import static util.CSVUtils.CSV_FORMAT;
-
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +12,11 @@ import domain.Alias;
 import domain.ExemplarGood;
 import domain.Export;
 import domain.Store;
-import persistence.AliasDAO;
-import persistence.ExemplarDAO;
-import persistence.ExportDAO;
-import persistence.StoreDAO;
+import persistence.csv.AliasCsvDAO;
+import persistence.sql.AliasSqlDAO;
+import persistence.sql.ExemplarSqlDAO;
+import persistence.sql.ExportSqlDAO;
+import persistence.sql.StoreSqlDAO;
 
 /**
  * Many goods in different stores have
@@ -30,45 +26,25 @@ public class AliasProcessor {
 
   final static Logger log = LoggerFactory.getLogger(AliasProcessor.class);
 
-  protected final ExportDAO exportDAO = new ExportDAO();
-  protected final List<Store> stores = new StoreDAO().getStores();
-  protected final ExemplarDAO exemplarDAO = new ExemplarDAO();
-  protected ArrayList<String> fileHeader;
-  protected CSVPrinter csvFilePrinter = null;
-  protected AliasDAO aliasDAO = new AliasDAO();
-  protected FileWriter fileWriter;
-  protected String filename = "src/main/resources/data/nostore.csv";
+  protected final ExportSqlDAO exportDAO = new ExportSqlDAO();
+  protected final ExemplarSqlDAO exemplarDAO = new ExemplarSqlDAO();
+  protected AliasSqlDAO aliasDAO = new AliasSqlDAO();
+
 
   public void process() throws IOException {
 
-    init();
-
-    goodsAliaces();
-
-  }
-
-  protected void init() throws IOException {
-
-    fileHeader = new ArrayList<>(Arrays.asList("ТипТовара 1", "ТипТовара 2", "ТипТовара 3", "ТипТовара 4", "Марка", "Название товара"));
-    for (Store store : stores) {
-      fileHeader.add(store.getName().toUpperCase());
-    }
-    fileWriter = new FileWriter(filename);
-    csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
-    csvFilePrinter.printRecord(fileHeader);
-  }
-
-  private List<ExemplarGood> goodsAliaces() throws IOException {
-
     List<ExemplarGood> exemplarGoods = exemplarDAO.getGoods();
+    List<Store> stores = new StoreSqlDAO().getStores();
+    AliasCsvDAO aliasCsvDAO = new AliasCsvDAO(stores);
 
+    int i = 0;
     for (ExemplarGood exemplarGood : exemplarGoods) {
 
       for (Store store : stores) {
 
         for (Export exp : exportDAO.getExport(store, exemplarGood.getCategory())) {
           if (isAlias(exemplarGood, exp)) {
-           // log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
+            // log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
             exemplarGood.getAliases().put(store.getName(), exp);
             exemplarGood.incStoreCount();
             break;
@@ -79,33 +55,21 @@ public class AliasProcessor {
           exemplarGood.getAliases().put(store.getName(), new Export());
         }
       }
-      printAlias(exemplarGood);
+
+      aliasCsvDAO.save(exemplarGood);
       //saveAlias(emirGood);
+
+      i++;
+      if(i%100 == 0) {
+        log.info(i + " goods processed");
+      }
     }
 
     aliasDAO.closeSessionFactory();
-    return exemplarGoods;
+    log.info("Aliaces setting finished. Goods processed: " + exemplarGoods.size());
+
   }
 
-  private void printAlias(ExemplarGood exemplarGood) throws IOException {
-    if(exemplarGood.getStoreCount() >= 10 || exemplarGood.getStoreCount() == 0){
-      return;
-    }
-    log.info("No aliace for : " + exemplarGood.getBrand() + " " + exemplarGood.getModel());
-    List dataRecord = new ArrayList();
-
-    dataRecord.add(exemplarGood.getT1());
-    dataRecord.add(exemplarGood.getT2());
-    dataRecord.add(exemplarGood.getT3());
-    dataRecord.add(exemplarGood.getT4());
-    dataRecord.add(exemplarGood.getBrand());
-    dataRecord.add(exemplarGood.getModel());
-    for (int i = 6; i < fileHeader.size(); i++) {
-      // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
-      dataRecord.add(exemplarGood.getAliases().get(fileHeader.get(i)).getFullName());
-    }
-    csvFilePrinter.printRecord(dataRecord);
-  }
 
   private void saveAlias(ExemplarGood eg) {
     List<Alias> aliases = new ArrayList<>();
@@ -135,7 +99,7 @@ public class AliasProcessor {
     // 2. Check equality
     if (emirName.equals(exportName)) {
       if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
-        return true;
+        return false;
     }
 
     //3. Check is one subpart of another
