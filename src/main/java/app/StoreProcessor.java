@@ -42,7 +42,7 @@ abstract public class StoreProcessor implements Serializable {
     }
 
     for(CatStore cat : store.getCategories()) {
-      if(cat.getUrl().equals("http://bt.rozetka.com.ua/dif_builtin/c80178/25141=16935/"))
+//      if(cat.getUrl().equals("http://bt.rozetka.com.ua/dif_builtin/c80178/25141=16935/"))
         processCategory(cat);
     }
 
@@ -75,11 +75,11 @@ abstract public class StoreProcessor implements Serializable {
 
 
       if((productList.size() > 0 && products.size() > 0)) {
-        if (productList.get(0).getName().equals(products.get(products.size() - 1).getName()))
+
+        if (productList.get(productList.size()-1).getName().equals(products.get(products.size() - 1).getName()))
           break;
       }
-      else
-        products.addAll(productList);
+      products.addAll(productList);
       Thread.sleep(getDelay());
 
     }

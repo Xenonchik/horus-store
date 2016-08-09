@@ -27,6 +27,8 @@ public class Alias implements Entity {
   @Column(name = "alias")
   private String alias;
 
+  private Integer source;
+
   public Long getGood() {
     return good;
   }
@@ -49,6 +51,14 @@ public class Alias implements Entity {
 
   public void setAlias(String alias) {
     this.alias = alias;
+  }
+
+  public Integer getSource() {
+    return source;
+  }
+
+  public void setSource(Integer source) {
+    this.source = source;
   }
 
 
