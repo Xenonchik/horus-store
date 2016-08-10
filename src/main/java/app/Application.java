@@ -85,7 +85,7 @@ public class Application {
       new ExportAliacesProcessor().process();
     }
 
-    if (cmd.hasOption("price  ")) {
+    if (cmd.hasOption("price")) {
       new PricesProcessor().process();
     }
   }

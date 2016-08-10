@@ -56,7 +56,7 @@ public class AliasProcessor {
         }
       }
 
-      aliasCsvDAO.save(good);
+      aliasCsvDAO.saveAlias(good);
       //saveAlias(emirGood);
 
       i++;
