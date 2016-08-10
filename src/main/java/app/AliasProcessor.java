@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import domain.Alias;
-import domain.ExemplarGood;
+import domain.Good;
 import domain.Export;
 import domain.Store;
 import persistence.csv.AliasCsvDAO;
 import persistence.sql.AliasSqlDAO;
-import persistence.sql.ExemplarSqlDAO;
+import persistence.sql.GoodsSqlDAO;
 import persistence.sql.ExportSqlDAO;
 import persistence.sql.StoreSqlDAO;
 
@@ -27,36 +27,36 @@ public class AliasProcessor {
   final static Logger log = LoggerFactory.getLogger(AliasProcessor.class);
 
   protected final ExportSqlDAO exportDAO = new ExportSqlDAO();
-  protected final ExemplarSqlDAO exemplarDAO = new ExemplarSqlDAO();
+  protected final GoodsSqlDAO exemplarDAO = new GoodsSqlDAO();
   protected AliasSqlDAO aliasDAO = new AliasSqlDAO();
 
 
   public void process() throws IOException {
 
-    List<ExemplarGood> exemplarGoods = exemplarDAO.getGoods();
+    List<Good> goods = exemplarDAO.getGoods();
     List<Store> stores = new StoreSqlDAO().getStores();
     AliasCsvDAO aliasCsvDAO = new AliasCsvDAO(stores);
 
     int i = 0;
-    for (ExemplarGood exemplarGood : exemplarGoods) {
+    for (Good good : goods) {
 
       for (Store store : stores) {
 
-        for (Export exp : exportDAO.getExport(store, exemplarGood.getCategory())) {
-          if (isAlias(exemplarGood, exp)) {
+        for (Export exp : exportDAO.getExportByCategory(store, good.getCategory())) {
+          if (isAlias(good, exp)) {
             // log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
-            exemplarGood.getAliases().put(store.getName(), exp);
-            exemplarGood.incStoreCount();
+            good.getAliases().put(store.getName(), exp);
+            good.incStoreCount();
             break;
           }
         }
-        if (exemplarGood.getAliases().get(store.getName()) == null) {
+        if (good.getAliases().get(store.getName()) == null) {
           // add export with empty name
-          exemplarGood.getAliases().put(store.getName(), new Export());
+          good.getAliases().put(store.getName(), new Export());
         }
       }
 
-      aliasCsvDAO.save(exemplarGood);
+      aliasCsvDAO.save(good);
       //saveAlias(emirGood);
 
       i++;
@@ -66,12 +66,12 @@ public class AliasProcessor {
     }
 
     aliasDAO.closeSessionFactory();
-    log.info("Aliaces setting finished. Goods processed: " + exemplarGoods.size());
+    log.info("Aliaces setting finished. Goods processed: " + goods.size());
 
   }
 
 
-  private void saveAlias(ExemplarGood eg) {
+  private void saveAlias(Good eg) {
     List<Alias> aliases = new ArrayList<>();
 
     for (Map.Entry<String, Export> kv : eg.getAliases().entrySet()) {
@@ -87,9 +87,9 @@ public class AliasProcessor {
     aliasDAO.insert(aliases);
   }
 
-  private boolean isAlias(ExemplarGood exemplarGood, Export exp) {
+  private boolean isAlias(Good good, Export exp) {
 
-    String emirName = exemplarGood.getModel();
+    String emirName = good.getModel();
     String exportName = exp.getModel();
 
     //1. Clean all whitespaces
@@ -98,17 +98,17 @@ public class AliasProcessor {
 
     // 2. Check equality
     if (emirName.equals(exportName)) {
-      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
+      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
         return false;
     }
 
     //3. Check is one subpart of another
     if (emirName.contains(exportName)) {
-      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
+      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
     if (exportName.contains(emirName)) {
-      if (exemplarGood.getBrand().toUpperCase().equals(exp.getBrand()))
+      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
         return true;
     }
 

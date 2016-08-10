@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import domain.ExemplarGood;
+import domain.Good;
 import domain.Store;
 
 /**
@@ -25,18 +25,18 @@ public class AliasCsvDAO {
     provider = new CsvDataProvider(filename, fileHeader);
   }
 
-  public void save(ExemplarGood exemplarGood) throws IOException {
+  public void save(Good good) throws IOException {
     List dataRecord = new ArrayList();
 
-    dataRecord.add(exemplarGood.getT1());
-    dataRecord.add(exemplarGood.getT2());
-    dataRecord.add(exemplarGood.getT3());
-    dataRecord.add(exemplarGood.getT4());
-    dataRecord.add(exemplarGood.getBrand());
-    dataRecord.add(exemplarGood.getModel());
+    dataRecord.add(good.getT1());
+    dataRecord.add(good.getT2());
+    dataRecord.add(good.getT3());
+    dataRecord.add(good.getT4());
+    dataRecord.add(good.getBrand());
+    dataRecord.add(good.getModel());
     for (int i = 6; i < provider.getFileHeader().size(); i++) {
       // dataRecord.add(eg.getAliases().get(fileHeader.get(i)).getPrice());
-      dataRecord.add(exemplarGood.getAliases().get(provider.getFileHeader().get(i)).getFullName());
+      dataRecord.add(good.getAliases().get(provider.getFileHeader().get(i)).getFullName());
     }
     provider.printRecord(dataRecord);
   }

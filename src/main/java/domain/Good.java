@@ -2,6 +2,7 @@ package domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.print.attribute.standard.Destination;
@@ -20,7 +22,7 @@ import javax.print.attribute.standard.Destination;
  */
 @javax.persistence.Entity
 @Table(name="emir_goods")
-public class ExemplarGood {
+public class Good {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +54,9 @@ public class ExemplarGood {
 
     @Transient
     private Integer storeCount = 0;
+
+    @OneToMany(mappedBy = "good", fetch = FetchType.EAGER)
+    private Set<Alias> storedAliases;
 
     /**
      * Store name - alias
@@ -138,5 +143,13 @@ public class ExemplarGood {
 
     public Integer getStoreCount() {
         return storeCount;
+    }
+
+    public Set<Alias> getStoredAliases() {
+        return storedAliases;
+    }
+
+    public void setStoredAliases(Set<Alias> storedAliases) {
+        this.storedAliases = storedAliases;
     }
 }

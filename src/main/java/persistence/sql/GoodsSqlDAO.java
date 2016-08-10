@@ -6,37 +6,37 @@ import java.util.Map;
 
 import org.hibernate.Query;
 
-import domain.ExemplarGood;
+import domain.Good;
 
 /**
  * Created by serge on 5/30/16.
  */
-public class ExemplarSqlDAO extends SqlDAO {
+public class GoodsSqlDAO extends SqlDAO {
 
-  public void insert(List<ExemplarGood> entities) {
+  public void insert(List<Good> entities) {
     beginTransaction();
-    for (ExemplarGood exemplarGood : entities) {
+    for (Good good : entities) {
 
     }
 
     endTransaction();
   }
 
-  public List<ExemplarGood> getGoods() {
+  public List<Good> getGoods() {
     beginTransaction();
-    Query query = getSession().createQuery("from ExemplarGood");
-    List<ExemplarGood> list = query.list();
+    Query query = getSession().createQuery("from Good");
+    List<Good> list = query.list();
     endTransaction();
     return list;
   }
 
   public Long getGoodId(String model, String brand) {
     beginTransaction();
-    Query query = getSession().createQuery("from ExemplarGood WHERE brand = :brand AND model = :model");
+    Query query = getSession().createQuery("from Good WHERE brand = :brand AND model = :model");
     query.setParameter("model", model.trim());
     query.setParameter("brand", brand);
 
-    List<ExemplarGood> list = query.list();
+    List<Good> list = query.list();
     endTransaction();
     return list.get(0).getId();
   }
@@ -44,7 +44,7 @@ public class ExemplarSqlDAO extends SqlDAO {
   public Map<String, Long> getIndexedGoods() {
     Map<String, Long> result = new HashMap<>();
 
-    for(ExemplarGood eg : getGoods()) {
+    for(Good eg : getGoods()) {
       result.put(eg.getBrand() + " " + eg.getModel().trim(), eg.getId());
     }
 

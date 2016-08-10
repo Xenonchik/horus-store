@@ -47,7 +47,7 @@
         <mapping class="domain.Category" />
         <mapping class="domain.Brand" />
         <mapping class="domain.Useragent" />
-        <mapping class="domain.ExemplarGood" />
+        <mapping class="domain.Good" />
         <mapping class="domain.Alias" />
 
 

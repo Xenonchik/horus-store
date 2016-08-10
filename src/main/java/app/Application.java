@@ -43,6 +43,7 @@ public class Application {
     options.addOption("emir", false, "parse emir");
     options.addOption("alias", false, "parse emir");
     options.addOption("ea", false, "parse emir");
+    options.addOption("price", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -82,6 +83,10 @@ public class Application {
 
     if (cmd.hasOption("ea")) {
       new ExportAliacesProcessor().process();
+    }
+
+    if (cmd.hasOption("price  ")) {
+      new PricesProcessor().process();
     }
   }
 

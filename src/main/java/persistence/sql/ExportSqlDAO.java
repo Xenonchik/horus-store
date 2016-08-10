@@ -8,6 +8,7 @@ import org.hibernate.exception.DataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import domain.Alias;
 import domain.Brand;
 import domain.Category;
 import domain.Export;
@@ -99,7 +100,7 @@ public class ExportSqlDAO extends SqlDAO {
   }
 
 
-  public List<Export> getExport(Store store, Category category) {
+  public List<Export> getExportByCategory(Store store, Category category) {
 
     beginTransaction();
 
@@ -113,5 +114,20 @@ public class ExportSqlDAO extends SqlDAO {
     endTransaction();
 
     return list;
+  }
+
+  public Export getExportForAlias(Alias alias) {
+
+    beginTransaction();
+
+    Query query = getSession().createQuery("FROM Export WHERE " +
+        ":alias LIKE(CONCAT('%', model)) AND :alias LIKE(CONCAT('%', brand, '%')) ORDER BY date DESC");
+    query.setParameter("alias", alias.getAlias());
+    List<Export> list = query.list();
+
+    endTransaction();
+    if(list.size() == 0) return null;
+
+    return list.get(0);
   }
 }

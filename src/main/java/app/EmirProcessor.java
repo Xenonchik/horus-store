@@ -11,8 +11,8 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import domain.Category;
-import domain.ExemplarGood;
-import persistence.sql.ExemplarSqlDAO;
+import domain.Good;
+import persistence.sql.GoodsSqlDAO;
 
 /**
  * Created by serge on 5/30/16.
@@ -21,32 +21,32 @@ public class EmirProcessor {
 
   public void process() throws IOException {
 
-    List<ExemplarGood> exemplarGoods = new ArrayList<>();
+    List<Good> goods = new ArrayList<>();
 
     Reader in = new FileReader("src/main/resources/emir.csv");
     Iterable<CSVRecord> records = CSV_FORMAT.parse(in);
     for (CSVRecord record : records) {
       if(!record.get("category").equals("")) {
         try {
-          ExemplarGood exemplarGood = new ExemplarGood();
-          exemplarGood.setBrand(record.get("brand"));
-          exemplarGood.setT1(record.get("t1"));
-          exemplarGood.setT2(record.get("t2"));
-          exemplarGood.setT3(record.get("t3"));
-          exemplarGood.setT4(record.get("t4"));
-          exemplarGood.setModel(record.get("model"));
+          Good good = new Good();
+          good.setBrand(record.get("brand"));
+          good.setT1(record.get("t1"));
+          good.setT2(record.get("t2"));
+          good.setT3(record.get("t3"));
+          good.setT4(record.get("t4"));
+          good.setModel(record.get("model"));
           Category category = new Category();
           category.setId(Long.parseLong(record.get("category")));
-          exemplarGood.setCategory(category);
-          exemplarGoods.add(exemplarGood);
+          good.setCategory(category);
+          goods.add(good);
         } catch (NumberFormatException e) {
           e.printStackTrace();
         }
       }
     }
 
-    ExemplarSqlDAO exemplarDAO = new ExemplarSqlDAO();
-    exemplarDAO.insert(exemplarGoods);
+    GoodsSqlDAO exemplarDAO = new GoodsSqlDAO();
+    exemplarDAO.insert(goods);
 
   }
 }
