@@ -48,7 +48,7 @@ public class PricesProcessor {
       aliasCsvDAO.savePrice(good);
     }
 
-    // 3. для каждого алиаса ищем соответствующую цену
+    exemplarDAO.closeSessionFactory();
   }
 
 }

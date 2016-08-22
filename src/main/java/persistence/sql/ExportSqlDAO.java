@@ -34,6 +34,9 @@ public class ExportSqlDAO extends SqlDAO {
 
     try {
 
+      // delete all from export
+      getSession().createSQLQuery("truncate table export").executeUpdate();
+
       //1. get all today products
       Query select = getSession().createSQLQuery(
           "SELECT * from Products p where p.day = (SELECT MAX(distinct(p2.day)) FROM Products p2)")
@@ -121,8 +124,9 @@ public class ExportSqlDAO extends SqlDAO {
     beginTransaction();
 
     Query query = getSession().createQuery("FROM Export WHERE " +
-        ":alias LIKE(CONCAT('%', model)) AND :alias LIKE(CONCAT('%', brand, '%')) ORDER BY date DESC");
+        ":alias LIKE(CONCAT('%', model)) AND :alias LIKE(CONCAT('%', brand, '%')) AND store = :store ORDER BY date DESC");
     query.setParameter("alias", alias.getAlias());
+    query.setParameter("store", alias.getStore());
     List<Export> list = query.list();
 
     endTransaction();

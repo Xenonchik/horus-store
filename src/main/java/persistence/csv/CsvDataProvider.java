@@ -37,6 +37,7 @@ public class CsvDataProvider {
     if(fileWriter != null) return;
     fileWriter = new FileWriter(filename);
     csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT);
+    csvFilePrinter.printRecord(fileHeader);
   }
 
   public Iterable<CSVRecord> getAllRecords() throws IOException {
