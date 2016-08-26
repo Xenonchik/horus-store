@@ -39,6 +39,7 @@ abstract public class HtmlProductParser implements Parser<Product> {
                 if (product.getPrice() != null && product.getPrice() > 0) {
                     product.setUrl(source.getUrl());
                     product.setDate(new Date());
+                    product.setDay(new Date());
                     products.add(product);
                 }
                 else

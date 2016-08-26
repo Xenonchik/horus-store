@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
  * Blahblahblah
  */
@@ -32,6 +34,8 @@ public class Product {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "day")
+    @Type(type="date")
     private Date day;
 
     @Column(name = "store")
@@ -80,12 +84,6 @@ public class Product {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.date = new Date();
-        this.day = new Date();
     }
 
     public Integer getStore() {

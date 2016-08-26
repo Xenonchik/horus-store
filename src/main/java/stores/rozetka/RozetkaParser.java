@@ -20,7 +20,7 @@ public class RozetkaParser extends HtmlProductParser {
 
     private Integer storeId = 1;
 
-    private Pattern PRICE_PATTERN = Pattern.compile("\\%7B\\%22price\\%22\\%3A\\d+\\%2C\\%22", Pattern.DOTALL);
+    private Pattern PRICE_PATTERN = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s279261.+\\}\\)\\;", Pattern.DOTALL);
 
     @Override
     protected Elements getBlocks(Document doc) {
@@ -31,11 +31,20 @@ public class RozetkaParser extends HtmlProductParser {
     protected Product processProduct(Element block) {
         Product product = new Product();
         product.setName(block.select("div.g-i-tile-i-title a").text());
-        Matcher m = PRICE_PATTERN.matcher(block.select("div[name~=prices] script").toString());
+        String productId = block.select("div.g-i-tile-i-image div.g-id").text();
+        Pattern p = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s"+productId+".+\\;", Pattern.DOTALL);
+        Matcher m = p.matcher(doc.select("script").toString());
         String priceStr;
         if (m.find()) {
             priceStr = m.group();
-            product.setPrice(Long.parseLong(priceStr.replace("%7B%22price%22%3A", "").replace("%2C%22", "")));
+
+            Pattern p2 = Pattern.compile("price\\:\\s\\d+", Pattern.DOTALL);
+            Matcher m2 = p2.matcher(priceStr);
+            if(m2.find()) {
+                priceStr = m2.group();
+                product.setPrice(Long.parseLong(priceStr.replaceAll("[^\\d.]", "")));
+            }
+
         }
         product.setStore(storeId);
         return product;

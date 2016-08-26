@@ -40,8 +40,6 @@ public class ExportSqlDAO extends SqlDAO {
       //1. get all today products
       Query select = getSession().createSQLQuery(
           "SELECT * from Products p where p.day = (SELECT MAX(distinct(p2.day)) FROM Products p2)")
-//             "SELECT * from Products p where p.date >= (NOW() - INTERVAL '1 DAYS')")
-//              "SELECT * from Products p where store = 3 AND p.date >= (NOW() - INTERVAL '15 DAYS')")
           .addEntity(Product.class);
       products = select.list();
 
