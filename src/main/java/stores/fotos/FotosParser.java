@@ -1,5 +1,9 @@
 package stores.fotos;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,28 +31,38 @@ public class FotosParser extends HtmlProductParser {
             block.select("td.info a.product_click") : block.select("div.title a.product_click");
     product.setName(name.text());
 
-    String priceStr = block.select("div.price div." + getPriceClass() + " span.main").size() > 0
-            ? block.select("div.price div." + getPriceClass() + " span.main").text() :
-            block.select("div.price div." + getPriceClass() + " span.action").text()
-            ;
-    priceStr = priceStr.replaceAll("[^\\d]", "");
+    String priceClass = getPriceClass();
+    if(priceClass.length() > 0) {
+      String priceStr = block.select("div.price div." + priceClass + " span.main").size() > 0
+          ? block.select("div.price div." + priceClass + " span.main").text() :
+          block.select("div.price div." + priceClass + " span.action").text();
 
-    if(!priceStr.equals("")) {
-      product.setPrice(Long.parseLong(priceStr));
+      priceStr = priceStr.replaceAll("[^\\d]", "");
+      if (!priceStr.equals("")) {
+        product.setPrice(Long.parseLong(priceStr));
+      }
+    } else {
+      setProcessCategory(false);
     }
     product.setStore(storeId);
     return product;
   }
 
   private String getPriceClass() {
-//    String style = doc.select("body style").toString();
-//    String result = "";
-//    Matcher m = DISPLAY.matcher(style);
-//    if(m.find()) {
-//      result = m.group().replace("{display:block", "");
-//    }
+    String style = doc.select("body style").toString();
+    style = style.replace("<style>", "").replace("</style>", "");
+    List<String> styles = Arrays.asList(style.split("\n\t"));
+    Set<String> setStyles = new HashSet<>();
+    for(String s : styles) {
+      setStyles.add(s.replace("{display:none;}", "").replace(".", "").replace("\n", ""));
+    }
 
-    String result = doc.select("div.price").get(0).children().get(7).attr("class");
+    String result = "";
+    for(Element el : doc.select("div.price").get(0).children()) {
+      if(!setStyles.contains(el.attr("class"))) {
+        result = el.attr("class");
+      }
+    }
 
     return result;
   }
