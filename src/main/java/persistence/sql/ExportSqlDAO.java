@@ -105,7 +105,7 @@ public class ExportSqlDAO extends SqlDAO {
 
     beginTransaction();
 
-    Query query = getSession().createQuery("FROM Export WHERE (category = :category OR category = :parent) AND store = :store AND date = '2016-07-10'");
+    Query query = getSession().createQuery("FROM Export WHERE (category = :category OR category = :parent) AND store = :store");
     query.setParameter("category", category.getId());
     query.setParameter("parent", category.getParent());
     query.setParameter("store", store.getName());

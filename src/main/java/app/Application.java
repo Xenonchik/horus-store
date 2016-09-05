@@ -37,13 +37,13 @@ public class Application {
   }
 
   private void setCmdOptions() {
-    options.addOption("e", false, "export");
-    options.addOption("a", false, "parse all");
+    options.addOption("export", false, "export");
+    options.addOption("all", false, "parse all");
     options.addOption("s", true, "parse store");
     options.addOption("emir", false, "parse emir");
     options.addOption("alias", false, "parse emir");
     options.addOption("ea", false, "parse emir");
-    options.addOption("price", false, "parse emir");
+    options.addOption("prices", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -59,7 +59,7 @@ public class Application {
 
     Set<StoreProcessor> processors = getProcessors(getConfig());
 
-    if (cmd.hasOption("a")) {
+    if (cmd.hasOption("all")) {
       processAll(processors);
     }
 
@@ -77,7 +77,7 @@ public class Application {
       ap.process();
     }
 
-    if (cmd.hasOption("e")) {
+    if (cmd.hasOption("export")) {
       new ExportProcessor().process();
     }
 
@@ -85,7 +85,7 @@ public class Application {
       new ExportAliacesProcessor().process();
     }
 
-    if (cmd.hasOption("price")) {
+    if (cmd.hasOption("prices")) {
       new PricesProcessor().process();
     }
   }

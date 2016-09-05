@@ -56,8 +56,8 @@ public class AliasProcessor {
         }
       }
 
-      aliasCsvDAO.saveAlias(good);
-      //saveAlias(emirGood);
+      //aliasCsvDAO.saveAlias(good);
+      saveAlias(good);
 
       i++;
       if(i%100 == 0) {
@@ -84,7 +84,8 @@ public class AliasProcessor {
       }
     }
 
-    aliasDAO.insert(aliases);
+//    aliasDAO.insert(aliases);
+    aliasDAO.updateSmart(aliases);
   }
 
   private boolean isAlias(Good good, Export exp) {
@@ -99,18 +100,18 @@ public class AliasProcessor {
     // 2. Check equality
     if (emirName.equals(exportName)) {
       if (good.getBrand().toUpperCase().equals(exp.getBrand()))
-        return false;
+        return true;
     }
 
     //3. Check is one subpart of another
-    if (emirName.contains(exportName)) {
-      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
-        return true;
-    }
-    if (exportName.contains(emirName)) {
-      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
-        return true;
-    }
+//    if (emirName.contains(exportName)) {
+//      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
+//        return true;
+//    }
+//    if (exportName.contains(emirName)) {
+//      if (good.getBrand().toUpperCase().equals(exp.getBrand()))
+//        return true;
+//    }
 
     return false;
   }

@@ -24,6 +24,8 @@ public class GoodsSqlDAO extends SqlDAO {
 
   public List<Good> getGoods() {
     beginTransaction();
+//    Query query = getSession().createQuery("from Good");
+//    Query query = getSession().createQuery("from Good where brand = 'ELLECI'");
     Query query = getSession().createQuery("from Good");
     List<Good> list = query.list();
     endTransaction();
