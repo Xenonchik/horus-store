@@ -3,8 +3,11 @@ package persistence.csv;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import domain.Alias;
 import domain.Export;
 import domain.Good;
 import domain.Store;
@@ -33,8 +36,12 @@ public class AliasCsvDAO {
 
     List dataRecord = getDataRecord(good);
 
+    Map<String, String> aliasMap = new HashMap<>();
+    for(Alias alias : good.getStoredAliases()) {
+      aliasMap.put(alias.getStore(), alias.getAlias());
+    }
     for (int i = 6; i < provider.getFileHeader().size(); i++) {
-      dataRecord.add(good.getAliases().get(provider.getFileHeader().get(i)).getFullName());
+      dataRecord.add(aliasMap.get(provider.getFileHeader().get(i)));
     }
     provider.printRecord(dataRecord);
   }
