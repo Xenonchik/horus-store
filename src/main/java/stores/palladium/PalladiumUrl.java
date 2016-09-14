@@ -20,7 +20,7 @@ public class PalladiumUrl extends CategoryUrl {
 
   private String sanitize(String s) {
     if(s.contains("filter.php")) {
-      s = s.replace("?page", "&page");
+      s = s.replace("?sort", "&sort");
     }
     return s;
   }

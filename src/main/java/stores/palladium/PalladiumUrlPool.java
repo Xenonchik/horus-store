@@ -18,9 +18,9 @@ public class PalladiumUrlPool extends CategoryUrlPool {
   protected String calculateTail() {
     String tail;
     if (page == 1) {
-      tail = "";
+      tail = "?sort=price&direction=desc";
     }
-    else tail = String.format("?page=%d", page);
+    else tail = String.format("?sort=price&direction=desc&page=%d", page);
     page++;
 
     return tail;

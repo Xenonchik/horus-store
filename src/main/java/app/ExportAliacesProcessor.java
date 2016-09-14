@@ -38,6 +38,8 @@ public class ExportAliacesProcessor {
     for (Good good : goods) {
       aliasCsvDAO.saveAlias(good);
     }
+
+    storeSqlDAO.closeSessionFactory();
   }
 
 }
