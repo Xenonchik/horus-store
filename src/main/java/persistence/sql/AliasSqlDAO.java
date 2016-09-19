@@ -82,6 +82,6 @@ public class AliasSqlDAO extends SqlDAO implements EntityManager<Alias> {
 
   @Override
   public void saveEntitites(List<Alias> entities) {
-    insert(entities);
+    updateSmart(entities);
   }
 }
