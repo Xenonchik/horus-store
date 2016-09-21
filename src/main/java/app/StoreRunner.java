@@ -1,5 +1,7 @@
 package app;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +14,11 @@ public class StoreRunner implements Runnable {
   private Thread t;
   private final String threadName;
   private final StoreProcessor processor;
+  private final CountDownLatch latch;
 
-  public StoreRunner(StoreProcessor processor){
+  public StoreRunner(StoreProcessor processor, CountDownLatch latch){
     this.processor = processor;
+    this.latch = latch;
     threadName = processor.getName();
   }
 
@@ -22,19 +26,10 @@ public class StoreRunner implements Runnable {
     log.info("Running " + threadName);
     try {
       processor.process();
+      latch.countDown();
     } catch (InterruptedException e) {
       log.info("Thread " + threadName + " interrupted.");
     }
     log.info("Thread " + threadName + " exiting.");
   }
-
-  public void start()
-  {
-    if(t == null)
-    {
-      t = new Thread(this, threadName);
-      t.start();
-    }
-  }
-
 }

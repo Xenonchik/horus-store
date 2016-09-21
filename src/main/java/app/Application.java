@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -18,6 +21,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import conf.Config;
 import conf.StoreConf;
 import domain.Store;
+import persistence.sql.HibernateUtils;
 import persistence.sql.StoreSqlDAO;
 
 /**
@@ -38,13 +42,13 @@ public class Application {
 
   private void setCmdOptions() {
     options.addOption("export", false, "export");
-    options.addOption("all", false, "parse all");
-    options.addOption("s", true, "parse store");
+    options.addOption("parseall", false, "parse all");
+    options.addOption("parsestore", true, "parse store");
     options.addOption("emir", false, "parse emir");
-    options.addOption("alias", false, "parse emir");
-    options.addOption("ea", false, "parse emir");
+    options.addOption("aliases", false, "parse emir");
+    options.addOption("csv2sql", false, "parse emir");
     options.addOption("prices", false, "parse emir");
-    options.addOption("ea2", false, "parse emir");
+    options.addOption("sql2csv", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -60,11 +64,11 @@ public class Application {
 
     Set<StoreProcessor> processors = getProcessors(getConfig());
 
-    if (cmd.hasOption("all")) {
+    if (cmd.hasOption("parseall")) {
       processAll(processors);
     }
 
-    if (cmd.hasOption("s")) {
+    if (cmd.hasOption("parsestore")) {
       processStore(processors, cmd.getOptionValue("s"));
     }
 
@@ -73,7 +77,7 @@ public class Application {
       ep.process();
     }
 
-    if(cmd.hasOption("alias")) {
+    if(cmd.hasOption("aliases")) {
       AliasProcessor ap = new AliasProcessor();
       ap.process();
     }
@@ -82,11 +86,11 @@ public class Application {
       new ExportProcessor().process();
     }
 
-    if (cmd.hasOption("ea")) {
+    if (cmd.hasOption("csv2sql")) {
       new ExportAliacesProcessor().process();
     }
 
-    if (cmd.hasOption("ea2")) {
+    if (cmd.hasOption("sql2csv")) {
       new ExportAliacesProcessor().process2();
     }
 
@@ -96,19 +100,32 @@ public class Application {
   }
 
   private void processAll(Set<StoreProcessor> processors) throws InterruptedException {
+    final CountDownLatch latch = new CountDownLatch(processors.size());
+    ExecutorService executor = Executors.newFixedThreadPool(processors.size());
+
     for (StoreProcessor processor : processors) {
-      StoreRunner sr = new StoreRunner(processor);
-      sr.start();
+      executor.submit(new StoreRunner(processor, latch));
     }
+
+    latch.await();
+
+    HibernateUtils.getSessionFactory().close();
+    System.out.println("Completed.");
   }
 
-  private void processStore(Set<StoreProcessor> processors, String store) {
+
+  private void processStore(Set<StoreProcessor> processors, String store) throws InterruptedException {
+    final CountDownLatch latch = new CountDownLatch(1);
+    ExecutorService executor = Executors.newFixedThreadPool(processors.size());
     for (StoreProcessor processor : processors) {
       if(processor.getName().toLowerCase().equals(store)) {
-        StoreRunner sr = new StoreRunner(processor);
-        sr.start();
+        executor.submit(new StoreRunner(processor, latch));;
       }
     }
+    latch.await();
+
+    HibernateUtils.getSessionFactory().close();
+    System.out.println("Completed.");
   }
 
 

@@ -42,11 +42,10 @@ abstract public class StoreProcessor implements Serializable {
     }
 
     for(CatStore cat : store.getCategories()) {
-//      if(cat.getUrl().equals("http://bt.rozetka.com.ua/dif_builtin/c80178/25141=16935/"))
         processCategory(cat);
+      break;
     }
 
-    //dao.closeSessionFactory();
   }
 
 
