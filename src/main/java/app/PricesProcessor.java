@@ -22,7 +22,7 @@ public class PricesProcessor {
 
   final static Logger log = LoggerFactory.getLogger(PricesProcessor.class);
 
-  protected String filename = "src/main/resources/data/prices.csv";
+  protected String filename = "/opt/data/prices.csv";
   private GoodsSqlDAO exemplarDAO = new GoodsSqlDAO();
   private ExportSqlDAO exportSqlDAO = new ExportSqlDAO();
   private StoreSqlDAO storeDAO = new StoreSqlDAO();

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="config" class="conf.Config">
+        <property name="storeConfigs">
+            <map>
+                <entry key="rozetka">
+                    <bean class="stores.rozetka.RozetkaProcessor"></bean>
+                </entry>
+                <entry key="fotos">
+                    <bean class="stores.fotos.FotosProcessor"></bean>
+                </entry>
+                <entry key="deshevle">
+                    <bean class="stores.deshevle.DeshevleProcessor"></bean>
+                </entry>
+                <entry key="foxtrot">
+                    <bean class="stores.foxtrot.FoxtrotProcessor"></bean>
+                </entry>
+                <entry key="tehnos">
+                    <bean class="stores.tehnos.TehnosProcessor"></bean>
+                </entry>
+                <entry key="mobilluck">
+                    <bean class="stores.mobilluck.MobilluckProcessor"></bean>
+                </entry>
+                <entry key="vstroyka">
+                    <bean class="stores.vstroyka.VstroykaProcessor"></bean>
+                </entry>
+                <entry key="palladium">
+                    <bean class="stores.palladium.PalladiumProcessor"></bean>
+                </entry>
+                <entry key="tehnohata">
+                    <bean class="stores.tehnohata.TehnohataProcessor"></bean>
+                </entry>
+                <entry key="v590">
+                    <bean class="stores.v590.V590Processor"></bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="localhost"/>
+    </bean>
+
+    <!-- this is a template message that we can pre-load with default state -->
+    <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="customerservice@mycompany.com"/>
+        <property name="subject" value="Your order"/>
+    </bean>
+
+
+</beans>

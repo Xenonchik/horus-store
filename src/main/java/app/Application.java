@@ -1,6 +1,5 @@
 package app;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,12 +13,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import conf.Config;
-import conf.StoreConf;
 import domain.Store;
 import persistence.sql.HibernateUtils;
 import persistence.sql.StoreSqlDAO;
@@ -49,14 +46,13 @@ public class Application {
     options.addOption("csv2sql", false, "parse emir");
     options.addOption("prices", false, "parse emir");
     options.addOption("sql2csv", false, "parse emir");
+    options.addOption("email", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(SerializationFeature.INDENT_OUTPUT);
-    return mapper.readValue(new File("src/main/resources/config.json"), Config.class);
-//    return mapper.readValue(new File("/tmp/config.json"), Config.class);
-//    return mapper.readValue(Application.class.getResourceAsStream("config.json"), Config.class);
+    ApplicationContext context =
+        new ClassPathXmlApplicationContext("spring.xml");
+    return (Config) context.getBean("config");
   }
 
   public void go(String[] args) throws Exception {
@@ -97,6 +93,12 @@ public class Application {
     if (cmd.hasOption("prices")) {
       new PricesProcessor().process();
     }
+
+    if (cmd.hasOption("email")) {
+      new EmailProcessor().process();
+    }
+
+    HibernateUtils.getSessionFactory().close();
   }
 
   private void processAll(Set<StoreProcessor> processors) throws InterruptedException {
@@ -133,10 +135,10 @@ public class Application {
     Map<String, Store> stores = new StoreSqlDAO().getStoresAsMap();
     Set<StoreProcessor> processors = new HashSet<>();
 
-    for (Map.Entry<String, StoreConf> kv : config.getStoreConfigs().entrySet()) {
+    for (Map.Entry<String, StoreProcessor> kv : config.getStoreConfigs().entrySet()) {
       if (stores.containsKey(kv.getKey())) {
-        kv.getValue().getStoreProcessor().setStore(stores.get(kv.getKey()));
-        processors.add(kv.getValue().getStoreProcessor());
+        kv.getValue().setStore(stores.get(kv.getKey()));
+        processors.add(kv.getValue());
       }
     }
 
