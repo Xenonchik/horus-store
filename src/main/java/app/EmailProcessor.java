@@ -20,16 +20,18 @@ public class EmailProcessor {
 
     MimeMessage message = sender.createMimeMessage();
     try {
-    MimeMessageHelper helper = new MimeMessageHelper(message, 1, null);
+      MimeMessageHelper helper = new MimeMessageHelper(message, 1, null);
 
-    helper.setTo("xenonchikmaxxx@gmail.com");
+      helper.setTo("a.shmelev@emir.kiev.ua");
+      helper.addCc("xenonchikmaxxx@gmail.com");
+      helper.addCc("y.ermak@emir.kiev.ua");
 
-    helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
-    helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
-    helper.setFrom("serhii.harnyk@gmail.com");
-    helper.addAttachment("prices", new File("/opt/data/prices.csv"));
+      helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+      helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+      helper.setFrom("serhii.harnyk@gmail.com");
+      helper.addAttachment("prices", new File("/opt/data/prices.csv"));
 
-    sender.send(message);
+      sender.send(message);
     } catch (MessagingException e) {
       e.printStackTrace();
     }

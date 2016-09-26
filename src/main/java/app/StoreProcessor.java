@@ -43,7 +43,6 @@ abstract public class StoreProcessor implements Serializable {
 
     for(CatStore cat : store.getCategories()) {
         processCategory(cat);
-      break;
     }
 
   }

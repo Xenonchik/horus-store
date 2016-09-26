@@ -13,6 +13,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -25,6 +27,8 @@ import persistence.sql.StoreSqlDAO;
  * Encapsulate application run logic
  */
 public class Application {
+
+  final static Logger log = LoggerFactory.getLogger(Application.class);
 
   private final Options options = new Options();
   private final CommandLineParser parser = new DefaultParser();
@@ -47,6 +51,7 @@ public class Application {
     options.addOption("prices", false, "parse emir");
     options.addOption("sql2csv", false, "parse emir");
     options.addOption("email", false, "parse emir");
+    options.addOption("total", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -74,8 +79,7 @@ public class Application {
     }
 
     if(cmd.hasOption("aliases")) {
-      AliasProcessor ap = new AliasProcessor();
-      ap.process();
+      new AliasProcessor().process();
     }
 
     if (cmd.hasOption("export")) {
@@ -97,6 +101,16 @@ public class Application {
     if (cmd.hasOption("email")) {
       new EmailProcessor().process();
     }
+
+    if (cmd.hasOption("total")) {
+      processAll(processors);
+      log.info("Data gathered");
+      new ExportProcessor().process();
+      new AliasProcessor().process();
+      new PricesProcessor().process();
+      new EmailProcessor().process();
+    }
+
 
     HibernateUtils.getSessionFactory().close();
   }
