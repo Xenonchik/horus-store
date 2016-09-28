@@ -17,14 +17,15 @@ public class EmailProcessor {
   public void process() {
     JavaMailSenderImpl sender = new JavaMailSenderImpl();
     sender.setHost("46.101.96.139");
+    sender.setPort(465);
 
     MimeMessage message = sender.createMimeMessage();
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, 1, null);
 
-      helper.setTo("a.shmelev@emir.kiev.ua");
+      helper.setTo("ekhrenov@mail.ua");
       helper.addCc("xenonchikmaxxx@gmail.com");
-      helper.addCc("y.ermak@emir.kiev.ua");
+      helper.addCc("yuriy.ermak@yandex.ua");
 
       helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));

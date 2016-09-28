@@ -83,7 +83,6 @@ public class ExportSqlDAO extends SqlDAO {
     }
 
     endTransaction();
-    closeSessionFactory();
     log.info("Export ends. Products exported: " + products.size());
   }
 

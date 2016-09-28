@@ -65,7 +65,6 @@ public class AliasProcessor {
       }
     }
 
-    aliasDAO.closeSessionFactory();
     log.info("Aliaces setting finished. Goods processed: " + goods.size());
 
   }

@@ -41,14 +41,12 @@ public class PricesProcessor {
           if(export != null) {
             good.getAliases().put(alias.getStore(), export);
           } else {
-            log.warn("No export for good " + good.getId() + " and alias " + alias.getAlias());
+           // log.warn("No export for good " + good.getId() + " and alias " + alias.getAlias());
           }
         }
       }
       aliasCsvDAO.savePrice(good);
     }
-
-    exemplarDAO.closeSessionFactory();
   }
 
 }

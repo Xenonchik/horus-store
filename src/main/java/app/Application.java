@@ -56,63 +56,70 @@ public class Application {
 
   private Config getConfig() throws IOException {
     ApplicationContext context =
-        new ClassPathXmlApplicationContext("spring.xml");
+            new ClassPathXmlApplicationContext("spring.xml");
     return (Config) context.getBean("config");
   }
 
   public void go(String[] args) throws Exception {
     cmd = parser.parse(options, args);
 
-    Set<StoreProcessor> processors = getProcessors(getConfig());
+    try {
 
-    if (cmd.hasOption("parseall")) {
-      processAll(processors);
+      Set<StoreProcessor> processors = getProcessors(getConfig());
+
+      if (cmd.hasOption("parseall")) {
+        processAll(processors);
+      }
+
+      if (cmd.hasOption("parsestore")) {
+        processStore(processors, cmd.getOptionValue("s"));
+      }
+
+      if (cmd.hasOption("emir")) {
+        EmirProcessor ep = new EmirProcessor();
+        ep.process();
+      }
+
+      if (cmd.hasOption("aliases")) {
+        new AliasProcessor().process();
+      }
+
+      if (cmd.hasOption("export")) {
+        new ExportProcessor().process();
+      }
+
+      if (cmd.hasOption("csv2sql")) {
+        new ExportAliacesProcessor().process();
+      }
+
+      if (cmd.hasOption("sql2csv")) {
+        new ExportAliacesProcessor().process2();
+      }
+
+      if (cmd.hasOption("prices")) {
+        new PricesProcessor().process();
+      }
+
+      if (cmd.hasOption("email")) {
+        new EmailProcessor().process();
+      }
+
+      if (cmd.hasOption("total")) {
+//        processAll(processors);
+//        log.info("Data gathered");
+//        new ExportProcessor().process();
+//        new AliasProcessor().process();
+        new PricesProcessor().process();
+        log.info("Prices in file");
+        new EmailProcessor().process();
+        log.info("Email sent");
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      HibernateUtils.getSessionFactory().close();
     }
-
-    if (cmd.hasOption("parsestore")) {
-      processStore(processors, cmd.getOptionValue("s"));
-    }
-
-    if(cmd.hasOption("emir")) {
-      EmirProcessor ep = new EmirProcessor();
-      ep.process();
-    }
-
-    if(cmd.hasOption("aliases")) {
-      new AliasProcessor().process();
-    }
-
-    if (cmd.hasOption("export")) {
-      new ExportProcessor().process();
-    }
-
-    if (cmd.hasOption("csv2sql")) {
-      new ExportAliacesProcessor().process();
-    }
-
-    if (cmd.hasOption("sql2csv")) {
-      new ExportAliacesProcessor().process2();
-    }
-
-    if (cmd.hasOption("prices")) {
-      new PricesProcessor().process();
-    }
-
-    if (cmd.hasOption("email")) {
-      new EmailProcessor().process();
-    }
-
-    if (cmd.hasOption("total")) {
-      processAll(processors);
-      log.info("Data gathered");
-      new ExportProcessor().process();
-      new AliasProcessor().process();
-      new PricesProcessor().process();
-      new EmailProcessor().process();
-    }
-
-
-    HibernateUtils.getSessionFactory().close();
   }
 
   private void processAll(Set<StoreProcessor> processors) throws InterruptedException {
@@ -124,9 +131,7 @@ public class Application {
     }
 
     latch.await();
-
-    HibernateUtils.getSessionFactory().close();
-    System.out.println("Completed.");
+    log.info("Parsing completed.");
   }
 
 
@@ -134,14 +139,13 @@ public class Application {
     final CountDownLatch latch = new CountDownLatch(1);
     ExecutorService executor = Executors.newFixedThreadPool(processors.size());
     for (StoreProcessor processor : processors) {
-      if(processor.getName().toLowerCase().equals(store)) {
-        executor.submit(new StoreRunner(processor, latch));;
+      if (processor.getName().toLowerCase().equals(store)) {
+        executor.submit(new StoreRunner(processor, latch));
+        ;
       }
     }
     latch.await();
-
-    HibernateUtils.getSessionFactory().close();
-    System.out.println("Completed.");
+    log.info("Parsing completed.");
   }
 
 
