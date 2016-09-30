@@ -105,10 +105,10 @@ public class Application {
       }
 
       if (cmd.hasOption("total")) {
-//        processAll(processors);
-//        log.info("Data gathered");
-//        new ExportProcessor().process();
-//        new AliasProcessor().process();
+        processAll(processors);
+        log.info("Data gathered");
+        new ExportProcessor().process();
+        new AliasProcessor().process();
         new PricesProcessor().process();
         log.info("Prices in file");
         new EmailProcessor().process();
