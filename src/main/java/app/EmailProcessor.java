@@ -23,9 +23,9 @@ public class EmailProcessor {
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, 1, null);
 
-//      helper.setTo("ekhrenov@mail.ua");
+      helper.setTo("ekhrenov@mail.ua");
       helper.addTo("xenonchikmaxxx@gmail.com");
-//      helper.addCc("yuriy.ermak@yandex.ua");
+      helper.addCc("yuriy.ermak@yandex.ua");
 
       helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
