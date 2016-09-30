@@ -78,7 +78,9 @@ abstract public class StoreProcessor implements Serializable {
           break;
       }
       products.addAll(productList);
-      Thread.sleep(getDelay());
+
+      Long delay = ThreadLocalRandom.current().nextLong(getDelay(), Math.round(getDelay()*1.4));
+      Thread.sleep(delay);
 
     }
 

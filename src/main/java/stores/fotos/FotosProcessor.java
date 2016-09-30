@@ -17,4 +17,9 @@ public class FotosProcessor extends StoreProcessor {
   protected UrlPool getUrlPool(String catUrl) {
     return new FotosUrlPool(catUrl);
   }
+
+  @Override
+  protected Long getDelay() {
+    return 5000l;
+  }
 }
