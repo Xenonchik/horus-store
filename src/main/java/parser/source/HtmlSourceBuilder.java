@@ -89,28 +89,28 @@ public class HtmlSourceBuilder implements SourceBuilder {
     public HttpClient createHttpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         HttpClientBuilder b = HttpClientBuilder.create();
 
-//        // setup a Trust Strategy that allows all certificates.
-//        //
-//        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-//            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-//                return true;
-//            }
-//        }).build();
-//        b.setSslcontext( sslContext);
-//        // here's the special part:
-//        //      -- need to create an SSL Socket Factory, to use our weakened "trust strategy";
-//        //      -- and create a Registry, to register it.
-//        //
-//        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext,
-//            SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-//        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-//            .register("http", PlainConnectionSocketFactory.getSocketFactory())
-//            .register("https", sslSocketFactory)
-//            .build();
-//        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
-//        b.setConnectionManager( connMgr);
+        // setup a Trust Strategy that allows all certificates.
+        //
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                return true;
+            }
+        }).build();
+        b.setSslcontext( sslContext);
+        // here's the special part:
+        //      -- need to create an SSL Socket Factory, to use our weakened "trust strategy";
+        //      -- and create a Registry, to register it.
+        //
+        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext,
+            SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+            .register("http", PlainConnectionSocketFactory.getSocketFactory())
+            .register("https", sslSocketFactory)
+            .build();
+        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
+        b.setConnectionManager( connMgr);
 
-        HttpHost proxy = new HttpHost("31.131.23.7", 3128);
+        HttpHost proxy = new HttpHost("31.131.23.37", 3128);
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
 
 
