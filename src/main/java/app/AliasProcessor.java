@@ -82,9 +82,12 @@ public class AliasProcessor {
         aliases.add(alias);
       }
     }
+    try {
+      aliasDAO.updateSmart(aliases);
+    } catch (IndexOutOfBoundsException e) {
+      log.error("IndexOutOfBoundsException");
+    }
 
-//    aliasDAO.insert(aliases);
-    aliasDAO.updateSmart(aliases);
   }
 
   private boolean isAlias(Good good, Export exp) {

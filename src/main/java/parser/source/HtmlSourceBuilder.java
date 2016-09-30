@@ -9,6 +9,7 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -24,6 +25,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,22 +43,6 @@ public class HtmlSourceBuilder implements SourceBuilder {
     private String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0";
 
     public HtmlSourceBuilder() {
-
-//        SSLContextBuilder builder = new SSLContextBuilder();
-//        try {
-//            builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-//            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-//                    builder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-//
-//            httpclient = HttpClients.custom().setSSLSocketFactory(
-//                    sslsf).build();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (KeyStoreException e) {
-//            e.printStackTrace();
-//        } catch (KeyManagementException e) {
-//            e.printStackTrace();
-//        }
 
         try {
             httpclient = (CloseableHttpClient) createHttpClient();
@@ -129,9 +115,11 @@ public class HtmlSourceBuilder implements SourceBuilder {
         PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
         b.setConnectionManager( connMgr);
 
-        // finally, build the HttpClient;
-        //      -- done!
-        HttpClient client = b.build();
+        HttpHost proxy = new HttpHost("31.131.23.7", 3128);
+        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+
+
+        HttpClient client = b.setRoutePlanner(routePlanner).build();
         return client;
     }
 }
