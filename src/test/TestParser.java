@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import domain.CatStore;
 import domain.Product;
 import domain.Store;
+import junit.framework.TestCase;
 import parser.CategoryProcessor;
 import stores.StoreManager;
 import stores.fotos.FotosProcessor;
@@ -14,7 +15,7 @@ import stores.fotos.FotosProcessor;
 /**
  * Blahblahblah
  */
-public class TestParser {
+public class TestParser extends TestCase {
 
   final static Logger log = LoggerFactory.getLogger(TestParser.class);
 
