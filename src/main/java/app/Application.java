@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -18,10 +19,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import app.proc.AliasProcessor;
+import app.proc.EmailProcessor;
+import app.proc.EmirProcessor;
+import app.proc.ExportAliacesProcessor;
+import app.proc.ExportProcessor;
+import app.proc.PricesProcessor;
+import app.proc.StoreProcessor;
+import app.store.StoreRunner;
+import app.store.StoreParsersExecutor;
 import conf.Config;
 import domain.Store;
 import persistence.sql.HibernateUtils;
 import persistence.sql.StoreSqlDAO;
+import stores.StoreManager;
 
 /**
  * Encapsulate application run logic
@@ -68,16 +79,20 @@ public class Application {
       Set<StoreProcessor> processors = getProcessors(getConfig());
 
       if (cmd.hasOption("parseall")) {
-        processAll(processors);
+        new StoreParsersExecutor().parseAll(processors);
       }
 
       if (cmd.hasOption("parsestore")) {
-        processStore(processors, cmd.getOptionValue("s"));
+        Set<StoreProcessor> aloneProcessor =
+            processors.stream().filter(
+                processor ->
+                    processor.getName().equals(cmd.getOptionValue("parsestore"))
+            ).collect(Collectors.toSet());
+        new StoreParsersExecutor().parseAll(aloneProcessor);
       }
 
       if (cmd.hasOption("emir")) {
-        EmirProcessor ep = new EmirProcessor();
-        ep.process();
+        new EmirProcessor().process();
       }
 
       if (cmd.hasOption("aliases")) {
@@ -105,7 +120,7 @@ public class Application {
       }
 
       if (cmd.hasOption("total")) {
-        processAll(processors);
+//        new StoreParsersExecutor().parseAll(processors);
         log.info("Data gathered");
         new ExportProcessor().process();
         new AliasProcessor().process();
@@ -122,18 +137,6 @@ public class Application {
     }
   }
 
-  private void processAll(Set<StoreProcessor> processors) throws InterruptedException {
-    final CountDownLatch latch = new CountDownLatch(processors.size());
-    ExecutorService executor = Executors.newFixedThreadPool(processors.size());
-
-    for (StoreProcessor processor : processors) {
-      executor.submit(new StoreRunner(processor, latch));
-    }
-
-    latch.await();
-    log.info("Parsing completed.");
-  }
-
 
   private void processStore(Set<StoreProcessor> processors, String store) throws InterruptedException {
     final CountDownLatch latch = new CountDownLatch(1);
@@ -141,7 +144,6 @@ public class Application {
     for (StoreProcessor processor : processors) {
       if (processor.getName().toLowerCase().equals(store)) {
         executor.submit(new StoreRunner(processor, latch));
-        ;
       }
     }
     latch.await();
@@ -153,10 +155,11 @@ public class Application {
     Map<String, Store> stores = new StoreSqlDAO().getStoresAsMap();
     Set<StoreProcessor> processors = new HashSet<>();
 
-    for (Map.Entry<String, StoreProcessor> kv : config.getStoreConfigs().entrySet()) {
+    for (Map.Entry<String, StoreManager> kv : config.getStoreConfigs().entrySet()) {
       if (stores.containsKey(kv.getKey())) {
-        kv.getValue().setStore(stores.get(kv.getKey()));
-        processors.add(kv.getValue());
+        StoreProcessor sp = new StoreProcessor(kv.getValue());
+        sp.setStore(stores.get(kv.getKey()));
+        processors.add(sp);
       }
     }
 

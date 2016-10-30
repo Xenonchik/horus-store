@@ -65,6 +65,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
         try {
             content = httpclient.execute(httpGet, responseHandler);
+            log.info(httpGet.getFirstHeader("User-Agent").getValue());
         } catch (IOException e) {
             log.error(uri);
             e.printStackTrace();
@@ -79,7 +80,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
         httpGet.addHeader("User-Agent", this.userAgent);
         httpGet.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        return new HttpGet(uri);
+        return httpGet;
     }
 
     public void setUserAgent(String userAgent) {
@@ -91,11 +92,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
         // setup a Trust Strategy that allows all certificates.
         //
-        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                return true;
-            }
-        }).build();
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (arg0, arg1) -> true).build();
         b.setSslcontext( sslContext);
         // here's the special part:
         //      -- need to create an SSL Socket Factory, to use our weakened "trust strategy";
@@ -110,11 +107,13 @@ public class HtmlSourceBuilder implements SourceBuilder {
         PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
         b.setConnectionManager( connMgr);
 
-        HttpHost proxy = new HttpHost("31.131.23.37", 3128);
-        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+//        HttpHost proxy = new HttpHost("31.131.23.37", 3128);
+//        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
 
 
-        HttpClient client = b.setRoutePlanner(routePlanner).build();
+        HttpClient client = b
+//            .setRoutePlanner(routePlanner)
+            .build();
         return client;
     }
 }

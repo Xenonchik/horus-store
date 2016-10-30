@@ -1,20 +1,21 @@
 package stores.mobilluck;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
+
+import stores.StoreManager;
 import parser.UrlPool;
 
 /**
  * Done
  */
-public class MobilluckProcessor extends StoreProcessor {
+public class MobilluckProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new MobilluckParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new MobilluckUrlPool(catUrl);
   }
 }

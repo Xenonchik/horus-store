@@ -1,4 +1,4 @@
-package app;
+package app.proc;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,11 +82,11 @@ public class AliasProcessor {
         aliases.add(alias);
       }
     }
-    try {
+//    try {
       aliasDAO.updateSmart(aliases);
-    } catch (IndexOutOfBoundsException e) {
-      log.error("IndexOutOfBoundsException");
-    }
+//    } catch (IndexOutOfBoundsException e) {
+//      log.error("IndexOutOfBoundsException");
+//    }
 
   }
 

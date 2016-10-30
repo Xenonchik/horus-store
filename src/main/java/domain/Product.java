@@ -47,6 +47,8 @@ public class Product {
     @Column(name = "category")
     private Long category;
 
+    private String html;
+
     public Long getId() {
         return id;
     }
@@ -120,5 +122,13 @@ public class Product {
 
     public void setDay(Date day) {
         this.day = day;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
     }
 }

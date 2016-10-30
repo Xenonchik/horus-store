@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Blahblahblah
  */
-abstract public class HtmlProductParser implements Parser<Product> {
+abstract public class HtmlProductParser {
     private boolean processCategory = true;
     private Long category;
 
@@ -22,7 +22,6 @@ abstract public class HtmlProductParser implements Parser<Product> {
 
     protected Document doc;
 
-    @Override
     public List<Product> parse(ParseSource source) {
         List<Product> products = new ArrayList<>();
         doc = Jsoup.parse(source.getContent());
@@ -34,6 +33,7 @@ abstract public class HtmlProductParser implements Parser<Product> {
         }
         for(Element block : blocks) {
             Product product = processProduct(block);
+            product.setHtml(block.html());
             product.setCategory(category);
             if (product.isValid()) {
                 if (product.getPrice() != null && product.getPrice() > 0) {
@@ -66,12 +66,10 @@ abstract public class HtmlProductParser implements Parser<Product> {
 
     protected abstract Elements getBlocks(Document doc);
 
-    @Override
     public boolean processCategory() {
         return processCategory;
     }
 
-    @Override
     public void setCategory(Long category) {
         this.category = category;
     }

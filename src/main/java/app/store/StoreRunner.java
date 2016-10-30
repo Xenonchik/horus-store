@@ -1,9 +1,11 @@
-package app;
+package app.store;
 
 import java.util.concurrent.CountDownLatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import app.proc.StoreProcessor;
 
 /**
  * Created by serge on 5/11/16.
@@ -11,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class StoreRunner implements Runnable {
   final static Logger log = LoggerFactory.getLogger(StoreRunner.class);
 
-  private Thread t;
   private final String threadName;
   private final StoreProcessor processor;
   private final CountDownLatch latch;

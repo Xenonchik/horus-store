@@ -1,20 +1,22 @@
 package stores.deshevle;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
+
+import stores.StoreManager;
 import parser.UrlPool;
+;
 
 /**
  * Done
  */
-public class DeshevleProcessor extends StoreProcessor {
+public class DeshevleProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new DeshevleParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new DeshevleUrlPool(catUrl);
   }
 }

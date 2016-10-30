@@ -1,20 +1,20 @@
 package stores.palladium;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
 import parser.UrlPool;
+import stores.StoreManager;
 
 /**
  * Done
  */
-public class PalladiumProcessor extends StoreProcessor {
+public class PalladiumProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new PalladiumParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new PalladiumUrlPool(catUrl);
   }
 }

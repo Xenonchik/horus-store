@@ -1,25 +1,26 @@
 package stores.fotos;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
+
+import stores.StoreManager;
 import parser.UrlPool;
 
 /**
  * Done
  */
-public class FotosProcessor extends StoreProcessor {
+public class FotosProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new FotosParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new FotosUrlPool(catUrl);
   }
 
   @Override
-  protected Long getDelay() {
+  public Long getDelay() {
     return 5000l;
   }
 }

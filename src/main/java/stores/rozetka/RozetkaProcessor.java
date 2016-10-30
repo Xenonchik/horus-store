@@ -1,25 +1,26 @@
 package stores.rozetka;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
+
+import stores.StoreManager;
 import parser.UrlPool;
 
 /**
  * Created by serge on 4/26/16.
  */
-public class RozetkaProcessor extends StoreProcessor {
+public class RozetkaProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new RozetkaParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new RozetkaUrlPool(catUrl);
   }
 
   @Override
-  protected Long getDelay() {
+  public Long getDelay() {
     return 5000l;
   }
 }

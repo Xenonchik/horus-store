@@ -1,25 +1,25 @@
 package stores.tehnos;
 
-import parser.Parser;
-import app.StoreProcessor;
+import parser.HtmlProductParser;
 import parser.UrlPool;
+import stores.StoreManager;
 
 /**
  * Done
  */
-public class TehnosProcessor extends StoreProcessor {
+public class TehnosProcessor implements StoreManager {
   @Override
-  protected Parser getParcer() {
+  public HtmlProductParser getParcer() {
     return new TehnosParser();
   }
 
   @Override
-  protected UrlPool getUrlPool(String catUrl) {
+  public UrlPool getUrlPool(String catUrl) {
     return new TehnosUrlPool(catUrl);
   }
 
   @Override
-  protected Long getDelay() {
+  public Long getDelay() {
     return 1100l;
   }
 }

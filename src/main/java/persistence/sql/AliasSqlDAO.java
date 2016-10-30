@@ -59,7 +59,7 @@ public class AliasSqlDAO extends SqlDAO implements EntityManager<Alias> {
     for(Alias alias : aliases) {
       try {
         Alias exemplar = get(alias);
-        if(exemplar.getAlias().trim().length() == 0) {
+        if(exemplar != null && exemplar.getAlias().trim().length() == 0) {
           exemplar.setAlias(alias.getAlias());
           getSession().update(exemplar);
           log.info("Updated " + alias.getGood() + " " + alias.getStore());
@@ -77,7 +77,7 @@ public class AliasSqlDAO extends SqlDAO implements EntityManager<Alias> {
     query.setParameter("good", alias.getGood());
     query.setParameter("store", alias.getStore());
 
-    return (Alias) query.list().get(0);
+    return (query.list().size() > 0) ? (Alias) query.list().get(0) : null;
   }
 
   @Override
