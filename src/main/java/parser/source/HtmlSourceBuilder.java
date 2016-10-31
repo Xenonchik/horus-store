@@ -107,12 +107,12 @@ public class HtmlSourceBuilder implements SourceBuilder {
         PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
         b.setConnectionManager( connMgr);
 
-//        HttpHost proxy = new HttpHost("31.131.23.37", 3128);
-//        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+        HttpHost proxy = new HttpHost("31.131.23.37", 3128);
+        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
 
 
         HttpClient client = b
-//            .setRoutePlanner(routePlanner)
+            .setRoutePlanner(routePlanner)
             .build();
         return client;
     }
