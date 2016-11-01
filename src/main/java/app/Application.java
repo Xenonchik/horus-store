@@ -120,7 +120,7 @@ public class Application {
       }
 
       if (cmd.hasOption("total")) {
-//        new StoreParsersExecutor().parseAll(processors);
+        new StoreParsersExecutor().parseAll(processors);
         log.info("Data gathered");
         new ExportProcessor().process();
         new AliasProcessor().process();
