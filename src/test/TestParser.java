@@ -13,6 +13,7 @@ import stores.StoreManager;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
 import stores.palladium.PalladiumProcessor;
+import stores.v590.V590Processor;
 
 /**
  * Blahblahblah
@@ -36,7 +37,6 @@ public class TestParser extends TestCase {
     for (Product product : products.subList(0, 10)) {
       log.info(product.getName() + "  " + product.getPrice() + " " + product.getHtml());
     }
-
   }
 
   @Test
@@ -54,7 +54,6 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
-
   }
 
   @Test
@@ -72,6 +71,24 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
-
   }
+
+  @Test
+  public void test590() throws InterruptedException {
+    Store store = new Store();
+    store.setName("V590");
+    StoreManager sm = new V590Processor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://vt.590.ua/hobs");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+  }
+
+
 }

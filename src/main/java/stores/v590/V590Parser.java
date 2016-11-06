@@ -1,8 +1,13 @@
 package stores.v590;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.google.common.collect.Lists;
 
 import domain.Product;
 import parser.HtmlProductParser;
@@ -32,7 +37,16 @@ public class V590Parser extends HtmlProductParser {
 
   @Override
   protected Elements getBlocks(Document doc) {
-    return doc.select("div.category_block_view_item");
+    Elements elements = doc.select("div.category_block_view_item");
+    List<Element> elementsToRemove = Lists.newArrayList();
+
+    elementsToRemove.addAll(elements.stream().filter(
+        element -> element.child(0).tagName().equals("a"))
+            .collect(Collectors.toList())
+    );
+    elements.removeAll(elementsToRemove);
+
+    return elements;
   }
 
 }
