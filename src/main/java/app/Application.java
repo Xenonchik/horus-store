@@ -86,7 +86,7 @@ public class Application {
         Set<StoreProcessor> aloneProcessor =
             processors.stream().filter(
                 processor ->
-                    processor.getName().equals(cmd.getOptionValue("parsestore"))
+                    processor.getName().toLowerCase().equals(cmd.getOptionValue("parsestore").toLowerCase())
             ).collect(Collectors.toSet());
         new StoreParsersExecutor().parseAll(aloneProcessor);
       }

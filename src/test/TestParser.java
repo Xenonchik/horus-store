@@ -11,6 +11,8 @@ import junit.framework.TestCase;
 import parser.CategoryProcessor;
 import stores.StoreManager;
 import stores.fotos.FotosProcessor;
+import stores.foxtrot.FoxtrotProcessor;
+import stores.palladium.PalladiumProcessor;
 
 /**
  * Blahblahblah
@@ -31,8 +33,44 @@ public class TestParser extends TestCase {
     testCat.setUrl("https://f.ua/shop/smesiteli-dlya-mojki/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
-    for(Product product : products.subList(0, 10)) {
+    for (Product product : products.subList(0, 10)) {
       log.info(product.getName() + "  " + product.getPrice() + " " + product.getHtml());
+    }
+
+  }
+
+  @Test
+  public void testPalladium() throws InterruptedException {
+    Store store = new Store();
+    store.setName("PALLADIUM");
+    StoreManager sm = new PalladiumProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://palladium.ua/vytjazhki.html");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+
+  }
+
+  @Test
+  public void testFoxtrot() throws InterruptedException {
+    Store store = new Store();
+    store.setName("FOXTROT");
+    StoreManager sm = new FoxtrotProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_bosch.html");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
     }
 
   }

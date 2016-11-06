@@ -15,7 +15,7 @@ public class PalladiumParser extends HtmlProductParser {
   private Integer storeId = 8;
 
   {
-    this.productsCount = 30;
+    this.productsCount = 20;
   }
 
   @Override
