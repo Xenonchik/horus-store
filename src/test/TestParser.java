@@ -13,6 +13,7 @@ import stores.StoreManager;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
 import stores.palladium.PalladiumProcessor;
+import stores.tehnohata.TehnohataProcessor;
 import stores.v590.V590Processor;
 
 /**
@@ -83,6 +84,23 @@ public class TestParser extends TestCase {
     CatStore testCat = new CatStore();
     testCat.setStore(store);
     testCat.setUrl("http://vt.590.ua/hobs");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+  }
+
+  @Test
+  public void testTehnohata() throws InterruptedException {
+    Store store = new Store();
+    store.setName("TEHNOHATA");
+    StoreManager sm = new TehnohataProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://tehnohata.ua/f_1852_Bosch_built-in-microwave.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
