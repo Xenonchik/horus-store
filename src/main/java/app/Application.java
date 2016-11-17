@@ -63,6 +63,7 @@ public class Application {
     options.addOption("sql2csv", false, "parse emir");
     options.addOption("email", false, "parse emir");
     options.addOption("total", false, "parse emir");
+    options.addOption("extract", false, "parse emir");
   }
 
   private Config getConfig() throws IOException {
@@ -130,26 +131,21 @@ public class Application {
         log.info("Email sent");
       }
 
+      if (cmd.hasOption("extract")) {
+        new ExportProcessor().process();
+        new AliasProcessor().process();
+        new PricesProcessor().process();
+        log.info("Prices in file");
+        new EmailProcessor().process();
+        log.info("Email sent");
+      }
+
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
       HibernateUtils.getSessionFactory().close();
     }
   }
-
-
-  private void processStore(Set<StoreProcessor> processors, String store) throws InterruptedException {
-    final CountDownLatch latch = new CountDownLatch(1);
-    ExecutorService executor = Executors.newFixedThreadPool(processors.size());
-    for (StoreProcessor processor : processors) {
-      if (processor.getName().toLowerCase().equals(store)) {
-        executor.submit(new StoreRunner(processor, latch));
-      }
-    }
-    latch.await();
-    log.info("Parsing completed.");
-  }
-
 
   private Set<StoreProcessor> getProcessors(Config config) {
     Map<String, Store> stores = new StoreSqlDAO().getStoresAsMap();
