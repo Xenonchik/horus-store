@@ -10,6 +10,7 @@ import domain.Store;
 import junit.framework.TestCase;
 import parser.CategoryProcessor;
 import stores.StoreManager;
+import stores.deshevle.DeshevleProcessor;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
 import stores.palladium.PalladiumProcessor;
@@ -119,6 +120,23 @@ public class TestParser extends TestCase {
     CatStore testCat = new CatStore();
     testCat.setStore(store);
     testCat.setUrl("http://bt.rozetka.com.ua/extractor_fans/bosch/c80140/v148/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+  }
+
+  @Test
+  public void testDeshevle() throws InterruptedException {
+    Store store = new Store();
+    store.setName("DESHEVLE");
+    StoreManager sm = new DeshevleProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://www.deshevle-net.com.ua/dir/kbt/vstraivaemaya-tehnika/dukhovye-shkafy_copy/bosch.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
