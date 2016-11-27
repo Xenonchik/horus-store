@@ -154,7 +154,7 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 
 
 --
--- Name: stores; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: beholder.stores; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE stores (
