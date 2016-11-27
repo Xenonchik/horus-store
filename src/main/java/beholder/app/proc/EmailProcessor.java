@@ -30,7 +30,7 @@ public class EmailProcessor {
       helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setFrom("serhii.harnyk@gmail.com");
-      helper.addAttachment("prices", new File("/opt/data/prices.csv"));
+      helper.addAttachment("prices.csv", new File("/opt/data/prices.csv"));
 
       sender.send(message);
     } catch (MessagingException e) {

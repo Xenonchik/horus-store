@@ -145,7 +145,7 @@ public class Application {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      HibernateUtils.getSessionFactory().close();
+//      HibernateUtils.getSessionFactory().close();
     }
   }
 
