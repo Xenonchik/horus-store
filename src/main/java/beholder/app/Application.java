@@ -119,6 +119,7 @@ public class Application {
 
       if (cmd.hasOption("monitor")) {
         productMonitoringService.monitor();
+        productMonitoringService.moveToHistory();
       }
 
       if (cmd.hasOption("total")) {
