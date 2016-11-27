@@ -15,6 +15,6 @@ public class MonitoringProcessor {
   private ProductMonitoringService productMonitoringService;
   public void process() {
     productMonitoringService.monitor();
-    productMonitoringService.moveToHistory();
+//    productMonitoringService.moveToHistory();
   }
 }

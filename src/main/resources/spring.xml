@@ -15,42 +15,42 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:component-scan base-package="beholder" />
 
-    <!--<bean id="config" class="beholder.conf.Config">-->
-        <!--<property name="storeConfigs">-->
-            <!--<map>-->
-                <!--<entry key="rozetka">-->
-                    <!--<bean class="beholder.stores.rozetka.RozetkaProcessor"></bean>-->
+    <bean id="storesConfig" class="beholder.conf.Config">
+        <property name="storeConfigs">
+            <map>
+                <entry key="rozetka">
+                    <bean class="beholder.stores.rozetka.RozetkaProcessor"></bean>
+                </entry>
+                <!--<entry key="fotos">-->
+                <!--<bean class="beholder.stores.fotos.FotosProcessor"></bean>-->
                 <!--</entry>-->
-                <!--&lt;!&ndash;<entry key="fotos">&ndash;&gt;-->
-                <!--&lt;!&ndash;<bean class="beholder.stores.fotos.FotosProcessor"></bean>&ndash;&gt;-->
-                <!--&lt;!&ndash;</entry>&ndash;&gt;-->
-                <!--<entry key="deshevle">-->
-                    <!--<bean class="beholder.stores.deshevle.DeshevleProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="foxtrot">-->
-                    <!--<bean class="beholder.stores.foxtrot.FoxtrotProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="tehnos">-->
-                    <!--<bean class="beholder.stores.tehnos.TehnosProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="mobilluck">-->
-                    <!--<bean class="beholder.stores.mobilluck.MobilluckProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="vstroyka">-->
-                    <!--<bean class="beholder.stores.vstroyka.VstroykaProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="palladium">-->
-                    <!--<bean class="beholder.stores.palladium.PalladiumProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="tehnohata">-->
-                    <!--<bean class="beholder.stores.tehnohata.TehnohataProcessor"></bean>-->
-                <!--</entry>-->
-                <!--<entry key="v590">-->
-                    <!--<bean class="beholder.stores.v590.V590Processor"></bean>-->
-                <!--</entry>-->
-            <!--</map>-->
-        <!--</property>-->
-    <!--</bean>-->
+                <entry key="deshevle">
+                    <bean class="beholder.stores.deshevle.DeshevleProcessor"></bean>
+                </entry>
+                <entry key="foxtrot">
+                    <bean class="beholder.stores.foxtrot.FoxtrotProcessor"></bean>
+                </entry>
+                <entry key="tehnos">
+                    <bean class="beholder.stores.tehnos.TehnosProcessor"></bean>
+                </entry>
+                <entry key="mobilluck">
+                    <bean class="beholder.stores.mobilluck.MobilluckProcessor"></bean>
+                </entry>
+                <entry key="vstroyka">
+                    <bean class="beholder.stores.vstroyka.VstroykaProcessor"></bean>
+                </entry>
+                <entry key="palladium">
+                    <bean class="beholder.stores.palladium.PalladiumProcessor"></bean>
+                </entry>
+                <entry key="tehnohata">
+                    <bean class="beholder.stores.tehnohata.TehnohataProcessor"></bean>
+                </entry>
+                <entry key="v590">
+                    <bean class="beholder.stores.v590.V590Processor"></bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="localhost"/>
@@ -96,12 +96,12 @@
 
         <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
 
-        <!--<property name="packagesToScan">-->
-            <!--<array>-->
-                <!--<value>beholder.domain</value>-->
+        <property name="packagesToScan">
+            <array>
+                <value>beholder.domain</value>
                 <!--<value>beholder.persistence</value>-->
-            <!--</array>-->
-        <!--</property>-->
+            </array>
+        </property>
     </bean>
 
     <bean id="transactionManager"

@@ -1,8 +1,5 @@
 package beholder.app;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,8 +10,10 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import beholder.app.proc.AliasProcessor;
 import beholder.app.proc.EmailProcessor;
@@ -25,14 +24,13 @@ import beholder.app.proc.MonitoringProcessor;
 import beholder.app.proc.PricesProcessor;
 import beholder.app.proc.StoreProcessor;
 import beholder.app.store.StoreParsersExecutor;
-import beholder.conf.Config;
-import beholder.domain.Store;
-import beholder.persistence.sql.StoreSqlDAO;
-import beholder.stores.StoreManager;
+import beholder.service.ProductMonitoringService;
+import beholder.service.StoresService;
 
 /**
  * Encapsulate application run logic
  */
+@Component
 public class Application {
 
   final static Logger log = LoggerFactory.getLogger(Application.class);
@@ -41,7 +39,14 @@ public class Application {
   private final CommandLineParser parser = new DefaultParser();
   private CommandLine cmd;
 
+  @Autowired
+  private StoresService storesService;
+
+  @Autowired
+  private ProductMonitoringService productMonitoringService;
+
   public Application() {
+
     setCmdOptions();
 
     Properties props = System.getProperties();
@@ -63,18 +68,13 @@ public class Application {
     options.addOption("monitor", false, "parse emir");
   }
 
-  private Config getConfig() throws IOException {
-    ApplicationContext context =
-            new ClassPathXmlApplicationContext("spring.xml");
-    return (Config) context.getBean("config");
-  }
 
   public void go(String[] args) throws Exception {
     cmd = parser.parse(options, args);
 
     try {
 
-      Set<StoreProcessor> processors = getProcessors(getConfig());
+      Set<StoreProcessor> processors = storesService.getProcessors();
 
       if (cmd.hasOption("parseall")) {
         new StoreParsersExecutor().parseAll(processors);
@@ -118,7 +118,7 @@ public class Application {
       }
 
       if (cmd.hasOption("monitor")) {
-        new MonitoringProcessor().process();
+        productMonitoringService.monitor();
       }
 
       if (cmd.hasOption("total")) {
@@ -148,18 +148,5 @@ public class Application {
     }
   }
 
-  private Set<StoreProcessor> getProcessors(Config config) {
-    Map<String, Store> stores = new StoreSqlDAO().getStoresAsMap();
-    Set<StoreProcessor> processors = new HashSet<>();
 
-    for (Map.Entry<String, StoreManager> kv : config.getStoreConfigs().entrySet()) {
-      if (stores.containsKey(kv.getKey())) {
-        StoreProcessor sp = new StoreProcessor(kv.getValue());
-        sp.setStore(stores.get(kv.getKey()));
-        processors.add(sp);
-      }
-    }
-
-    return processors;
-  }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
+import org.springframework.stereotype.Component;
 
 import beholder.domain.Store;
 import beholder.persistence.SqlDAO;
@@ -13,16 +14,12 @@ import beholder.persistence.SqlDAO;
 /**
  * Blahblahblah
  */
+@Component
 public class StoreSqlDAO extends SqlDAO {
 
     public List<Store> getStores() {
-        beginTransaction();
-
         Query query = getSession().createQuery("from Store where status = 1");
         List<Store> list = query.list();
-
-        endTransaction();
-
         return list;
     }
 

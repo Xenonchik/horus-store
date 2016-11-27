@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * Blahblahblah
  */
 @javax.persistence.Entity
-@Table(name= "beholder/stores")
+@Table(name= "stores")
 public class Store {
 
     @Id
