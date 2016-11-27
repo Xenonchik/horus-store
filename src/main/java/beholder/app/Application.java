@@ -27,7 +27,6 @@ import beholder.app.proc.StoreProcessor;
 import beholder.app.store.StoreParsersExecutor;
 import beholder.conf.Config;
 import beholder.domain.Store;
-import beholder.util.HibernateUtils;
 import beholder.persistence.sql.StoreSqlDAO;
 import beholder.stores.StoreManager;
 
