@@ -31,7 +31,7 @@ public class FoxtrotParser extends HtmlProductParser {
 
   @Override
   protected Elements getBlocks(Document doc) {
-    return doc.select("div.gtile-i-box");
+    return doc.select("div.products-block .product-items");
   }
 
 }
