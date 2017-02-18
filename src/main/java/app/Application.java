@@ -144,6 +144,7 @@ public class Application {
       e.printStackTrace();
     } finally {
       HibernateUtils.getSessionFactory().close();
+      System.exit(0);
     }
   }
 

@@ -13,6 +13,7 @@ import stores.StoreManager;
 import stores.deshevle.DeshevleProcessor;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
+import stores.mobilluck.MobilluckProcessor;
 import stores.palladium.PalladiumProcessor;
 import stores.rozetka.RozetkaProcessor;
 import stores.tehnohata.TehnohataProcessor;
@@ -38,7 +39,7 @@ public class TestParser extends TestCase {
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products.subList(0, 10)) {
-      log.info(product.getName() + "  " + product.getPrice() + " " + product.getHtml());
+      log.info(product.getName() + "  " + product.getPrice());
     }
   }
 
@@ -141,6 +142,23 @@ public class TestParser extends TestCase {
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+  }
+
+  @Test
+  public void testMobilluck() throws InterruptedException {
+    Store store = new Store();
+    store.setName("MOBILLUCK");
+    StoreManager sm = new MobilluckProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/Bosch/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice());
     }
   }
 
