@@ -52,7 +52,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://palladium.ua/vytjazhki.html");
+    testCat.setUrl("https://palladium.ua/holodilniki.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
