@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
@@ -26,7 +23,6 @@ import app.proc.ExportAliacesProcessor;
 import app.proc.ExportProcessor;
 import app.proc.PricesProcessor;
 import app.proc.StoreProcessor;
-import app.store.StoreRunner;
 import app.store.StoreParsersExecutor;
 import conf.Config;
 import domain.Store;
@@ -105,11 +101,11 @@ public class Application {
       }
 
       if (cmd.hasOption("csv2sql")) {
-        new ExportAliacesProcessor().process();
+        new ExportAliacesProcessor().csv2sql();
       }
 
       if (cmd.hasOption("sql2csv")) {
-        new ExportAliacesProcessor().process2();
+        new ExportAliacesProcessor().sql2csv();
       }
 
       if (cmd.hasOption("prices")) {

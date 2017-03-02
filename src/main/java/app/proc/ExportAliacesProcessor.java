@@ -21,7 +21,7 @@ public class ExportAliacesProcessor {
 
   StoreSqlDAO storeSqlDAO = new StoreSqlDAO();
 
-  public void process() {
+  public void csv2sql() {
     EntityManager csvEM = new AliacCsvEM(storeSqlDAO.getStoreNames());
     EntityManager sqlEM = new AliasSqlDAO();
     EntityWrapper wrapper = new AliasWrapper();
@@ -31,7 +31,7 @@ public class ExportAliacesProcessor {
     storeSqlDAO.closeSessionFactory();
   }
 
-  public void process2() throws IOException {
+  public void sql2csv() throws IOException {
     GoodsSqlDAO goodsSqlDAO = new GoodsSqlDAO();
     List<Good> goods = goodsSqlDAO.getGoods();
     AliasCsvDAO aliasCsvDAO = new AliasCsvDAO(storeSqlDAO.getStores());
