@@ -32,13 +32,13 @@ public class RozetkaParser extends HtmlProductParser {
         Product product = new Product();
         product.setName(block.select("div.g-i-tile-i-title a").text());
         String productId = block.select("div.g-i-tile-i-image div.g-id").text();
-        Pattern p = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s"+productId+".+\\;", Pattern.DOTALL);
+        Pattern p = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s"+productId+".+?GTMEventsData", Pattern.DOTALL);
         Matcher m = p.matcher(doc.select("script").toString());
         String priceStr;
         if (m.find()) {
             priceStr = m.group();
 
-            Pattern p2 = Pattern.compile("price\\:\\s\\d+", Pattern.DOTALL);
+            Pattern p2 = Pattern.compile("price\\:\\s\"\\d+", Pattern.DOTALL);
             Matcher m2 = p2.matcher(priceStr);
             if(m2.find()) {
                 priceStr = m2.group();
