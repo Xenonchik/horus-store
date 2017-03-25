@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import beholder.domain.CatStore;
 import beholder.domain.Product;
@@ -31,6 +32,7 @@ public class StoreProcessor implements Serializable {
   private Store store;
   private StoreManager storeManager;
 
+  @Transactional
   public void process() throws InterruptedException {
     if(store == null) {
       log.warn("No store set!");

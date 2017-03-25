@@ -23,12 +23,9 @@ public class ProductSqlDAO extends SqlDAO {
     final static Logger log = LoggerFactory.getLogger(ProductSqlDAO.class);
 
     public void insert(List<Product> entities) {
-        beginTransaction();
         for (Product product : entities) {
             getSession().save(product);
         }
-
-        endTransaction();
     }
 
     public void moveToHistory() {

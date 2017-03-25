@@ -27,7 +27,9 @@ abstract public class SqlDAO {
   }
 
   protected void beginTransaction() {
-    sessionFactory.getCurrentSession().beginTransaction();
+    Session session = sessionFactory.getCurrentSession();
+    log.info(session.toString());
+    session.beginTransaction();
   }
 
   protected void endTransaction() {

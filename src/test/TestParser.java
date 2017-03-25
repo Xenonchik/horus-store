@@ -4,20 +4,20 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import domain.CatStore;
-import domain.Product;
-import domain.Store;
+import beholder.domain.CatStore;
+import beholder.domain.Product;
+import beholder.domain.Store;
 import junit.framework.TestCase;
-import parser.CategoryProcessor;
-import stores.StoreManager;
-import stores.deshevle.DeshevleProcessor;
-import stores.fotos.FotosProcessor;
-import stores.foxtrot.FoxtrotProcessor;
-import stores.mobilluck.MobilluckProcessor;
-import stores.palladium.PalladiumProcessor;
-import stores.rozetka.RozetkaProcessor;
-import stores.tehnohata.TehnohataProcessor;
-import stores.v590.V590Processor;
+import beholder.parser.CategoryProcessor;
+import beholder.stores.StoreManager;
+import beholder.stores.deshevle.DeshevleProcessor;
+import beholder.stores.fotos.FotosProcessor;
+import beholder.stores.foxtrot.FoxtrotProcessor;
+import beholder.stores.mobilluck.MobilluckProcessor;
+import beholder.stores.palladium.PalladiumProcessor;
+import beholder.stores.rozetka.RozetkaProcessor;
+import beholder.stores.tehnohata.TehnohataProcessor;
+import beholder.stores.v590.V590Processor;
 
 /**
  * Blahblahblah

@@ -30,7 +30,6 @@ public class CategoryProcessor {
   @Autowired
   private SupportSqlDAO supportSqlDAO;
 
-  @Transactional
   public List<Product> process(CatStore cat, StoreManager storeManager) throws InterruptedException {
 
     List<Useragent> useragents = supportSqlDAO.getUseragents();
@@ -58,7 +57,7 @@ public class CategoryProcessor {
       pageCount ++;
       Long delay = ThreadLocalRandom.current().nextLong(storeManager.getDelay(), Math.round(storeManager.getDelay()*1.4));
       Thread.sleep(delay);
-      break;
+      break; // FIXME its a temp stuff for 1 page per magazine
     }
 
     if(productsTotal.size() == 0) {
