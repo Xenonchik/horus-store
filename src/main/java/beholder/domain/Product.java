@@ -73,7 +73,7 @@ public class Product {
     }
 
     public boolean isValid() {
-        if(name == null || name.length() < 1)
+        if(name == null || name.length() < 2)
             return false;
 
         return true;

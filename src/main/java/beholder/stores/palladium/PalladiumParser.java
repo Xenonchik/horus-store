@@ -23,7 +23,8 @@ public class PalladiumParser extends HtmlProductParser {
     Product product = new Product();
     product.setName(block.select("div.product-in span.title-prod a").text());
 
-    String priceStr = block.select("div.product-in div.price-group b").text();
+    String priceStr = block.select("div.product-in div.price-group span.price-second").text();
+    if(priceStr.equals("")) priceStr = block.select("div.product-in div.price-group b").text();
     priceStr = priceStr.replaceAll("[^\\d]", "");
 
     if(!priceStr.equals("")) {

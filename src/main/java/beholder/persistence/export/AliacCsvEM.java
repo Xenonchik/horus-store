@@ -25,7 +25,7 @@ public class AliacCsvEM implements EntityManager<AliasCsv> {
     Iterable<CSVRecord> records = null;
     List<AliasCsv> result = new ArrayList<>();
     try {
-      CsvDataProvider csvDataProvider = new CsvDataProvider("src/main/resources/data/emir-aliases.csv", new ArrayList<String>());
+      CsvDataProvider csvDataProvider = new CsvDataProvider("src/main/resources/data/aliases.csv", new ArrayList<>());
       records = csvDataProvider.getAllRecords();
     } catch (IOException e) {
       e.printStackTrace();
@@ -34,8 +34,8 @@ public class AliacCsvEM implements EntityManager<AliasCsv> {
     for (CSVRecord record : records) {
         try {
           AliasCsv aliasCsv = new AliasCsv();
-          aliasCsv.setBrand(record.get("brand"));
-          aliasCsv.setModel(record.get("model"));
+          aliasCsv.setBrand(record.get("Марка"));
+          aliasCsv.setModel(record.get("Название товара"));
 
           for(String store : stores) {
             aliasCsv.getStoreAliases().put(store, record.get(store));

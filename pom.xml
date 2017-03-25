@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>sharnyk</groupId>
-    <artifactId>eye</artifactId>
+    <artifactId>beholder</artifactId>
     <version>0.2</version>
 
     <properties>

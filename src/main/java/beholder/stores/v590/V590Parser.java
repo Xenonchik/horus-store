@@ -22,7 +22,7 @@ public class V590Parser extends HtmlProductParser {
   @Override
   protected Product processProduct(Element block) {
     Product product = new Product();
-    product.setName(block.select("div.head span.description").text() + " " + block.select("div.head a").text());
+    product.setName(block.select("div.head span.description").text() + " " + block.select("div.head a").text().trim());
 
     String priceStr = (block.select("span.new").text().equals("") ?
         block.select("span.price_sidebar").text() : block.select("span.new").text());

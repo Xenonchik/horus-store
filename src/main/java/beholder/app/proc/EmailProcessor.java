@@ -27,9 +27,9 @@ public class EmailProcessor {
       helper.setTo("xenonchikmaxxx@gmail.com");
 //      helper.addCc("yuriy.ermak@yandex.ua");
 
-      helper.setText("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
-      helper.setSubject("Prices from " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
-      helper.setFrom("serhii.harnyk@gmail.com");
+      helper.setText("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+      helper.setSubject("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+      helper.setFrom("parser@blackbeholder.net");
       helper.addAttachment("prices.csv", new File("/opt/data/prices.csv"));
 
       sender.send(message);

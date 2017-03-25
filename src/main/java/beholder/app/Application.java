@@ -2,6 +2,9 @@ package beholder.app;
 
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
@@ -102,11 +105,11 @@ public class Application {
       }
 
       if (cmd.hasOption("csv2sql")) {
-        new ExportAliacesProcessor().process();
+        new ExportAliacesProcessor().csv2sql();
       }
 
       if (cmd.hasOption("sql2csv")) {
-        new ExportAliacesProcessor().process2();
+        new ExportAliacesProcessor().sql2csv();
       }
 
       if (cmd.hasOption("prices")) {
@@ -145,7 +148,8 @@ public class Application {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-//      HibernateUtils.getSessionFactory().close();
+      HibernateUtils.getSessionFactory().close();
+      System.exit(0);
     }
   }
 
