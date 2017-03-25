@@ -17,7 +17,7 @@ public class EmailProcessor {
   public void process() {
     JavaMailSenderImpl sender = new JavaMailSenderImpl();
     sender.setHost("localhost");
-    sender.setPort(465);
+    sender.setPort(25);
 
     MimeMessage message = sender.createMimeMessage();
     try {
