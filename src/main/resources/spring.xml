@@ -51,6 +51,10 @@
         </property>
     </bean>
 
+    <bean id="storeProcessorFactory" class="beholder.app.proc.StoreProcessorFactory">
+        <lookup-method name="getStoreProcessor" bean="storeProcessor"/>
+    </bean>
+
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="localhost"/>
     </bean>

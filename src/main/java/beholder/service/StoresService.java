@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Sets;
 
 import beholder.app.proc.StoreProcessor;
+import beholder.app.proc.StoreProcessorFactory;
 import beholder.conf.Config;
 import beholder.domain.Store;
 import beholder.persistence.sql.StoreSqlDAO;
@@ -32,14 +33,18 @@ public class StoresService {
   @Autowired
   private StoreSqlDAO storeSqlDAO;
 
+  @Autowired @Qualifier("storeProcessorFactory")
+  private StoreProcessorFactory factory;
+
   @Transactional
   public Set<StoreProcessor> getProcessors() {
     Map<String, Store> stores = storeSqlDAO.getStoresAsMap();
     Set<StoreProcessor> processors = Sets.newHashSet();
 
+
     for (Map.Entry<String, StoreManager> kv : config.getStoreConfigs().entrySet()) {
       if (stores.containsKey(kv.getKey())) {
-        StoreProcessor sp = appContext.getBean(StoreProcessor.class);
+        StoreProcessor sp = factory.getStoreProcessor();
         sp.setStoreManager(kv.getValue());
         sp.setStore(stores.get(kv.getKey()));
         processors.add(sp);
