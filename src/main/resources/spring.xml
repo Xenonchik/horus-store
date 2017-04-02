@@ -10,9 +10,9 @@
                 <entry key="rozetka">
                     <bean class="stores.rozetka.RozetkaProcessor"></bean>
                 </entry>
-                <!--<entry key="fotos">-->
-                    <!--<bean class="stores.fotos.FotosProcessor"></bean>-->
-                <!--</entry>-->
+                <entry key="fotos">
+                    <bean class="stores.fotos.FotosProcessor"></bean>
+                </entry>
                 <entry key="deshevle">
                     <bean class="stores.deshevle.DeshevleProcessor"></bean>
                 </entry>

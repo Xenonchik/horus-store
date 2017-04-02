@@ -10,6 +10,7 @@ import domain.Store;
 import junit.framework.TestCase;
 import parser.CategoryProcessor;
 import stores.StoreManager;
+import stores.antoshka.AntoshkaProcessor;
 import stores.deshevle.DeshevleProcessor;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
@@ -120,7 +121,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://bt.rozetka.com.ua/extractor_fans/bosch/c80140/v148/");
+    testCat.setUrl("http://rozetka.com.ua/igrushechnoe-orujie/c104013/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
@@ -154,7 +155,24 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/Bosch/");
+    testCat.setUrl("http://www.mobilluck.com.ua/katalog/Fridge/Liebherr/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice());
+    }
+  }
+
+  @Test
+  public void testAntoshka() throws InterruptedException {
+    Store store = new Store();
+
+    StoreManager sm = new AntoshkaProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://antoshka.ua/igrushki/igrushechnoe-oruzhie.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {

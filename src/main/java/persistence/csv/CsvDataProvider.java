@@ -52,4 +52,8 @@ public class CsvDataProvider {
   public String getFilename() {
     return filename;
   }
+
+  public void flush() throws IOException {
+    fileWriter.flush();
+  }
 }
