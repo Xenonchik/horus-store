@@ -121,7 +121,7 @@ public class ExportSqlDAO extends SqlDAO {
     beginTransaction();
 
     Query query = getSession().createQuery("FROM Export WHERE " +
-        ":alias LIKE(CONCAT('%', model)) AND :alias LIKE(CONCAT('%', brand, '%')) AND store = :store ORDER BY date DESC");
+        "UPPER(:alias) LIKE(UPPER(CONCAT('%', model))) AND UPPER(:alias) LIKE(UPPER(CONCAT('%', brand, '%'))) AND store = :store ORDER BY date DESC");
     query.setParameter("alias", alias.getAlias());
     query.setParameter("store", alias.getStore());
     List<Export> list = query.list();
