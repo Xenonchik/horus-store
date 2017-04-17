@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
 import domain.CatStore;
 import domain.Product;
 import domain.Store;
@@ -36,10 +38,15 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("https://f.ua/shop/smesiteli-dlya-mojki/");
+    testCat.setUrl("https://f.ua/shop/mikrofony/");
 
-    List<Product> products = new CategoryProcessor().process(testCat, sm);
-    for (Product product : products.subList(0, 10)) {
+    List<Product> result = Lists.newArrayList();
+    for(int i = 0; i < 5; i++) {
+      List<Product> products = new CategoryProcessor().process(testCat, sm);
+      result.addAll(products);
+    }
+
+    for (Product product : result) {
       log.info(product.getName() + "  " + product.getPrice());
     }
   }
