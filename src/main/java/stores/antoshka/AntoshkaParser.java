@@ -47,7 +47,7 @@ public class AntoshkaParser extends HtmlProductParser {
       setProcessCategory(false);
     }
 
-    product.setProductUrl(block.select("h2.product_name a").attr("href"));
+    product.setProductUrl(block.select("h2.product-name a").attr("href"));
 
     product.setStore(storeId);
     return product;
