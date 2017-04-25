@@ -54,10 +54,11 @@ public class RozetkaParser extends HtmlProductParser {
     protected void checkNextPage(Document doc) {
         try {
             if (doc.select("span.g-i-more-link-text") == null) {
+                log.warn("No Rozetka next page");
                 setProcessCategory(false);
             }
         } catch (NullPointerException e) {
-            log.warn("No next page");
+            log.warn("No Rozetka next page, NPE");
         }
     }
 }

@@ -24,7 +24,7 @@ public class ProductSaver {
   public void saveProducts(List<Product> products) throws Exception {
     for(Product product : products) {
       dataProvider.printRecord(Lists.newArrayList(product.getName(), getSKU(product.getName()),
-          product.getPrice(), product.getUrl()));
+          product.getPrice(), product.getProductUrl()));
     }
     dataProvider.flush();
   }

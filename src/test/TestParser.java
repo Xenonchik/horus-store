@@ -128,7 +128,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://rozetka.com.ua/igrushechnoe-orujie/c104013/");
+    testCat.setUrl("http://bt.rozetka.com.ua/extractor_fans/c80140/filter/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
