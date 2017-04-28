@@ -18,8 +18,9 @@ import stores.rozetka.RozetkaProcessor;
 public class BigrEP {
 
   public static void main(String[] args) throws Exception {
-//    rozetka();
-    antoshka();
+
+   rozetka();
+//    antoshka();
 
 
   }
@@ -37,7 +38,7 @@ public class BigrEP {
       List<Product> products = new CategoryProcessor().process(testCat, sm);
       productsTotal.addAll(products);
     }
-    ProductSaver ps = new ProductSaver("/opt/data/bi-rozetka.csv");
+    BiProductCsvDao ps = new BiProductCsvDao("/opt/data/bi-rozetka.csv");
     ps.saveProducts(productsTotal);
   }
 
@@ -54,7 +55,7 @@ public class BigrEP {
       List<Product> products = new CategoryProcessor().process(testCat, sm);
       productsTotal.addAll(products);
     }
-    ProductSaver ps = new ProductSaver("/opt/data/bi-antoshka.csv");
+    BiProductCsvDao ps = new BiProductCsvDao("/opt/data/bi-antoshka.csv");
     ps.saveProducts(productsTotal);
   }
 }
