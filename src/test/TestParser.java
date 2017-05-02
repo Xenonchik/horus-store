@@ -7,6 +7,11 @@ import org.slf4j.LoggerFactory;
 import beholder.domain.CatStore;
 import beholder.domain.Product;
 import beholder.domain.Store;
+import com.google.common.collect.Lists;
+
+import domain.CatStore;
+import domain.Product;
+import domain.Store;
 import junit.framework.TestCase;
 import beholder.parser.CategoryProcessor;
 import beholder.stores.StoreManager;
@@ -35,7 +40,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("https://f.ua/shop/smesiteli-dlya-mojki/");
+    testCat.setUrl("https://f.ua/shop/mikrofony/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products.subList(0, 10)) {
@@ -120,7 +125,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://bt.rozetka.com.ua/extractor_fans/bosch/c80140/v148/");
+    testCat.setUrl("http://bt.rozetka.com.ua/extractor_fans/c80140/filter/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
@@ -154,7 +159,24 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/Bosch/");
+    testCat.setUrl("http://www.mobilluck.com.ua/katalog/Fridge/Liebherr/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice());
+    }
+  }
+
+  @Test
+  public void testAntoshka() throws InterruptedException {
+    Store store = new Store();
+
+    StoreManager sm = new AntoshkaProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://antoshka.ua/igrushki/igrushechnoe-oruzhie.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {

@@ -21,6 +21,6 @@ public class FotosProcessor implements StoreManager {
 
   @Override
   public Long getDelay() {
-    return 5000l;
+    return 20000l;
   }
 }

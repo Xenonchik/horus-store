@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -47,6 +48,9 @@ public class Product {
     private Long category;
 
     private String html;
+
+    @Transient
+    private String productUrl;
 
     public Long getId() {
         return id;
@@ -129,5 +133,13 @@ public class Product {
 
     public void setHtml(String html) {
         this.html = html;
+    }
+
+    public String getProductUrl() {
+        return productUrl;
+    }
+
+    public void setProductUrl(String productUrl) {
+        this.productUrl = productUrl;
     }
 }
