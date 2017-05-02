@@ -1,4 +1,4 @@
-package stores.antoshka;
+package beholder.stores.antoshka;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -6,8 +6,8 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import domain.Product;
-import parser.HtmlProductParser;
+import beholder.domain.Product;
+import beholder.parser.HtmlProductParser;
 
 /**
  * Done

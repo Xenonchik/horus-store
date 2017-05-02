@@ -1,6 +1,6 @@
-package stores.antoshka;
+package beholder.stores.antoshka;
 
-import parser.CategoryUrlPool;
+import beholder.parser.CategoryUrlPool;
 
 /**
  * Created by serge on 4/26/16.

@@ -1,4 +1,4 @@
-package bigr;
+package beholder.bigr;
 
 import java.util.List;
 

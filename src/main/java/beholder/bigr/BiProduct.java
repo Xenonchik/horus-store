@@ -1,4 +1,4 @@
-package bigr;
+package beholder.bigr;
 
 /**
  * Created by serge on 4/26/17.

@@ -1,8 +1,8 @@
-package stores.antoshka;
+package beholder.stores.antoshka;
 
-import parser.HtmlProductParser;
-import parser.UrlPool;
-import stores.StoreManager;
+import beholder.parser.HtmlProductParser;
+import beholder.parser.UrlPool;
+import beholder.stores.StoreManager;
 
 /**
  * Done

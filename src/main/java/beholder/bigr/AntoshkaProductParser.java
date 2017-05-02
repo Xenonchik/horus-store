@@ -1,10 +1,10 @@
-package bigr;
+package beholder.bigr;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import parser.source.HtmlSourceBuilder;
-import parser.source.SourceBuilder;
+import beholder.parser.source.HtmlSourceBuilder;
+import beholder.parser.source.SourceBuilder;
 
 /**
  * Created by serge on 4/26/17.

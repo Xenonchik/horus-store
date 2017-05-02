@@ -1,16 +1,16 @@
-package bigr;
+package beholder.bigr;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domain.CatStore;
-import domain.Product;
-import domain.Store;
-import parser.CategoryProcessor;
-import stores.StoreManager;
-import stores.antoshka.AntoshkaProcessor;
-import stores.rozetka.RozetkaProcessor;
+import beholder.domain.CatStore;
+import beholder.domain.Product;
+import beholder.domain.Store;
+import beholder.parser.CategoryProcessor;
+import beholder.stores.StoreManager;
+import beholder.stores.antoshka.AntoshkaProcessor;
+import beholder.stores.rozetka.RozetkaProcessor;
 
 /**
  * Blahblahblah

@@ -1,4 +1,4 @@
-import bigr.BiProductCsvDao;
+import beholder.bigr.BiProductCsvDao;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

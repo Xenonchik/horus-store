@@ -7,14 +7,9 @@ import org.slf4j.LoggerFactory;
 import beholder.domain.CatStore;
 import beholder.domain.Product;
 import beholder.domain.Store;
-import com.google.common.collect.Lists;
-
-import domain.CatStore;
-import domain.Product;
-import domain.Store;
-import junit.framework.TestCase;
 import beholder.parser.CategoryProcessor;
 import beholder.stores.StoreManager;
+import beholder.stores.antoshka.AntoshkaProcessor;
 import beholder.stores.deshevle.DeshevleProcessor;
 import beholder.stores.fotos.FotosProcessor;
 import beholder.stores.foxtrot.FoxtrotProcessor;
@@ -23,6 +18,7 @@ import beholder.stores.palladium.PalladiumProcessor;
 import beholder.stores.rozetka.RozetkaProcessor;
 import beholder.stores.tehnohata.TehnohataProcessor;
 import beholder.stores.v590.V590Processor;
+import junit.framework.TestCase;
 
 /**
  * Blahblahblah

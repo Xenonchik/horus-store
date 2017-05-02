@@ -1,4 +1,4 @@
-package bigr;
+package beholder.bigr;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.apache.commons.csv.CSVRecord;
 
 import com.google.common.collect.Lists;
 
-import domain.Product;
-import persistence.csv.CsvDataProvider;
+import beholder.domain.Product;
+import beholder.persistence.csv.CsvDataProvider;
 
 /**
  * Blahblahblah
