@@ -20,7 +20,7 @@ public class AliasCsvDAO {
   private final CsvDataProvider provider;
 
   public AliasCsvDAO(List<Store> stores) throws IOException {
-    this(stores, "src/main/resources/data/aliases.csv");
+    this(stores, "/opt/data/aliases.csv");
   }
 
   public AliasCsvDAO(List<Store> stores, String filename) {

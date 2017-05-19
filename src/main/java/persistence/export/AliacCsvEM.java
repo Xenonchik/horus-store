@@ -25,7 +25,7 @@ public class AliacCsvEM implements EntityManager<AliasCsv> {
     Iterable<CSVRecord> records = null;
     List<AliasCsv> result = new ArrayList<>();
     try {
-      CsvDataProvider csvDataProvider = new CsvDataProvider("src/main/resources/data/aliases.csv", new ArrayList<>());
+      CsvDataProvider csvDataProvider = new CsvDataProvider("/opt/data/aliases.csv", new ArrayList<>());
       records = csvDataProvider.getAllRecords();
     } catch (IOException e) {
       e.printStackTrace();
