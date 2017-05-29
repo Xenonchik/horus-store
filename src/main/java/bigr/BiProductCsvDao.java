@@ -56,7 +56,7 @@ public class BiProductCsvDao {
       BiProduct product = new BiProduct();
       product.setName(record.get(0));
       product.setSKU(record.get(1));
-      product.setPrice(record.get(2));
+      product.setPrice(Long.parseLong(record.get(2)));
       product.setUrl(record.get(3));
       result.add(product);
     }
