@@ -13,16 +13,13 @@ public class AntoshkaProductParser {
 
   SourceBuilder builder = new HtmlSourceBuilder();
 
-  public BiProduct parseUrl(String url) {
-    BiProduct product = new BiProduct();
-    product.setUrl(url);
-
+  public String parseUrl(String url) {
     String page = builder.getSource(url).getContent();
 
     Document doc = Jsoup.parse(page);
     String sku = doc.select("div.article").text().replace("Артикул производителя:", "").trim();
-    product.setSKU(sku);
-    return product;
+
+    return sku;
   }
 
 }

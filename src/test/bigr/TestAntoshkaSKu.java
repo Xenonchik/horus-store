@@ -14,17 +14,17 @@ public class TestAntoshkaSKu {
   @Test
   public void testGetSKU() {
     AntoshkaProductParser antoshkaProductParser = new AntoshkaProductParser();
-    antoshkaProductParser.parseUrl("http://antoshka.ua/nabor-oruzhija-ser-cherepashki-nindzja-mik.html");
+    antoshkaProductParser.parseUrl("http://antoshkaParse.ua/nabor-oruzhija-ser-cherepashki-nindzja-mik.html");
   }
 
   @Test
   public void testDao() throws Exception {
-    BiProductCsvDao dao = new BiProductCsvDao("/opt/data/bi-antoshka.csv");
+    BiProductCsvDao dao = new BiProductCsvDao("/opt/data/bi-antoshkaParse.csv");
     BiProductCsvDao dao2 = new BiProductCsvDao("/opt/data/bi-antoshka2.csv");
     List<BiProduct> products = Lists.newArrayList();
     for(BiProduct product : dao.getProducts()) {
       AntoshkaProductParser antoshkaProductParser = new AntoshkaProductParser();
-      product.setSKU(antoshkaProductParser.parseUrl(product.getUrl()).getSKU());
+      product.setSKU(antoshkaProductParser.parseUrl(product.getUrl()));
       Thread.sleep(1500l);
       products.add(product);
     }

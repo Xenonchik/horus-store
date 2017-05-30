@@ -24,7 +24,7 @@ public class BiProduct {
     BiProduct biProduct = new BiProduct();
     biProduct.setName(product.getName());
     biProduct.setPrice(product.getPrice());
-    biProduct.setUrl(product.getUrl());
+    biProduct.setUrl(product.getProductUrl());
     return biProduct;
   }
 
