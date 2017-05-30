@@ -27,7 +27,7 @@ public class BigrEP {
 
   final static Logger log = LoggerFactory.getLogger(BigrEP.class);
 
-  public static final String DB_URL = "jdbc:postgresql://localhost/eye?user=postgres&password=postgrespass&currentSchema=bigr";
+  public static final String DB_URL = "jdbc:postgresql://localhost/eye?user=pg_tmp&password=postgrespass&currentSchema=bigr";
 
   private static Dao<BiProduct, Integer> productDao = null;
   private static Dao<Sku, Integer> skuDao = null;
