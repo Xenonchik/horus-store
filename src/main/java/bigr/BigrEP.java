@@ -27,7 +27,7 @@ public class BigrEP {
 
   final static Logger log = LoggerFactory.getLogger(BigrEP.class);
 
-  public static final String DB_URL = "jdbc:postgresql://localhost/eye?user=pg_tmp&password=postgrespass&currentSchema=bigr";
+  public static final String DB_URL = "jdbc:postgresql://localhost/eye?user=postgres&password=postgrespass&currentSchema=bigr";
 
   private static Dao<BiProduct, Integer> productDao = null;
   private static Dao<Sku, Integer> skuDao = null;
@@ -49,8 +49,8 @@ public class BigrEP {
 
   public static void main(String[] args) throws Exception {
 
-    rozetkaParse();
-    antoshkaParse();
+//    rozetkaParse();
+//    antoshkaParse();
     setSku();
 
     connectionSource.close();
@@ -109,10 +109,17 @@ public class BigrEP {
           case "ROZETKA": {
             Sku sku = new RozetkaSkuBuilder().buildSku(product);
             skuDao.create(sku);
+            break;
           }
           case "ANTOSHKA": {
             Sku sku = new AntoshkaSkuBuilder().buildSku(product);
             skuDao.create(sku);
+            try {
+              Thread.sleep(1000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            break;
           }
         }
       }
@@ -143,51 +150,55 @@ public class BigrEP {
   }
 
   public static List<String> rozCats = Lists.asList(
-      "http://rozetka.com.ua/building_kits/c97420/",
-      new String[]{"http://rozetka.com.ua/nastoljnye-igry-i-golovolomki/c98280/",
+//      "http://rozetka.com.ua/building_kits/c97420/",
+          "http://rozetka.com.ua/avtomobilnye-treki/c102308/",
+      new String[]{
+//              "http://rozetka.com.ua/nastoljnye-igry-i-golovolomki/c98280/"
   "http://rozetka.com.ua/avtomobilnye-treki/c102308/",
   "http://rozetka.com.ua/igrushechnoe-orujie/c104013/",
-  "http://rozetka.com.ua/kollektsionnye-modelki/c103338/",
-  "http://rozetka.com.ua/igrushechnye-mashinki-i-tehnika/c102003/",
+//  "http://rozetka.com.ua/kollektsionnye-modelki/c103338/",
+//  "http://rozetka.com.ua/igrushechnye-mashinki-i-tehnika/c102003/",
   "http://rozetka.com.ua/rc_toys/c97422/",
-  "http://rozetka.com.ua/dolls/c99392/",
+//  "http://rozetka.com.ua/dolls/c99392/",
   "http://rozetka.com.ua/pups/c100313/",
-  "http://rozetka.com.ua/soft_toys/c99051/",
-  "http://rozetka.com.ua/figures/c99253/",
-  "http://rozetka.com.ua/igrushki-dlya-malyshey/c100193/",
+//  "http://rozetka.com.ua/soft_toys/c99051/",
+//  "http://rozetka.com.ua/figures/c99253/",
+//  "http://rozetka.com.ua/igrushki-dlya-malyshey/c100193/",
   "http://rozetka.com.ua/s_centers/c103303/",
   "http://rozetka.com.ua/interactive_toys/c98159/",
-  "http://rozetka.com.ua/tvorchestvo/c102912/",
-  "http://rozetka.com.ua/rattles/c103323/",
+//  "http://rozetka.com.ua/tvorchestvo/c102912/",
+//  "http://rozetka.com.ua/rattles/c103323/",
   "http://rozetka.com.ua/chudomobili-hodunki-kachalki/c104034/",
-  "http://rozetka.com.ua/gaming_kits/c99674/filter/",
+//  "http://rozetka.com.ua/gaming_kits/c99674/filter/",
   "http://rozetka.com.ua/aksessuary-dlya-kukol-i-pupsov/c102829/",
   "http://rozetka.com.ua/nabory-dlya-nauchnyh-issledovaniy/c102843/",
-  "http://rozetka.com.ua/puzzles/c102848/",
-  "http://rozetka.com.ua/railroad/c99364/"}
+//  "http://rozetka.com.ua/puzzles/c102848/",
+  "http://rozetka.com.ua/railroad/c99364/"
+      }
   );
 
   public static List<String> antCats = Lists.asList(
-  "http://antoshka.ua/igrushki/lego.html",
+//  "http://antoshka.ua/igrushki/lego.html",
+          "http://antoshka.ua/igrushki/optika.html",
       new String[]{
   "http://antoshka.ua/igrushki/aktivnyy-otdyh.html",
-  "http://antoshka.ua/igrushki/dlya-malenkih-detey.html",
-  "http://antoshka.ua/igrushki/mashinki-i-tehnika.html",
-  "http://antoshka.ua/igrushki/myagkie-igrushki.html",
-  "http://antoshka.ua/igrushki/konstruktor.html",
-  "http://antoshka.ua/igrushki/kukly-i-aksessuary.html",
-  "http://antoshka.ua/igrushki/nastolnye-igry.html",
-  "http://antoshka.ua/igrushki/tvorchestvo.html",
-  "http://antoshka.ua/igrushki/roboty-i-figurki.html",
+//  "http://antoshka.ua/igrushki/dlya-malenkih-detey.html",
+//  "http://antoshka.ua/igrushki/mashinki-i-tehnika.html",
+//  "http://antoshka.ua/igrushki/myagkie-igrushki.html",
+//  "http://antoshka.ua/igrushki/konstruktor.html",
+//  "http://antoshka.ua/igrushki/kukly-i-aksessuary.html",
+//  "http://antoshka.ua/igrushki/nastolnye-igry.html",
+//  "http://antoshka.ua/igrushki/tvorchestvo.html",
+//  "http://antoshka.ua/igrushki/roboty-i-figurki.html",
   "http://antoshka.ua/igrushki/igrushechnoe-oruzhie.html",
-  "http://antoshka.ua/igrushki/pazzly.html",
+//  "http://antoshka.ua/igrushki/pazzly.html",
   "http://antoshka.ua/igrushki/tematicheskie-igrovye-nabory.html",
   "http://antoshka.ua/igrushki/muzykalnye-instrumenty.html",
   "http://antoshka.ua/igrushki/knigi.html",
   "http://antoshka.ua/igrushki/dekorativnaya-detskaya-kosmetika-i-aksessuary.html",
   "http://antoshka.ua/igrushki/vse-dlya-prazdnika.html",
   "http://antoshka.ua/igrushki/elementy-pitaniya-i-fonari.html",
-  "http://antoshka.ua/igrushki/kancelyarskie-tovary.html",
-  "http://antoshka.ua/igrushki/krupnogabaritnye-igrushki.html",
-  "http://antoshka.ua/igrushki/optika.html"});
+//  "http://antoshka.ua/igrushki/kancelyarskie-tovary.html",
+  "http://antoshka.ua/igrushki/krupnogabaritnye-igrushki.html"
+  });
 }
