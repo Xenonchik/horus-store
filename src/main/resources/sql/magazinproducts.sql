@@ -1,4 +1,4 @@
-CREATE VIEW summary AS SELECT
+CREATE VIEW bigr.summary AS SELECT
                          (CASE WHEN (ant_name IS NULL OR ant_name = '') THEN roz_name ELSE ant_name END) AS name,
                          (CASE WHEN (ant_sku IS NULL OR ant_sku = '') THEN roz_sku ELSE ant_sku END) AS sku,
                          ant_price AS ANTOSHKA, roz_price AS ROZETKA

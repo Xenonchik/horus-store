@@ -21,6 +21,6 @@ public class RozetkaProcessor implements StoreManager {
 
   @Override
   public Long getDelay() {
-    return 5000l;
+    return 2000l;
   }
 }
