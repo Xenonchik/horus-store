@@ -14,4 +14,5 @@ CREATE VIEW bigr.summary_urls AS SELECT
                                   JOIN bigr.skus AS s ON p.name=s.name AND p.store=s.store
                                 WHERE p.store = 'ROZETKA' AND s.sku != '') as roz
                                   ON ant.sku=roz.sku
-                            ) as r
+                            ) as r;
+COPY (SELECT * FROM bigr.summary_urls) TO '/opt/data/with_urls.csv' DELIMITER ';' CSV HEADER;
