@@ -47,6 +47,7 @@ public class RozetkaParser extends HtmlProductParser {
 
         }
         product.setStore(storeId);
+        product.setProductUrl(block.select("div.g-i-tile-i-title a").attr("href"));
         return product;
     }
 

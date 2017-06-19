@@ -49,8 +49,10 @@ public class BigrEP {
 
   public static void main(String[] args) throws Exception {
 
+    Long t1 = System.currentTimeMillis();
     rozetkaParse();
     antoshkaParse();
+    log.info("Total time = " + (System.currentTimeMillis() - t1));
     setSku();
 
     connectionSource.close();
