@@ -2,11 +2,13 @@ package bigr;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -30,6 +32,7 @@ public class BigrEP {
   public static final String DB_URL = "jdbc:postgresql://localhost/eye?user=postgres&password=postgrespass&currentSchema=bigr";
 
   private static Dao<BiProduct, Integer> productDao = null;
+  private static Dao<BiBrand, Integer> brandDao = null;
   private static Dao<Sku, Integer> skuDao = null;
   private static ConnectionSource connectionSource;
 
@@ -38,10 +41,12 @@ public class BigrEP {
       connectionSource = new JdbcConnectionSource(DB_URL);
 
 
-    productDao =
+      productDao =
         DaoManager.createDao(connectionSource, BiProduct.class);
       skuDao =
           DaoManager.createDao(connectionSource, Sku.class);
+      brandDao =
+          DaoManager.createDao(connectionSource, BiBrand.class);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -49,11 +54,13 @@ public class BigrEP {
 
   public static void main(String[] args) throws Exception {
 
-    Long t1 = System.currentTimeMillis();
-    rozetkaParse();
-    antoshkaParse();
-    log.info("Total time = " + (System.currentTimeMillis() - t1));
-    setSku();
+    setBrands();
+
+//    Long t1 = System.currentTimeMillis();
+//    rozetkaParse();
+//    antoshkaParse();
+//    log.info("Total time = " + (System.currentTimeMillis() - t1));
+//    setSku();
 
     connectionSource.close();
   }
@@ -149,6 +156,29 @@ public class BigrEP {
 
     }
     saveProducts(productsTotal);
+  }
+
+  public static void setBrands() {
+    RozetkaBrands rb = new RozetkaBrands();
+    Set<String> result = Sets.newHashSet();
+//    for (String url : rozCats) {
+//      result.addAll(rb.getBrands(url));
+//    }
+
+    AntoshkaBrands ab = new AntoshkaBrands();
+    for (String url : antCats) {
+      result.addAll(ab.getBrands(url));
+    }
+
+    result.forEach(brand -> {
+          BiBrand bibrand = new BiBrand(brand);
+          try {
+            brandDao.create(bibrand);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+    );
   }
 
   public static List<String> rozCats = Lists.asList(
