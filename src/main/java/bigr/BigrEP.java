@@ -54,13 +54,13 @@ public class BigrEP {
 
   public static void main(String[] args) throws Exception {
 
-    setBrands();
+//    setBrands();
 
-//    Long t1 = System.currentTimeMillis();
-//    rozetkaParse();
-//    antoshkaParse();
-//    log.info("Total time = " + (System.currentTimeMillis() - t1));
-//    setSku();
+    Long t1 = System.currentTimeMillis();
+    rozetkaParse();
+    antoshkaParse();
+    log.info("Total time = " + (System.currentTimeMillis() - t1));
+    setSku();
 
     connectionSource.close();
   }
