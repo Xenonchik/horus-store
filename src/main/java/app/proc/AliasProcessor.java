@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import domain.Alias;
-import domain.Good;
 import domain.Export;
+import domain.Good;
 import domain.Store;
 import persistence.csv.AliasCsvDAO;
 import persistence.sql.AliasSqlDAO;
-import persistence.sql.GoodsSqlDAO;
 import persistence.sql.ExportSqlDAO;
+import persistence.sql.GoodsSqlDAO;
 import persistence.sql.StoreSqlDAO;
 
 /**
@@ -35,14 +35,19 @@ public class AliasProcessor {
 
     List<Good> goods = exemplarDAO.getGoods();
     List<Store> stores = new StoreSqlDAO().getStores();
-    AliasCsvDAO aliasCsvDAO = new AliasCsvDAO(stores);
 
     int i = 0;
     for (Good good : goods) {
 
       for (Store store : stores) {
+        List<Export> exports;
+        if(good.getCategory().getId().equals(0l)) {
+          exports = exportDAO.getExportByStore(store);
+        } else {
+          exports = exportDAO.getExportByCategory(store, good.getCategory());
+        }
 
-        for (Export exp : exportDAO.getExportByCategory(store, good.getCategory())) {
+        for (Export exp : exports) {
           if (isAlias(good, exp)) {
             // log.info("Alias for " + exemplarGood.getModel() + " : " + exp.getFullName());
             good.getAliases().put(store.getName(), exp);
@@ -50,13 +55,13 @@ public class AliasProcessor {
             break;
           }
         }
+
         if (good.getAliases().get(store.getName()) == null) {
           // add export with empty name
           good.getAliases().put(store.getName(), new Export());
         }
       }
 
-      //aliasCsvDAO.saveAlias(good);
       saveAlias(good);
 
       i++;
@@ -82,11 +87,7 @@ public class AliasProcessor {
         aliases.add(alias);
       }
     }
-//    try {
-      aliasDAO.updateSmart(aliases);
-//    } catch (IndexOutOfBoundsException e) {
-//      log.error("IndexOutOfBoundsException");
-//    }
+    aliasDAO.updateSmart(aliases);
 
   }
 

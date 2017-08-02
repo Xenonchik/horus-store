@@ -16,7 +16,7 @@ public class GoodsSqlDAO extends SqlDAO {
   public void insert(List<Good> entities) {
     beginTransaction();
     for (Good good : entities) {
-
+      getSession().saveOrUpdate(good);
     }
 
     endTransaction();
@@ -24,8 +24,6 @@ public class GoodsSqlDAO extends SqlDAO {
 
   public List<Good> getGoods() {
     beginTransaction();
-//    Query query = getSession().createQuery("from Good");
-//    Query query = getSession().createQuery("from Good where brand = 'ELLECI'");
     Query query = getSession().createQuery("from Good");
     List<Good> list = query.list();
     endTransaction();
@@ -47,7 +45,7 @@ public class GoodsSqlDAO extends SqlDAO {
     Map<String, Long> result = new HashMap<>();
 
     for(Good eg : getGoods()) {
-      result.put(eg.getBrand() + " " + eg.getModel().trim(), eg.getId());
+      result.put(eg.getBrand().trim() + " " + eg.getModel().trim(), eg.getId());
     }
 
     return result;

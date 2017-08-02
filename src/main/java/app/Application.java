@@ -52,7 +52,7 @@ public class Application {
     options.addOption("export", false, "export");
     options.addOption("parseall", false, "parse all");
     options.addOption("parsestore", true, "parse store");
-    options.addOption("emir", false, "parse emir");
+    options.addOption("goods", false, "parse emir");
     options.addOption("aliases", false, "parse emir");
     options.addOption("csv2sql", false, "parse emir");
     options.addOption("prices", false, "parse emir");
@@ -88,7 +88,7 @@ public class Application {
         new StoreParsersExecutor().parseAll(aloneProcessor);
       }
 
-      if (cmd.hasOption("emir")) {
+      if (cmd.hasOption("goods")) {
         new EmirProcessor().process();
       }
 
@@ -120,7 +120,6 @@ public class Application {
         new StoreParsersExecutor().parseAll(processors);
         log.info("Data gathered");
         new ExportProcessor().process();
-        new AliasProcessor().process();
         new PricesProcessor().process();
         log.info("Prices in file");
         new EmailProcessor().process();
@@ -129,7 +128,6 @@ public class Application {
 
       if (cmd.hasOption("extract")) {
         new ExportProcessor().process();
-        new AliasProcessor().process();
         new PricesProcessor().process();
         log.info("Prices in file");
         new EmailProcessor().process();
