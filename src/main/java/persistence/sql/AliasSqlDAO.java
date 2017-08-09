@@ -63,6 +63,8 @@ public class AliasSqlDAO extends SqlDAO implements EntityManager<Alias> {
           exemplar.setAlias(alias.getAlias());
           getSession().update(exemplar);
           log.info("Updated " + alias.getGood() + " " + alias.getStore());
+        } else if (exemplar == null) {
+          getSession().save(alias);
         }
       }
       catch (NonUniqueObjectException e) {

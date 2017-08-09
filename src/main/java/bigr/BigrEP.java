@@ -56,6 +56,11 @@ public class BigrEP {
 
 //    setBrands();
 
+    Long t1 = System.currentTimeMillis();
+    rozetkaParse();
+    antoshkaParse();
+    log.info("Total time = " + (System.currentTimeMillis() - t1));
+    setSku();
 //    Long t1 = System.currentTimeMillis();
     rozetkaParse();
     antoshkaParse();

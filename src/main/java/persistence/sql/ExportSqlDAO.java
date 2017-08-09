@@ -116,6 +116,19 @@ public class ExportSqlDAO extends SqlDAO {
     return list;
   }
 
+  public List<Export> getExportByStore(Store store) {
+
+    beginTransaction();
+
+    Query query = getSession().createQuery("FROM Export WHERE store = :store");
+    query.setParameter("store", store.getName());
+    List<Export> list = query.list();
+
+    endTransaction();
+
+    return list;
+  }
+
   public Export getExportForAlias(Alias alias) {
 
     beginTransaction();
