@@ -29,7 +29,7 @@ public class TestParser extends TestCase {
 
   final static Logger log = LoggerFactory.getLogger(TestParser.class);
 
-  @Test
+//  @Test
   public void testFotos() throws InterruptedException {
     Store store = new Store();
     store.setName("FOTOS");
@@ -77,12 +77,14 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_bosch.html");
+    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_ardesia.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -100,6 +102,7 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -117,6 +120,7 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -134,6 +138,7 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -151,6 +156,7 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -168,6 +174,7 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice());
     }
+    assertTrue(products.size() > 0);
   }
 
   @Test
