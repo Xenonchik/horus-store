@@ -79,7 +79,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_bosch.html");
+    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_electrolux.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {

@@ -17,9 +17,9 @@ public class FoxtrotParser extends HtmlProductParser {
   @Override
   protected Product processProduct(Element block) {
     Product product = new Product();
-    product.setName(block.select("div.product a.title").text());
+    product.setName(block.select("a.name").text());
 
-    String priceStr = block.select("div.price a").text();
+    String priceStr = block.select("div.price").text();
     priceStr = priceStr.replaceAll("[^\\d]", "");
 
     if(!priceStr.equals("")) {
@@ -31,7 +31,7 @@ public class FoxtrotParser extends HtmlProductParser {
 
   @Override
   protected Elements getBlocks(Document doc) {
-    return doc.select("div.products-block .product-items");
+    return doc.select("div.product-list div.product-item");
   }
 
 }

@@ -24,7 +24,7 @@ public class RozetkaParser extends HtmlProductParser {
 
     @Override
     protected Elements getBlocks(Document doc) {
-        return doc.select("div.g-i-tile-catalog");
+        return doc.select("div.g-i-tile-i-box");
     }
 
     @Override
