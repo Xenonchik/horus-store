@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import domain.CatStore;
 import domain.Product;
@@ -56,15 +57,11 @@ public class BigrEP {
 
 //    setBrands();
 
+    TableUtils.clearTable(connectionSource, BiProduct.class);
     Long t1 = System.currentTimeMillis();
     rozetkaParse();
     antoshkaParse();
     log.info("Total time = " + (System.currentTimeMillis() - t1));
-    setSku();
-//    Long t1 = System.currentTimeMillis();
-    rozetkaParse();
-    antoshkaParse();
-//    log.info("Total time = " + (System.currentTimeMillis() - t1));
     setSku();
 
     connectionSource.close();
