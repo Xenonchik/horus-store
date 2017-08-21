@@ -30,26 +30,26 @@ public class TestParser extends TestCase {
   final static Logger log = LoggerFactory.getLogger(TestParser.class);
 
 //  @Test
-  public void testFotos() throws InterruptedException {
-    Store store = new Store();
-    store.setName("FOTOS");
-    StoreManager sm = new FotosProcessor();
-
-
-    CatStore testCat = new CatStore();
-    testCat.setStore(store);
-    testCat.setUrl("https://f.ua/shop/mikrofony/");
-
-    List<Product> result = Lists.newArrayList();
-    for(int i = 0; i < 5; i++) {
-      List<Product> products = new CategoryProcessor().process(testCat, sm);
-      result.addAll(products);
-    }
-
-    for (Product product : result) {
-      log.info(product.getName() + "  " + product.getPrice());
-    }
-  }
+//  public void testFotos() throws InterruptedException {
+//    Store store = new Store();
+//    store.setName("FOTOS");
+//    StoreManager sm = new FotosProcessor();
+//
+//
+//    CatStore testCat = new CatStore();
+//    testCat.setStore(store);
+//    testCat.setUrl("https://f.ua/shop/mikrofony/");
+//
+//    List<Product> result = Lists.newArrayList();
+//    for(int i = 0; i < 5; i++) {
+//      List<Product> products = new CategoryProcessor().process(testCat, sm);
+//      result.addAll(products);
+//    }
+//
+//    for (Product product : result) {
+//      log.info(product.getName() + "  " + product.getPrice());
+//    }
+//  }
 
   @Test
   public void testPalladium() throws InterruptedException {
@@ -66,6 +66,8 @@ public class TestParser extends TestCase {
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
+
+    assertTrue(products.size() > 0);
   }
 
   @Test
@@ -77,13 +79,12 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_ardesia.html");
+    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_electrolux.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
       log.info(product.getName() + "  " + product.getPrice() + " ");
     }
-
     assertTrue(products.size() > 0);
   }
 
@@ -177,22 +178,22 @@ public class TestParser extends TestCase {
     assertTrue(products.size() > 0);
   }
 
-  @Test
-  public void testAntoshka() throws InterruptedException {
-    Store store = new Store();
-
-    StoreManager sm = new AntoshkaProcessor();
-
-
-    CatStore testCat = new CatStore();
-    testCat.setStore(store);
-    testCat.setUrl("http://antoshka.ua/igrushki/igrushechnoe-oruzhie.html");
-
-    List<Product> products = new CategoryProcessor().process(testCat, sm);
-    for (Product product : products) {
-      log.info(product.getName() + "  " + product.getPrice());
-    }
-  }
+//  @Test
+//  public void testAntoshka() throws InterruptedException {
+//    Store store = new Store();
+//
+//    StoreManager sm = new AntoshkaProcessor();
+//
+//
+//    CatStore testCat = new CatStore();
+//    testCat.setStore(store);
+//    testCat.setUrl("http://antoshka.ua/igrushki/igrushechnoe-oruzhie.html");
+//
+//    List<Product> products = new CategoryProcessor().process(testCat, sm);
+//    for (Product product : products) {
+//      log.info(product.getName() + "  " + product.getPrice());
+//    }
+//  }
 
 
 }

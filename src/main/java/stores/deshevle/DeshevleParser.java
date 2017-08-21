@@ -19,7 +19,7 @@ public class DeshevleParser extends HtmlProductParser {
     Product product = new Product();
     product.setName(block.select("div.cti_head").text());
 
-    String priceStr = block.select("div.cti_price span").text();
+    String priceStr = block.select("div.cti_price").text();
     priceStr = priceStr.replaceAll("[^\\d]", "");
 
     if(!priceStr.equals("")) {
