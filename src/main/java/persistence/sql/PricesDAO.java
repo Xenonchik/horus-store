@@ -1,5 +1,6 @@
 package persistence.sql;
 
+import java.math.BigInteger;
 import java.util.Map;
 
 import org.hibernate.Criteria;
@@ -29,8 +30,8 @@ public class PricesDAO extends SqlDAO {
                       "  JOIN products as p ON p.name = g." + stores.get(key).getName() +
                       "  AND p.store = " + key);
               q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-              String count = ((Map<String, String>) q.list().iterator().next()).get("c");
-              log.info("Aliases found for " + stores.get(key).getName() + ": " + count);
+              BigInteger count = ((Map<String, BigInteger>) q.list().iterator().next()).get("c");
+              log.info("Aliases found for " + stores.get(key).getName() + ": " + count.intValue());
 
             }
     );
