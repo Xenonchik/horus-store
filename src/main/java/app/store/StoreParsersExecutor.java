@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.proc.StoreProcessor;
+import persistence.sql.ProductSqlDAO;
 
 /**
  * Encapsulate logic of concurrent parsing
@@ -18,6 +19,10 @@ public class StoreParsersExecutor {
   final static Logger log = LoggerFactory.getLogger(StoreParsersExecutor.class);
 
   public void parseAll(Set<StoreProcessor> processors) throws InterruptedException {
+
+    ProductSqlDAO productSqlDAO = new ProductSqlDAO();
+    productSqlDAO.moveToHistory();
+
     final CountDownLatch latch = new CountDownLatch(processors.size());
     ExecutorService executor = Executors.newFixedThreadPool(processors.size());
 

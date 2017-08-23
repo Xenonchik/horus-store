@@ -57,8 +57,8 @@ public class ProductSqlDAO extends SqlDAO {
 
     public void moveToHistory() {
         beginTransaction();
-        Query query = getSession().createSQLQuery("INSERT INTO archive.products_history SELECT * FROM products");
-        query.list();
+        getSession().createSQLQuery("INSERT INTO archive.products_history SELECT * FROM products").executeUpdate();
+        getSession().createSQLQuery("truncate table MyTable").executeUpdate();
         endTransaction();
     }
 
