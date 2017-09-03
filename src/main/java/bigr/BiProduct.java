@@ -1,5 +1,7 @@
 package bigr;
 
+import java.util.Set;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -19,6 +21,8 @@ public class BiProduct {
   private String url;
   @DatabaseField
   private String store;
+  @DatabaseField
+  private String brand;
 
   public static BiProduct fromProduct(Product product) {
     BiProduct biProduct = new BiProduct();
@@ -26,6 +30,15 @@ public class BiProduct {
     biProduct.setPrice(product.getPrice());
     biProduct.setUrl(product.getProductUrl());
     return biProduct;
+  }
+
+  public void setBrand(Set<String> brands) {
+    for(String brand0 : brands) {
+      if(name.toUpperCase().contains(brand0)) {
+        this.brand = brand0;
+        break;
+      }
+    }
   }
 
   public String getName() {
@@ -66,5 +79,13 @@ public class BiProduct {
 
   public void setStore(String store) {
     this.store = store;
+  }
+
+  public String getBrand() {
+    return brand;
+  }
+
+  public void setBrand(String brand) {
+    this.brand = brand;
   }
 }

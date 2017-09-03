@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import domain.CatStore;
 import domain.Product;
@@ -56,6 +57,7 @@ public class BigrEP {
 
 //    setBrands();
 
+    TableUtils.clearTable(connectionSource, BiProduct.class);
     Long t1 = System.currentTimeMillis();
     rozetkaParse();
     antoshkaParse();
@@ -67,6 +69,7 @@ public class BigrEP {
 
   static void rozetkaParse() throws Exception {
     List<BiProduct> productsTotal = Lists.newArrayList();
+    Set<String> brands = getBrands();
     Store store = new Store();
     StoreManager sm = new RozetkaProcessor();
     List<String> urls = rozCats;
@@ -79,6 +82,7 @@ public class BigrEP {
       products.forEach(product -> {
             BiProduct biProduct = BiProduct.fromProduct(product);
             biProduct.setStore("ROZETKA");
+            biProduct.setBrand(brands);
             productsTotal.add(biProduct);
           }
       );
@@ -138,6 +142,7 @@ public class BigrEP {
 
   static void antoshkaParse() throws Exception {
     List<BiProduct> productsTotal = Lists.newArrayList();
+    Set<String> brands = getBrands();
     Store store = new Store();
     StoreManager sm = new AntoshkaProcessor();
     List<String> urls = antCats;
@@ -150,6 +155,7 @@ public class BigrEP {
       products.forEach(product -> {
             BiProduct biProduct = BiProduct.fromProduct(product);
             biProduct.setStore("ANTOSHKA");
+            biProduct.setBrand(brands);
             productsTotal.add(biProduct);
           }
       );
@@ -159,11 +165,12 @@ public class BigrEP {
   }
 
   public static void setBrands() {
-    RozetkaBrands rb = new RozetkaBrands();
     Set<String> result = Sets.newHashSet();
-//    for (String url : rozCats) {
-//      result.addAll(rb.getBrands(url));
-//    }
+
+    RozetkaBrands rb = new RozetkaBrands();
+    for (String url : rozCats) {
+      result.addAll(rb.getBrands(url));
+    }
 
     AntoshkaBrands ab = new AntoshkaBrands();
     for (String url : antCats) {
@@ -179,6 +186,18 @@ public class BigrEP {
           }
         }
     );
+  }
+
+  public static Set<String> getBrands() {
+    Set<String> result = Sets.newHashSet();
+    try {
+      brandDao.queryForAll().forEach(brand -> {
+        result.add(brand.getBrand());
+      });
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 
   public static List<String> rozCats = Lists.asList(

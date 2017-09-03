@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import app.proc.AliasProcessor;
+import app.proc.DirectPricesProcessor;
 import app.proc.EmailProcessor;
 import app.proc.EmirProcessor;
 import app.proc.ExportAliacesProcessor;
@@ -127,11 +128,7 @@ public class Application {
       }
 
       if (cmd.hasOption("extract")) {
-        new ExportProcessor().process();
-        new PricesProcessor().process();
-        log.info("Prices in file");
-        new EmailProcessor().process();
-        log.info("Email sent");
+        new DirectPricesProcessor().process();
       }
 
     } catch (Exception e) {
