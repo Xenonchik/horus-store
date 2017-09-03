@@ -169,7 +169,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.mobilluck.com.ua/katalog/Fridge/Liebherr/");
+    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/Bosch/");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
