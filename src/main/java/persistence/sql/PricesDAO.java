@@ -38,4 +38,9 @@ public class PricesDAO extends SqlDAO {
     endTransaction();
 
   }
+
+  public void exportPrices() {
+    getSession().createSQLQuery("COPY (SELECT * FROM public.without_alias) TO '/opt/data/without_alias.csv' DELIMITER ';' CSV HEADER").executeUpdate();
+    getSession().createSQLQuery("COPY (SELECT * FROM public.prices_summary) TO '/opt/data/prices_summary.csv' DELIMITER ';' CSV HEADER").executeUpdate();
+  }
 }

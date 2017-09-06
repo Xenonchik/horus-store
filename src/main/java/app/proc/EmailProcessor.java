@@ -37,7 +37,7 @@ public class EmailProcessor {
       helper.setText("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setFrom("parser@blackbeholder.net");
-      helper.addAttachment("prices.csv", new File("/opt/data/without_alias.csv"));
+      helper.addAttachment("without_alias.csv", new File("/opt/data/without_alias.csv"));
       helper.addAttachment("prices.csv", new File("/opt/data/prices_summary.csv"));
 
       sender.send(message);
