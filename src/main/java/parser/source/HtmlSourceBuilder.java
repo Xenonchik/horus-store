@@ -58,7 +58,6 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
         try {
             content = httpclient.execute(httpGet, responseHandler);
-            log.info(httpGet.getFirstHeader("User-Agent").getValue());
         } catch (IOException e) {
             log.error(uri);
             e.printStackTrace();
@@ -73,6 +72,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
         httpGet.addHeader("User-Agent", this.userAgent);
         httpGet.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        httpGet.addHeader("Upgrade-Insecure-Requests", "1");
         return httpGet;
     }
 
@@ -105,7 +105,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
 
         HttpClient client = b
-            .setRoutePlanner(routePlanner)
+//            .setRoutePlanner(routePlanner)
             .build();
         return client;
     }

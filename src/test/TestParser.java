@@ -16,6 +16,7 @@ import stores.antoshka.AntoshkaProcessor;
 import stores.deshevle.DeshevleProcessor;
 import stores.fotos.FotosProcessor;
 import stores.foxtrot.FoxtrotProcessor;
+import stores.hotline.HotlineProcessor;
 import stores.mobilluck.MobilluckProcessor;
 import stores.palladium.PalladiumProcessor;
 import stores.rozetka.RozetkaProcessor;
@@ -195,5 +196,22 @@ public class TestParser extends TestCase {
 //    }
 //  }
 
+  @Test
+  public void testHotline() throws InterruptedException {
+    Store store = new Store();
+    store.setName("HOTLINE");
+    StoreManager sm = new HotlineProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://hotline.ua/deti/detskie-kompyuterypoint-elektronnye-igry/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+    assertTrue(products.size() > 0);
+  }
 
 }

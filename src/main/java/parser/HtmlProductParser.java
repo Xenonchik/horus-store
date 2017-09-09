@@ -33,13 +33,15 @@ abstract public class HtmlProductParser {
         }
         for(Element block : blocks) {
             Product product = processProduct(block);
-            product.setHtml(block.html());
+//            product.setHtml(block.html());
             product.setCategory(category);
             if (product.isValid()) {
                 if (product.getPrice() != null && product.getPrice() > 0) {
                     product.setUrl(source.getUrl());
-                    product.setDate(new Date());
-                    product.setDay(new Date());
+                    if(checkAddDate(product)) {
+                        product.setDate(new Date());
+                        product.setDay(new Date());
+                    }
                     products.add(product);
                 }
                 else
@@ -50,6 +52,11 @@ abstract public class HtmlProductParser {
         checkProductsCount(products.size());
 
         return products;
+    }
+
+    private boolean checkAddDate(Product product) {
+        if(product.getStore() > 10) return false;
+        return true;
     }
 
     protected void checkNextPage(Document doc){

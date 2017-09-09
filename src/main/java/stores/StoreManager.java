@@ -15,4 +15,6 @@ public interface StoreManager {
   public default Long getDelay() {
     return 4500l;
   }
+
+  public default void setDelay(Long delay) {}
 }
