@@ -26,6 +26,8 @@ public class DirectPricesProcessor {
     log.info("Start updating prices");
     pricesDAO.updatePrices(stores);
     log.info("Finished updating prices");
+    pricesDAO.exportPrices();
+    log.info("Prices exported to file");
 
   }
 }
