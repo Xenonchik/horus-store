@@ -31,6 +31,8 @@ public class Phase2Ep {
       interval = Long.valueOf(arg);
   }
 
+  public Phase2Ep() {}
+
   public static void main(String[] args) throws Exception {
     List<HotlineUrl> urls = new HotlineUrlsJson().readUrls();
     Phase2Ep phase = new Phase2Ep(args[0]);
