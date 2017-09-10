@@ -48,6 +48,9 @@ public class Export {
   @Column(name = "store")
   private String store;
 
+  @Column(name = "old_name")
+  private String oldName;
+
   @Column(name = "category")
   private Long category;
 
@@ -157,5 +160,13 @@ public class Export {
 
   public String getFullName() {
     return description + " " + brand + " " + model;
+  }
+
+  public String getOldName() {
+    return oldName;
+  }
+
+  public void setOldName(String oldName) {
+    this.oldName = oldName;
   }
 }

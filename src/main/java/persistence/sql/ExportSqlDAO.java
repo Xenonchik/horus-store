@@ -57,6 +57,7 @@ public class ExportSqlDAO extends SqlDAO {
         Export export = new Export();
         export.setDate(product.getDate());
         export.setPrice(product.getPrice());
+        export.setOldName(product.getName());
 
         Store currentStore = stores.get(product.getStore().longValue());
         export.setStore(currentStore.getName());
