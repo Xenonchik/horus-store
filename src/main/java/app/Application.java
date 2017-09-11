@@ -120,8 +120,8 @@ public class Application {
       if (cmd.hasOption("total")) {
         new StoreParsersExecutor().parseAll(processors);
         log.info("Data gathered");
-        new ExportProcessor().process();
-        new PricesProcessor().process();
+        new DirectPricesProcessor().process();
+        new EmailProcessor().process();
         log.info("Prices in file");
         new EmailProcessor().process();
         log.info("Email sent");
