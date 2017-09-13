@@ -105,7 +105,7 @@ public class HtmlSourceBuilder implements SourceBuilder {
 
 
         HttpClient client = b
-//            .setRoutePlanner(routePlanner)
+            .setRoutePlanner(routePlanner)
             .build();
         return client;
     }
