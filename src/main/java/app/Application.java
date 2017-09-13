@@ -123,8 +123,6 @@ public class Application {
         new DirectPricesProcessor().process();
         new EmailProcessor().process();
         log.info("Prices in file");
-        new EmailProcessor().process();
-        log.info("Email sent");
       }
 
       if (cmd.hasOption("extract")) {
