@@ -30,8 +30,8 @@ public class RozetkaParser extends HtmlProductParser {
     @Override
     protected Product processProduct(Element block) {
         Product product = new Product();
-        product.setName(block.select("div.g-i-tile-i-title a").text());
-        String productId = block.select("div.g-i-tile-i-image div.g-id").text();
+        product.setName(block.select("div.g-i-tile-i-title a").first().text());
+        String productId = block.select("div.g-id-wrap div.g-id").text();
         Pattern p = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s"+productId+".+?GTMEventsData", Pattern.DOTALL);
         Matcher m = p.matcher(doc.select("script").toString());
         String priceStr;
