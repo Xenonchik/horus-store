@@ -22,6 +22,7 @@ public class RozetkaUrl extends CategoryUrl {
   private String sanitize(String s) {
     s = s.replace("//", "/");
     s = s.replace("http:/", "http://");
+    s = s.replace("https:/", "https://");
     if(StringUtils.countMatches(s, "=") > 1) {
       s = s.replace("/page", ";page");
     }
