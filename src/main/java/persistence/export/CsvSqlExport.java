@@ -22,7 +22,7 @@ public class CsvSqlExport {
   public void csvToSql() {
     List<Entity> csvs = csvEm.getEntities();
     List<Entity> sqls = wrapper.wrapEntities(csvs);
-    sqlEm.saveEntitites(sqls);
+    sqlEm.saveEntitites(sqls); //todo
   }
 
   public void sqlToCsv() {
