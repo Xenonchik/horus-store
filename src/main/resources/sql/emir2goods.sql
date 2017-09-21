@@ -24,10 +24,32 @@ JOIN
   FROM public.goods as g
 JOIN emir_goods as e
 ON g.brand=e.brand
-and emir like concat('%',model)
+and emir like concat('%',e.model)
   WHERE rozetka IS NULL) as eg
 
 ON exp.brand=eg.brand AND replace(exp.model, ' ', '') = replace(eg.model, ' ', '')
 
   WHERE store = 'ROZETKA';
+
+  SELECT  exp.brand, exp.model as export, e.model as emir_model, exp.store,
+       exp.old_name, emir
+  FROM public.goods as g
+JOIN emir_goods as e
+ON g.emir like concat('%', e.model) AND g.brand=e.brand
+JOIN public.export as exp
+
+ON exp.brand=e.brand AND replace(exp.model, ' ', '') = replace(e.model, ' ', '')
+
+  WHERE store = 'ROZETKA'
+AND rozetka IS NULL;
+
+  UPDATE public.goods as g
+SET rozetka=old_name
+FROM emir_goods as e
+JOIN public.export as exp
+
+ON exp.brand=e.brand AND replace(exp.model, ' ', '') = replace(e.model, ' ', '')
+
+  WHERE store = 'ROZETKA'
+AND rozetka IS NULL AND g.emir like concat('%', e.model) AND g.brand=e.brand
 

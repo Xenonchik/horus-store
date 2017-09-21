@@ -9,7 +9,12 @@ public class NewGoodsProcessor {
   private StoreSqlDAO storeSqlDAO = new StoreSqlDAO();
   public void process() {
     storeSqlDAO.getStoresAsMap().keySet().forEach(
+            store -> {
 
+
+
+
+            }
     );
   }
 }
