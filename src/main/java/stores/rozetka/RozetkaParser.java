@@ -24,7 +24,10 @@ public class RozetkaParser extends HtmlProductParser {
 
     @Override
     protected Elements getBlocks(Document doc) {
-        return doc.select("div.available div.g-i-tile-i-box");
+        Elements available = doc.select("div.available div.g-i-tile-i-box");
+        Elements limited = doc.select("div.limited div.g-i-tile-i-box");
+        available.addAll(limited);
+        return available;
     }
 
     @Override

@@ -51,5 +51,12 @@ JOIN public.export as exp
 ON exp.brand=e.brand AND replace(exp.model, ' ', '') = replace(e.model, ' ', '')
 
   WHERE store = 'ROZETKA'
-AND rozetka IS NULL AND g.emir like concat('%', e.model) AND g.brand=e.brand
+AND rozetka IS NULL AND g.emir like concat('%', e.model) AND g.brand=e.brand;
+
+update public.goods as g
+SET emir_id = e.id
+  FROM emir_goods as e
+WHERE g.emir like concat('%', e.model) AND g.brand=e.brand
+AND e.id <> emir_id
+
 
