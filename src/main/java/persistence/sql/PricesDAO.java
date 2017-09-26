@@ -18,6 +18,7 @@ public class PricesDAO extends SqlDAO {
   public void updatePrices(Map<Long, Store> stores) {
     beginTransaction();
     stores.keySet().forEach(key -> {
+              getSession().createSQLQuery("UPDATE prices SET " + stores.get(key).getName() + "=''");
               getSession().createSQLQuery("UPDATE prices " +
                       "  SET " + stores.get(key).getName() + "=p.price" +
                       "  FROM (SELECT g.id, price" +
