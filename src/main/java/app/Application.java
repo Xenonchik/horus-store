@@ -120,11 +120,9 @@ public class Application {
       if (cmd.hasOption("total")) {
         new StoreParsersExecutor().parseAll(processors);
         log.info("Data gathered");
-        new ExportProcessor().process();
-        new PricesProcessor().process();
-        log.info("Prices in file");
+        new DirectPricesProcessor().process();
         new EmailProcessor().process();
-        log.info("Email sent");
+        log.info("Prices in file");
       }
 
       if (cmd.hasOption("extract")) {

@@ -18,6 +18,7 @@ public class PricesDAO extends SqlDAO {
   public void updatePrices(Map<Long, Store> stores) {
     beginTransaction();
     stores.keySet().forEach(key -> {
+              getSession().createSQLQuery("UPDATE prices SET " + stores.get(key).getName() + "=''");
               getSession().createSQLQuery("UPDATE prices " +
                       "  SET " + stores.get(key).getName() + "=p.price" +
                       "  FROM (SELECT g.id, price" +
@@ -42,7 +43,7 @@ public class PricesDAO extends SqlDAO {
   public void exportPrices() {
     beginTransaction();
     getSession().createSQLQuery("COPY (SELECT * FROM public.without_alias) TO '/opt/data/without_alias.csv' DELIMITER ';' CSV HEADER").executeUpdate();
-    getSession().createSQLQuery("COPY (SELECT * FROM public.prices_summary) TO '/opt/data/prices_summary.csv' DELIMITER ';' CSV HEADER").executeUpdate();
+    getSession().createSQLQuery("COPY (SELECT * FROM public.emir_prices_summary) TO '/opt/data/prices_summary.csv' DELIMITER ';' CSV HEADER").executeUpdate();
     endTransaction();
   }
 }
