@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import app.proc.AliasProcessor;
+import app.proc.OldAliasProcessor;
 import app.proc.DirectPricesProcessor;
 import app.proc.EmailProcessor;
 import app.proc.EmirProcessor;
@@ -94,7 +94,7 @@ public class Application {
       }
 
       if (cmd.hasOption("aliases")) {
-        new AliasProcessor().process();
+        new OldAliasProcessor().process();
       }
 
       if (cmd.hasOption("export")) {

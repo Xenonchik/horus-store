@@ -6,26 +6,26 @@ import java.util.Map;
 
 import org.hibernate.Query;
 
-import domain.Good;
+import domain.OldGood;
 
 /**
  * Created by serge on 5/30/16.
  */
-public class GoodsSqlDAO extends SqlDAO {
+public class OldGoodsSqlDAO extends SqlDAO {
 
-  public void insert(List<Good> entities) {
+  public void insert(List<OldGood> entities) {
     beginTransaction();
-    for (Good good : entities) {
+    for (OldGood good : entities) {
       getSession().saveOrUpdate(good);
     }
 
     endTransaction();
   }
 
-  public List<Good> getGoods() {
+  public List<OldGood> getGoods() {
     beginTransaction();
     Query query = getSession().createQuery("from Good");
-    List<Good> list = query.list();
+    List<OldGood> list = query.list();
     endTransaction();
     return list;
   }
@@ -36,7 +36,7 @@ public class GoodsSqlDAO extends SqlDAO {
     query.setParameter("model", model.trim());
     query.setParameter("brand", brand);
 
-    List<Good> list = query.list();
+    List<OldGood> list = query.list();
     endTransaction();
     return list.get(0).getId();
   }
@@ -44,7 +44,7 @@ public class GoodsSqlDAO extends SqlDAO {
   public Map<String, Long> getIndexedGoods() {
     Map<String, Long> result = new HashMap<>();
 
-    for(Good eg : getGoods()) {
+    for(OldGood eg : getGoods()) {
       result.put(eg.getBrand().trim() + " " + eg.getModel().trim(), eg.getId());
     }
 

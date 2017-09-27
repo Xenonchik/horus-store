@@ -22,7 +22,7 @@ import javax.print.attribute.standard.Destination;
  */
 @javax.persistence.Entity
 @Table(name="emir_goods")
-public class Good {
+public class OldGood {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -152,4 +152,5 @@ public class Good {
     public void setStoredAliases(Set<Alias> storedAliases) {
         this.storedAliases = storedAliases;
     }
+
 }
