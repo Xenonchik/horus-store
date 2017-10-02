@@ -23,13 +23,13 @@ public class HotlineParser extends HtmlProductParser {
   protected Product processProduct(Element block) {
     Product product = new Product();
 
-    Elements name = block.select("div.gd-info-cell b.m_r-10 a.g_statistic");
+    Elements name = block.select("div.info-description p.h4");
     product.setName(name.text());
 
 
     String priceStr;
 
-    priceStr = block.select("div.gd-price-sum div.orng").text();
+    priceStr = block.select("div.item-price span.value").text();
 
     priceStr = priceStr.replaceAll("[^\\d]", "");
 
@@ -39,7 +39,7 @@ public class HotlineParser extends HtmlProductParser {
       setProcessCategory(false);
     }
 
-    product.setProductUrl(block.select("div.gd-info-cell b.m_r-10 a.g_statistic").attr("href"));
+    product.setProductUrl(block.select("div.info-description p.h4 a").attr("href"));
 
     product.setStore(storeId);
     return product;
@@ -47,13 +47,13 @@ public class HotlineParser extends HtmlProductParser {
 
   @Override
   protected Elements getBlocks(Document doc) {
-    return doc.select("div.gd-item div.gd-box");
+    return doc.select("li.product-item:not(.product-item-ad)");
   }
 
   @Override
   protected void checkNextPage(Document doc) {
     try {
-      if (doc.select("div.pager a.next").size() == 0) {
+      if (doc.select("div.pages-nav-next a.next").size() == 0) {
         setProcessCategory(false);
       }
     } catch (NullPointerException e) {

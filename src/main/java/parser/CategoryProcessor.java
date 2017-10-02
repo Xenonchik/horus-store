@@ -15,6 +15,7 @@ import parser.source.ParseSource;
 import parser.source.SourceBuilder;
 import persistence.sql.SupportSqlDAO;
 import stores.StoreManager;
+import stores.hotline.HotlineParser;
 
 /**
  * Blahblahblah
@@ -40,6 +41,12 @@ public class CategoryProcessor {
       ParseSource ps = getSourceBuilder().getSource(url);
 
       List<Product> productList = parser.parse(ps);
+
+      if(productList.size() == 0 && parser instanceof HotlineParser) {
+        log.warn("Trying to reparse {}", url);
+        Thread.sleep(200*1000);
+        productList = parser.parse(ps);
+      }
 
       if(checkContinueParsing(productList, productsTotal)) {
           break;

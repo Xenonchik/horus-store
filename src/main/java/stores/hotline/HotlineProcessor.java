@@ -20,6 +20,6 @@ public class HotlineProcessor implements StoreManager {
 
   @Override
   public Long getDelay() {
-    return 10000l;
+    return 2000l;
   }
 }

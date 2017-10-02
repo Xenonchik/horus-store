@@ -24,7 +24,7 @@ public class Phase2Ep {
 
   final static Logger log = LoggerFactory.getLogger(Phase2Ep.class);
 
-  private Long interval = 10000l;
+  private Long interval = 5000l;
 
   public Phase2Ep(String arg) {
     if(arg != null && !arg.equals(""))
@@ -47,7 +47,7 @@ public class Phase2Ep {
     store.setName("HOTLINE");
     StoreManager sm = new HotlineProcessor();
     sm.setDelay(interval);
-    log.info("Praser delay: {}", sm.getDelay());
+    log.info("Parser delay: {}", sm.getDelay());
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
