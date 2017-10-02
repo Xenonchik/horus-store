@@ -12,10 +12,8 @@ import java.util.Map;
 import org.apache.commons.csv.CSVRecord;
 
 import domain.Category;
-import domain.Good;
-import persistence.export.AliacCsvEM;
-import persistence.sql.GoodsSqlDAO;
-import persistence.sql.StoreSqlDAO;
+import domain.OldGood;
+import persistence.sql.OldGoodsSqlDAO;
 
 /**
  * Created by serge on 5/30/16.
@@ -24,8 +22,8 @@ public class EmirProcessor {
 
   public void process() throws IOException {
 
-    List<Good> goods = new ArrayList<>();
-    GoodsSqlDAO goodsDao = new GoodsSqlDAO();
+    List<OldGood> goods = new ArrayList<>();
+    OldGoodsSqlDAO goodsDao = new OldGoodsSqlDAO();
     Map<String, Long> currentGoods = goodsDao.getIndexedGoods();
 
     Reader in = new FileReader("/opt/data/aliases.csv");
@@ -33,7 +31,7 @@ public class EmirProcessor {
     for (CSVRecord record : records) {
       if(currentGoods.get(record.get("Марка") + " " + record.get("Название товара")) == null) {
         try {
-          Good good = new Good();
+          OldGood good = new OldGood();
           good.setBrand(record.get("Марка"));
           good.setT1(record.get("ТипТовара 1"));
           good.setT2(record.get("ТипТовара 2"));

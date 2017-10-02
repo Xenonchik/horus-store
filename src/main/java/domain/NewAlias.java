@@ -1,9 +1,15 @@
 package domain;
 
+import java.util.Set;
+
+import javax.persistence.Table;
+
 /**
  * Blahblahblah
  */
-public class NewAlias {
+@javax.persistence.Entity
+@Table(name="goods")
+public class NewAlias implements Entity {
 
   private Long id;
   private String brand;
@@ -121,5 +127,9 @@ public class NewAlias {
 
   public void setV590(String v590) {
     this.v590 = v590;
+  }
+
+  public Set<String> getEmptyStores() {
+    return null;
   }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import domain.Alias;
 import domain.Export;
-import domain.Good;
+import domain.OldGood;
 import domain.Store;
 
 /**
@@ -32,7 +32,7 @@ public class AliasCsvDAO {
     provider = new CsvDataProvider(filename, fileHeader);
   }
 
-  public void saveAlias(Good good) throws IOException {
+  public void saveAlias(OldGood good) throws IOException {
 
     List dataRecord = getDataRecord(good);
 
@@ -46,7 +46,7 @@ public class AliasCsvDAO {
     provider.printRecord(dataRecord);
   }
 
-  public void savePrice(Good good) throws IOException {
+  public void savePrice(OldGood good) throws IOException {
     List dataRecord = getDataRecord(good);
 
     for (int i = 6; i < provider.getFileHeader().size(); i++) {
@@ -57,7 +57,7 @@ public class AliasCsvDAO {
     provider.printRecord(dataRecord);
   }
 
-  private List getDataRecord(Good good) {
+  private List getDataRecord(OldGood good) {
     List dataRecord = new ArrayList();
 
     dataRecord.add(good.getT1());

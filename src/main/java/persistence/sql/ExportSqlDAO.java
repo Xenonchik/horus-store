@@ -12,6 +12,8 @@ import domain.Alias;
 import domain.Brand;
 import domain.Category;
 import domain.Export;
+import domain.NewAlias;
+import domain.OldGood;
 import domain.Product;
 import domain.Store;
 
@@ -144,5 +146,9 @@ public class ExportSqlDAO extends SqlDAO {
     if(list.size() == 0) return null;
 
     return list.get(0);
+  }
+
+  public List<Export> getExportForGood(NewAlias good) {
+    return null;
   }
 }

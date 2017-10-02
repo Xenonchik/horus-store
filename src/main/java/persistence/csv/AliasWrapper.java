@@ -7,13 +7,13 @@ import java.util.Map;
 import domain.Alias;
 import domain.csv.AliasCsv;
 import persistence.export.EntityWrapper;
-import persistence.sql.GoodsSqlDAO;
+import persistence.sql.OldGoodsSqlDAO;
 
 /**
  * Blahblahblah
  */
 public class AliasWrapper implements EntityWrapper<AliasCsv, Alias> {
-  GoodsSqlDAO goodsSqlDAO = new GoodsSqlDAO();
+  OldGoodsSqlDAO goodsSqlDAO = new OldGoodsSqlDAO();
 
   @Override
   public List<Alias> wrapEntities(List<AliasCsv> entities) {
