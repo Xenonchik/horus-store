@@ -8,6 +8,15 @@ public class HotlineUrl {
   private Integer count;
   private String category;
 
+  public HotlineUrl() {
+  }
+
+  public HotlineUrl(String url, Integer count, String category) {
+    this.url = url;
+    this.count = count;
+    this.category = category;
+  }
+
   public String getUrl() {
     return url;
   }

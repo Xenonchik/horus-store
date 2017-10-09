@@ -1,5 +1,6 @@
 package bigr.phase2;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class Phase2Ep {
   public static void main(String[] args) throws Exception {
     List<HotlineUrl> urls = new HotlineUrlsJson().readUrls();
     Phase2Ep phase = new Phase2Ep(args[0]);
+
+    urls = Lists.newArrayList(new HotlineUrl("http://hotline.ua/deti/nastolnye-igry/", 1, "Tmp"));
     urls.forEach(
         phase::processURL
     );
@@ -48,6 +51,11 @@ public class Phase2Ep {
     StoreManager sm = new HotlineProcessor();
     sm.setDelay(interval);
     log.info("Parser delay: {}", sm.getDelay());
+
+    if(alreadyParsed(url)) {
+      log.info("Already parsed url: {}", url);
+      return;
+    }
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
@@ -71,6 +79,19 @@ public class Phase2Ep {
       log.error("Something wrong with writing");
       e.printStackTrace();
     }
+  }
+
+  private boolean alreadyParsed(HotlineUrl url) {
+    ProductsJson pj = new ProductsJson();
+    try {
+      if (pj.read(createCatJsonPath(url)).size() > 0) {
+        return true;
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return false;
   }
 
   private String createCatJsonPath(HotlineUrl url) {
