@@ -127,7 +127,7 @@ public class Application {
 
       if (cmd.hasOption("extract")) {
         new DirectPricesProcessor().process();
-        new EmailProcessor().process();
+//        new EmailProcessor().process();
       }
 
     } catch (Exception e) {
