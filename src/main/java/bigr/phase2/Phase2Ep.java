@@ -1,5 +1,6 @@
 package bigr.phase2;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+import bigr.phase2.cat.HotlineCategoryService;
 import domain.CatStore;
 import domain.Product;
 import domain.Store;
@@ -24,7 +26,7 @@ public class Phase2Ep {
 
   final static Logger log = LoggerFactory.getLogger(Phase2Ep.class);
 
-  private Long interval = 5000l;
+  private Long interval = 500l;
 
   public Phase2Ep(String arg) {
     if(arg != null && !arg.equals(""))
@@ -42,6 +44,17 @@ public class Phase2Ep {
   }
 
   public void processURL(HotlineUrl url) {
+    HotlineCategoryService service = new HotlineCategoryService();
+
+    Integer inFile = productsInFile(url.getUrl());
+    Integer onSite = service.getCategoryInfo(url.getUrl()).getProductsCount();
+    if(inFile >= onSite*0.8) {
+      log.info("Enough products for url {}", url.getUrl());
+      return;
+    } else {
+      log.info("{} in file and {} on site. Start reparsing", inFile, onSite);
+    }
+
     // init
     Store store = new Store();
     store.setName("HOTLINE");
@@ -66,15 +79,32 @@ public class Phase2Ep {
     // write to json
     ProductsJson pj = new ProductsJson();
     try {
-      pj.write(products, createCatJsonPath(url));
+      pj.write(products, createCatJsonPath(url.getUrl()));
     } catch (IOException e) {
       log.error("Something wrong with writing");
       e.printStackTrace();
     }
+    try {
+      Thread.sleep(500l);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
-  private String createCatJsonPath(HotlineUrl url) {
-    return Phase2Ep.DATA_FOLDER + "products/" + HotlineUrl.getName(url.getUrl()) + ".json";
+  private String createCatJsonPath(String url) {
+    return Phase2Ep.DATA_FOLDER + "products/" + HotlineUrl.getName(url) + ".json";
+  }
+
+  private Integer productsInFile(String url) {
+    String path = createCatJsonPath(url);
+    ProductsJson pj = new ProductsJson();
+    try {
+      return pj.read(path).size();
+    } catch (FileNotFoundException e) {
+      log.debug("File not found for url {}", url);
+      return 0;
+    }
+
   }
 
 }
