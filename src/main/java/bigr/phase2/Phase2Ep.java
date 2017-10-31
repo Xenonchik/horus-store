@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+import bigr.phase2.cat.HotlineCategoryService;
 import domain.CatStore;
 import domain.Product;
 import domain.Store;
@@ -37,25 +38,29 @@ public class Phase2Ep {
   public static void main(String[] args) throws Exception {
     List<HotlineUrl> urls = new HotlineUrlsJson().readUrls();
     Phase2Ep phase = new Phase2Ep(args[0]);
-
-    urls = Lists.newArrayList(new HotlineUrl("http://hotline.ua/deti/nastolnye-igry/", 1, "Tmp"));
     urls.forEach(
         phase::processURL
     );
   }
 
   public void processURL(HotlineUrl url) {
+    HotlineCategoryService service = new HotlineCategoryService();
+
+    Integer inFile = productsInFile(url.getUrl());
+    Integer onSite = service.getCategoryInfo(url.getUrl()).getProductsCount();
+    if(inFile >= onSite*0.8) {
+      log.info("Enough products for url {}", url.getUrl());
+      return;
+    } else {
+      log.info("{} in file and {} on site. Start reparsing", inFile, onSite);
+    }
+
     // init
     Store store = new Store();
     store.setName("HOTLINE");
     StoreManager sm = new HotlineProcessor();
     sm.setDelay(interval);
     log.info("Parser delay: {}", sm.getDelay());
-
-    if(alreadyParsed(url)) {
-      log.info("Already parsed url: {}", url);
-      return;
-    }
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
@@ -74,28 +79,32 @@ public class Phase2Ep {
     // write to json
     ProductsJson pj = new ProductsJson();
     try {
-      pj.write(products, createCatJsonPath(url));
+      pj.write(products, createCatJsonPath(url.getUrl()));
     } catch (IOException e) {
       log.error("Something wrong with writing");
       e.printStackTrace();
     }
+    try {
+      Thread.sleep(500l);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
-  private boolean alreadyParsed(HotlineUrl url) {
+  private String createCatJsonPath(String url) {
+    return Phase2Ep.DATA_FOLDER + "products/" + HotlineUrl.getName(url) + ".json";
+  }
+
+  private Integer productsInFile(String url) {
+    String path = createCatJsonPath(url);
     ProductsJson pj = new ProductsJson();
     try {
-      if (pj.read(createCatJsonPath(url)).size() > 0) {
-        return true;
-      }
+      return pj.read(path).size();
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      return false;
+      log.debug("File not found for url {}", url);
+      return 0;
     }
-    return false;
-  }
 
-  private String createCatJsonPath(HotlineUrl url) {
-    return Phase2Ep.DATA_FOLDER + "products/" + HotlineUrl.getName(url.getUrl()) + ".json";
   }
 
 }

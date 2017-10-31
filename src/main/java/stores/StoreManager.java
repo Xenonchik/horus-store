@@ -13,7 +13,7 @@ public interface StoreManager {
   public UrlPool getUrlPool(String catUrl);
 
   public default Long getDelay() {
-    return 4500l;
+    return 500l;
   }
 
   public default void setDelay(Long delay) {}
