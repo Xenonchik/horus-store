@@ -33,6 +33,7 @@ public class EmailProcessor {
       helper.addCc("i.petrichuk@emir.kiev.ua");
       helper.addCc("a.shtabovenko@emir.kiev.ua");
       helper.addCc("danilshmelev765@gmail.com");
+      helper.addCc("o.petrechenko@emir.kiev.ua");
 
       helper.setText("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
