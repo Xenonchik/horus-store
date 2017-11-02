@@ -50,7 +50,7 @@ public class CategoryProcessor {
 
       if(productList.size() == 0 && parser instanceof HotlineParser) {
         log.warn("Trying to reparse second time {}", url);
-        Thread.sleep(500*1000);
+        Thread.sleep(1200*1000);
         productList = parser.parse(ps);
       }
 
