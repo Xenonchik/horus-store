@@ -19,7 +19,7 @@ public class FoxtrotParser extends HtmlProductParser {
     Product product = new Product();
     product.setName(block.select("a.name").text());
 
-    String priceStr = block.select("div.price").text();
+    String priceStr = block.select("div.price p:not(.old)").text();
     priceStr = priceStr.replaceAll("[^\\d]", "");
 
     if(!priceStr.equals("")) {
