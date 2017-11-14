@@ -26,6 +26,7 @@ public class EmailProcessor {
 
       helper.setTo("xenonchikmaxxx@gmail.com");
       helper.addCc("a.shmelev@emir.kiev.ua");
+      helper.addCc("o.petrechenko@emir.kiev.ua");
       helper.addCc("i.borsuk@emir.kiev.ua");
       helper.addCc("a.grebenyuk@emir.kiev.ua");
       helper.addCc("i.lazukina@emir.kiev.ua");
@@ -33,7 +34,6 @@ public class EmailProcessor {
       helper.addCc("i.petrichuk@emir.kiev.ua");
       helper.addCc("a.shtabovenko@emir.kiev.ua");
       helper.addCc("danilshmelev765@gmail.com");
-      helper.addCc("o.petrechenko@emir.kiev.ua");
 
       helper.setText("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
       helper.setSubject("Цены за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
