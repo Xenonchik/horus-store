@@ -48,6 +48,12 @@ public class CategoryProcessor {
         productList = parser.parse(ps);
       }
 
+      if(productList.size() == 0 && parser instanceof HotlineParser) {
+        log.warn("Trying to reparse second time {}", url);
+        Thread.sleep(1200*1000);
+        productList = parser.parse(ps);
+      }
+
       if(checkContinueParsing(productList, productsTotal)) {
           break;
       }
