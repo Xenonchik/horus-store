@@ -51,6 +51,9 @@ public class Product {
     private String html;
 
     @Transient
+    private String addInfo;
+
+    @Transient
     private String productUrl;
 
     public Long getId() {
@@ -142,5 +145,13 @@ public class Product {
 
     public void setProductUrl(String productUrl) {
         this.productUrl = productUrl;
+    }
+
+    public String getAddInfo() {
+        return addInfo;
+    }
+
+    public void setAddInfo(String addInfo) {
+        this.addInfo = addInfo;
     }
 }

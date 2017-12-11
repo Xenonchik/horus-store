@@ -23,12 +23,15 @@ public class BiProduct {
   private String store;
   @DatabaseField
   private String brand;
+  @DatabaseField(columnName = "add_info")
+  private String addInfo;
 
   public static BiProduct fromProduct(Product product) {
     BiProduct biProduct = new BiProduct();
     biProduct.setName(product.getName());
     biProduct.setPrice(product.getPrice());
     biProduct.setUrl(product.getProductUrl());
+    biProduct.setAddInfo(product.getAddInfo());
     return biProduct;
   }
 
@@ -87,5 +90,13 @@ public class BiProduct {
 
   public void setBrand(String brand) {
     this.brand = brand;
+  }
+
+  public String getAddInfo() {
+    return addInfo;
+  }
+
+  public void setAddInfo(String addInfo) {
+    this.addInfo = addInfo;
   }
 }

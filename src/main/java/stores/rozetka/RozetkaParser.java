@@ -9,8 +9,13 @@ import org.slf4j.LoggerFactory;
 import domain.Product;
 import parser.HtmlProductParser;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 
 /**
  * Blahblahblah
@@ -19,6 +24,8 @@ public class RozetkaParser extends HtmlProductParser {
     final static Logger log = LoggerFactory.getLogger(RozetkaParser.class);
 
     private Integer storeId = 1;
+
+    private Gson gson = new Gson();
 
     private Pattern PRICE_PATTERN = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s279261.+\\}\\)\\;", Pattern.DOTALL);
 
@@ -33,6 +40,7 @@ public class RozetkaParser extends HtmlProductParser {
     @Override
     protected Product processProduct(Element block) {
         Product product = new Product();
+        Map<String, String> addInfo = Maps.newHashMap();
         product.setName(block.select("div.g-i-tile-i-title a").first().text());
         String productId = block.select("div.g-id-wrap div.g-id").text();
         Pattern p = Pattern.compile("rozetkaEvents\\.setGoodsData\\(\\{\\sid\\:\\s"+productId+".+?GTMEventsData", Pattern.DOTALL);
@@ -50,7 +58,17 @@ public class RozetkaParser extends HtmlProductParser {
 
         }
         product.setStore(storeId);
+
+
         product.setProductUrl(block.select("div.g-i-tile-i-title a").attr("href"));
+        block.select("ul.short-chars-l li").forEach( element -> {
+            addInfo.put(element.select("span.chars-title").text(), element.select("span.chars-value").text());
+        });
+
+
+        String addInfojson = gson.toJson(addInfo);
+        product.setAddInfo(addInfojson);
+
         return product;
     }
 

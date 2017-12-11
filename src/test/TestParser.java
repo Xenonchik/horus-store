@@ -21,7 +21,9 @@ import stores.mobilluck.MobilluckProcessor;
 import stores.palladium.PalladiumProcessor;
 import stores.rozetka.RozetkaProcessor;
 import stores.tehnohata.TehnohataProcessor;
+import stores.tehnos.TehnosProcessor;
 import stores.v590.V590Processor;
+import stores.vstroyka.VstroykaProcessor;
 
 /**
  * Blahblahblah
@@ -72,6 +74,25 @@ public class TestParser extends TestCase {
   }
 
   @Test
+  public void testTehnos() throws InterruptedException {
+    Store store = new Store();
+    store.setName("TEHNOS");
+    StoreManager sm = new TehnosProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("https://www.tehnos.com.ua/b198/duhovye-shkafy-whirlpool");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice() + " ");
+    }
+
+    assertTrue(products.size() > 0);
+  }
+
+  @Test
   public void testFoxtrot() throws InterruptedException {
     Store store = new Store();
     store.setName("FOXTROT");
@@ -80,7 +101,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/vytyagki_electrolux.html");
+    testCat.setUrl("http://www.foxtrot.com.ua/ru/shop/duhovki_whirlpool.html");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
@@ -98,7 +119,7 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("https://590.ua/vt/drawing/brand/bosch");
+    testCat.setUrl("https://590.ua/vt/ovens/brand/electrolux");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
@@ -170,7 +191,25 @@ public class TestParser extends TestCase {
 
     CatStore testCat = new CatStore();
     testCat.setStore(store);
-    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/Bosch/");
+    testCat.setUrl("http://www.mobilluck.com.ua/katalog/ovens/WHIRLPOOL/");
+
+    List<Product> products = new CategoryProcessor().process(testCat, sm);
+    for (Product product : products) {
+      log.info(product.getName() + "  " + product.getPrice());
+    }
+    assertTrue(products.size() > 0);
+  }
+
+  @Test
+  public void testVstroyka() throws InterruptedException {
+    Store store = new Store();
+    store.setName("VSTROYKA");
+    StoreManager sm = new VstroykaProcessor();
+
+
+    CatStore testCat = new CatStore();
+    testCat.setStore(store);
+    testCat.setUrl("http://vstroyka.ua/catalog/cat/13/brand/13");
 
     List<Product> products = new CategoryProcessor().process(testCat, sm);
     for (Product product : products) {
